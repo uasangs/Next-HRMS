@@ -1,8 +1,14 @@
+// Dashboard.jsx
 import React, { useEffect, useState } from "react";
-import api from "./api";
+import { useNavigate } from "react-router-dom";
 import logo from "./assets/flamingo-logo.png";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
+import {
+  fetchLastCheckIn,
+  fetchAttendanceRecords,
+  fetchHolidayList,
+  fetchTodayBirthdays,
+} from "./dashboardApi";
 
 const Dashboard = () => {
   const [employee, setEmployee] = useState(null);
@@ -10,86 +16,55 @@ const Dashboard = () => {
   const [lastCheckIn, setLastCheckIn] = useState(null);
   const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [holidays, setHolidays] = useState([]);
-  const navigate = useNavigate();
   const [birthdayList, setBirthdayList] = useState([]);
   const [birthdayCount, setBirthdayCount] = useState(0);
   const [showBirthdays, setShowBirthdays] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fullName = localStorage.getItem("employee_name");
     const employeeId = localStorage.getItem("employee_id");
 
     if (fullName && employeeId) {
-      setEmployee({
-        employee_name: fullName,
-        name: employeeId
-      });
+      setEmployee({ employee_name: fullName, name: employeeId });
     } else {
       setEmployee(null);
     }
   }, []);
 
   useEffect(() => {
-    const fetchLastCheckIn = async () => {
+    const loadDashboardData = async () => {
       if (!employee?.name) return;
-      try {
-        const res = await api.post("/api/method/fbts.api.get_last_checkin_info", {
-          employee: employee.name,
-        });
-        const data = res.data.message || res.data.data || {};
-        setLastCheckIn(data);
-      } catch (error) {
-        console.error("Error fetching last check-in info:", error);
-      }
-    };
 
-    const fetchAttendance = async () => {
-      if (!employee?.name) return;
       try {
-        const res = await api.post(
-          "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
-          { employee: employee.name }
-        );
-        const data = res.data.message?.records || [];
-        setAttendanceRecords(data);
-      } catch (error) {
-        console.error("Error fetching attendance records:", error);
+        const [checkIn, records, holidayList] = await Promise.all([
+          fetchLastCheckIn(employee.name),
+          fetchAttendanceRecords(employee.name),
+          fetchHolidayList(employee.name),
+        ]);
+
+        setLastCheckIn(checkIn);
+        setAttendanceRecords(records);
+        setHolidays(holidayList);
+      } catch (err) {
+        console.error("Error loading dashboard data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    const fetchHolidays = async () => {
-      if (!employee?.name) return;
+    const loadBirthdays = async () => {
       try {
-        const res = await api.post(
-          "/api/method/fbts.api.holiday.get_employee_wise_holidays",
-          { employee: employee.name }
-        );
-        const data = res.data.message || [];
-        if (Array.isArray(data) && data.length > 0) {
-          setHolidays(data[0].holidays || []);
-        }
-      } catch (error) {
-        console.error("Error fetching holiday list:", error);
-      }
-    };
-    const fetchBirthdays = async () => {
-      try {
-        const res = await api.get("/api/method/fbts.api.get_today_birthdays");
-        const data = res.data.message || {};
-        setBirthdayList(data.employees || []);
-        setBirthdayCount(data.count || 0);
+        const { employees, count } = await fetchTodayBirthdays();
+        setBirthdayList(employees);
+        setBirthdayCount(count);
       } catch (err) {
         console.error("Error fetching birthdays:", err);
       }
     };
 
-    fetchBirthdays();
-
-    fetchLastCheckIn();
-    fetchAttendance();
-    fetchHolidays();
+    loadBirthdays();
+    loadDashboardData();
   }, [employee]);
 
   const handleLogout = () => {
@@ -128,7 +103,10 @@ const Dashboard = () => {
             <NavItem icon="🧾" label="Expenses" to="/expenses" />
           </nav>
         </div>
-        <button onClick={handleLogout} className="flex items-center text-sm text-white gap-2 hover:opacity-80">
+        <button
+          onClick={handleLogout}
+          className="flex items-center text-sm text-white gap-2 hover:opacity-80"
+        >
           <span>⏻</span> Logout
         </button>
       </aside>
@@ -149,14 +127,10 @@ const Dashboard = () => {
 
         {lastCheckIn && (
           <div className="mb-4 p-3 bg-yellow-100 text-sm text-gray-700 rounded shadow w-96 text-center rounded-2xl">
-            <div>
-              <strong>
-                {lastCheckIn.log_type === "IN"
-                  ? "Last Check-In:"
-                  : "Last Check-Out:"}
-              </strong>{" "}
-              {dayjs(lastCheckIn.time).format("DD MMM YYYY, hh:mm A")}
-            </div>
+            <strong>
+              {lastCheckIn.log_type === "IN" ? "Last Check-In:" : "Last Check-Out:"}
+            </strong>{" "}
+            {dayjs(lastCheckIn.time).format("DD MMM YYYY, hh:mm A")}
           </div>
         )}
 
@@ -171,7 +145,11 @@ const Dashboard = () => {
               <table className="w-full text-sm min-w-[600px]">
                 <thead className="text-left text-gray-600">
                   <tr>
-                    <th>Date</th><th>Check In</th><th>Check Out</th><th>Total Hrs</th><th>Status</th>
+                    <th>Date</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Total Hrs</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody className="text-gray-800">
@@ -186,7 +164,7 @@ const Dashboard = () => {
                           className={`font-semibold px-2 py-1 rounded ${rec.status === "Present"
                             ? "text-green-700"
                             : "text-red-700"
-                            }`}
+                          }`}
                         >
                           {rec.status}
                         </span>
@@ -218,6 +196,7 @@ const Dashboard = () => {
               <LinkCard title="Attendance Regularise" count="5" />
             </div>
           </div>
+
           <div className="bg-pink-50 p-4 rounded shadow-sm">
             <h3
               className="text-pink-600 font-semibold mb-2 cursor-pointer flex justify-between"
@@ -242,14 +221,12 @@ const Dashboard = () => {
               </ul>
             )}
           </div>
-
         </div>
       </main>
     </div>
   );
 };
 
-// Updated NavItem with navigation
 const NavItem = ({ icon, label, to }) => {
   const navigate = useNavigate();
   return (
@@ -266,8 +243,11 @@ const NavItem = ({ icon, label, to }) => {
 const LinkCard = ({ title, count }) => (
   <div className="bg-pink-50 p-4 rounded shadow-sm text-sm text-gray-800 flex justify-between items-center">
     <span>{title}</span>
-    <span className="bg-pink-300 text-white rounded px-2 py-0.5 text-xs font-semibold">{count}</span>
+    <span className="bg-pink-300 text-white rounded px-2 py-0.5 text-xs font-semibold">
+      {count}
+    </span>
   </div>
 );
 
 export default Dashboard;
+
