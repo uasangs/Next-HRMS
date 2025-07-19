@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "./api"; // Make sure this is your configured Axios instance
-
+import CreateLeave from './CreateLeave'
 const Leave = () => {
   const [leaveData, setLeaveData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -69,7 +69,9 @@ const Leave = () => {
           </tbody>
         </table>
       )}
+      <CreateLeave employeeId={employeeId} />
     </div>
+  
   );
 };
 
