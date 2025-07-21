@@ -1,0 +1,77 @@
+.attendance-container {
+  padding: 0rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.heading {
+  color: #e91e63;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 0px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border: none;
+  background-color:#ffd6f5 ;
+  color: #0b0c2a;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.active {
+  background-color:   #0b0c2a;
+  color: white;
+}
+
+.date-picker {
+  margin-bottom: 1rem;
+  color: #e91e63;
+}
+
+.date-box {
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.attendance-card {
+  background-color: #fff0f5;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.table-row-daily {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.table-header {
+  font-weight: bold;
+  color: #e91e63;
+}
+
+.calendar-input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-family: inherit;
+  font-size: 14px;
+}
