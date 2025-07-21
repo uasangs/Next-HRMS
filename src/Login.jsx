@@ -29,6 +29,8 @@ const Login = () => {
       localStorage.setItem("access_token", userData.access_token);
       localStorage.setItem("employee_name", userData.full_name);
       localStorage.setItem("employee_id", userData.employee_id);
+      localStorage.setItem("username", username);
+      
 
       setLoggedIn(true);
     } catch (err) {

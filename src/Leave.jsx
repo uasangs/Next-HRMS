@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import api from "./api"; // Make sure this is your configured Axios instance
-import CreateLeave from './CreateLeave'
+import api from "./api";
+import CreateLeave from "./CreateLeave";
+import LeaveStatus from "./LeaveStatus";
+
 const Leave = () => {
   const [leaveData, setLeaveData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -46,32 +48,32 @@ const Leave = () => {
   }
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-semibold mb-4 text-indigo-700">Leave Balance</h2>
+    <div className="p-8 space-y-10">
+      <div>
+        <h2 className="text-2xl font-semibold mb-4 text-indigo-700">Leave Balance</h2>
 
-      {Object.keys(leaveData).length === 0 ? (
-        <div>No leave data available.</div>
-      ) : (
-        <table className="min-w-[400px] text-sm border border-gray-300 shadow">
-          <thead className="bg-gray-100 text-gray-700">
-            <tr>
-              <th className="border px-4 py-2 text-left">Leave Type</th>
-              <th className="border px-4 py-2 text-left">Balance</th>
-            </tr>
-          </thead>
-          <tbody>
+        {Object.keys(leaveData).length === 0 ? (
+          <div className="text-gray-600">No leave data available.</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {Object.entries(leaveData).map(([type, balance]) => (
-              <tr key={type}>
-                <td className="border px-4 py-2">{type}</td>
-                <td className="border px-4 py-2">{balance}</td>
-              </tr>
+              <div
+                key={type}
+                className="bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition-all"
+              >
+                <div className="text-sm text-gray-500 uppercase tracking-wide mb-2">
+                  {type}
+                </div>
+                <div className="text-3xl font-bold text-indigo-700">{balance}</div>
+              </div>
             ))}
-          </tbody>
-        </table>
-      )}
+          </div>
+        )}
+      </div>
+
+      <LeaveStatus />
       <CreateLeave employeeId={employeeId} />
     </div>
-  
   );
 };
 

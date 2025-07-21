@@ -14,10 +14,13 @@ const guestEndpoints = [
   "api/method/fbts.api.auth.reset_password",
   "api/method/fbts.api.holiday.get_employee_wise_holidays",
   "api/method/fbts.api.leave_balance.get_employee_leave_balance",
-  "api/method/fbts.api.get_today_birthdays",
+  "api/method/fbts.api.birthday.get_today_birthdays",
   "api/method/fbts.api.flamingoApi.create_checkin",
-  "api/method/fbts.api.flamingoApi.create_leave_application"
-
+  "api/method/fbts.api.flamingoApi.create_leave_application",
+  "api/method/fbts.api.flamingoApi.get_employee_salary_slips",
+  "/api/method/fbts.api.flamingoApi.download_salary_slip",
+  "/api/method/fbts.api.flamingoApi.chat",
+  "api/method/fbts.api.flamingoApi.get_employees"
 ];
 
 api.interceptors.request.use((config) => {

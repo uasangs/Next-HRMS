@@ -28,7 +28,7 @@ export const fetchHolidayList = async (employeeId) => {
 
 // ✅ Get Today's Birthdays
 export const fetchTodayBirthdays = async () => {
-  const res = await api.get("/api/method/fbts.api.get_today_birthdays");
+  const res = await api.post("/api/method/fbts.api.birthday.get_today_birthdays");
   const data = res.data.message || {};
   return {
     employees: data.employees || [],

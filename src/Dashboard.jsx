@@ -4,7 +4,7 @@ import logo from "./assets/flamingo-logo.png";
 import dayjs from "dayjs";
 import Checkin from './Checkin';
 import LeaveRequest from './LeaveRequest'
-
+import ChatForm from "./ChatForm";
 import {
   fetchLastCheckIn,
   fetchAttendanceRecords,
@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [birthdayList, setBirthdayList] = useState([]);
   const [birthdayCount, setBirthdayCount] = useState(0);
   const [showBirthdays, setShowBirthdays] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -119,7 +121,21 @@ const Dashboard = () => {
           <div className="flex items-center gap-4">
             <span className="text-gray-700 font-medium">{employee.name}</span>
             <button className="text-gray-500 text-xl">🔔</button>
-            <button className="text-gray-500 text-xl">💬</button>
+            <div className="relative">
+              <button
+                className="text-gray-500 text-xl"
+                onClick={() => setShowChat(!showChat)}
+              >
+                💬
+              </button>
+
+              {showChat && (
+                <div className="absolute right-0 top-10 z-50 w-[400px]">
+                  <ChatForm onClose={() => setShowChat(false)} />
+                </div>
+              )}
+            </div>
+
           </div>
         </header>
 
@@ -166,7 +182,7 @@ const Dashboard = () => {
                           className={`font-semibold px-2 py-1 rounded ${rec.status === "Present"
                             ? "text-green-700"
                             : "text-red-700"
-                          }`}
+                            }`}
                         >
                           {rec.status}
                         </span>
@@ -194,7 +210,7 @@ const Dashboard = () => {
               </ul>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <LeaveRequest/>
+              <LeaveRequest />
             </div>
           </div>
 
