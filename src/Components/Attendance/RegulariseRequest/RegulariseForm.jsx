@@ -30,11 +30,14 @@ const RegulariseForm = () => {
       <h3 className="form-title">Regularise Request</h3>
 
       <form onSubmit={handleSubmit} className="regularise-form">
-        <div className="form-row-from-date">
-          <label>From Date</label>
+        <div className="reg-form-row-from-date">
+         <div className="regularise-to-from">  <label>From Date</label>
           <input type="date" name="fromDate" value={formData.fromDate} onChange={handleChange} required />
-          {/* <label>To Date</label>
-          <input type="date" name="toDate" value={formData.toDate} onChange={handleChange} required /> */}
+          </div> 
+          <div className="regularise-to-from"> 
+           <label>To Date</label>
+          <input type="date" name="toDate" value={formData.toDate} onChange={handleChange} required /> 
+            </div>
         </div>
 
         <div className="form-row">

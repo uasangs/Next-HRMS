@@ -1,0 +1,148 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: linear-gradient(180deg, #001766, #1a2c94);
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logo img {
+  width: 180px;
+  margin-bottom: 5px;
+}
+
+.logo span {
+  font-size: 11px;
+  color: #ddd;
+  display: block;
+  letter-spacing: 1px;
+}
+
+.slidebar-all-links {
+  flex-grow: 1; /* This allows the links to take up all available vertical space */
+  overflow-y: auto; /* Optional: allows scrolling if links exceed space */
+}
+
+.nav-links {
+  padding: 0;
+  margin-top: 1vh;
+}
+
+.icon-sildebar img {
+  width: 15px;
+  height: 15px;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-links li .icon-sildebar {
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.nav-links li:hover {
+  color: #f78ab0;
+}
+
+.logout-slidebar {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+  color: #fff;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Optional visual divider */
+}
+
+.logout-slidebar .icon-sildebar {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.logout:hover {
+  color: #f78ab0;
+}
+
+
+.nav-links li.active {
+  color: #f78ab0;
+  font-weight: bold;
+}
+
+.nav-links li.active .icon-sildebar img {
+  filter: brightness(0) saturate(100%) invert(74%) sepia(21%) saturate(3381%) hue-rotate(308deg) brightness(95%) contrast(87%);
+}
+.nav-links li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.slidebar-all-links {
+  flex-grow: 1;
+  overflow-y: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+
+}
+.slidebar-all-links::-webkit-scrollbar {
+  display: none;
+}
+
+.icon-sildebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links li:hover,
+.nav-links li.active {
+  color: #f78ab0;
+  font-weight: bold;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 25px;
+  width: 100%;
+}
+
+.submenu li {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.submenu li:hover,
+.submenu .active {
+  color: #f78ab0;
+  font-weight: 500;
+}
+
+.dropdown-open > .icon-sildebar {
+  color: #f78ab0;
+}

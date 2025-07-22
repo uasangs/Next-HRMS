@@ -1,30 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LeaveRequest.css";
 import Header from "../Header/Header";
+import axios from "axios";
+import Notification  from  "../../assets/Notification.png";
+import Queries  from  "../../assets/Queries.png";
 
-const LeaveRequest = () => {
-  const [leaveForms, setLeaveForms] = useState([
-    {
-      fromDate: "",
-      toDate: "",
-      leaveType: "",
-      noOfDays: "",
-      reason: "",
-    },
-  ]);
-
+const LeaveRequest = (employeeId) => {
+  // const [form, setLeaveForms] = useState({
+  //   employee: employeeId || "",
+  //   leave_type: "",
+  //   from_date: "",
+  //   to_date: "",
+  //   description: "",
+  // });
+  const [ setLeaveTypes] = useState([]);
   const leaveBalances = {
     casual: 5,
     sick: 5,
     marriage: 10,
     privilege: 18,
   };
+  useEffect(() => {
+    axios
+      .get(
+        'https://fbts.flamingohrms.com/api/resource/Leave Type?fields=["name"]'
+      )
+      .then((res) => setLeaveTypes(res.data.data))
+      .catch((err) => {
+        console.error("Error loading leave types:", err);
+        setLeaveTypes([]);
+      });
+  }, []);
 
+  const [leaveForms, setLeaveForms] = useState([
+    {
+      fromDate: "",
+      toDate: "",
+      noOfDays: "",
+      reason: "",
+    },
+  ]);
+  const leaveTypes = [ ""
+   ];
   const handleChange = (index, e) => {
     const { name, value } = e.target;
     const updatedForms = [...leaveForms];
     updatedForms[index][name] = value;
+
+    // Auto-calculate number of days
+    if (updatedForms[index].fromDate && updatedForms[index].toDate) {
+      const from = new Date(updatedForms[index].fromDate);
+      const to = new Date(updatedForms[index].toDate);
+      const diffTime = to.getTime() - from.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+      updatedForms[index].noOfDays = diffDays > 0 ? diffDays : "";
+    }
+
     setLeaveForms(updatedForms);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(
+        "https://fbts.flamingohrms.com/api/method/fbts.api.flamingoApi.create_leave_application",
+        {
+          data: JSON.stringify(form),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.data.message?.name) {
+        alert(`✅ Leave Application submitted!\nDoc: ${res.data.message.name}`);
+      } else {
+        alert(`⚠️ Error: ${res.data.message || "Unknown error"}`);
+      }
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("❌ Failed to submit application.");
+    }
   };
 
   const handleAddLeaveForm = () => {
@@ -52,15 +110,18 @@ const LeaveRequest = () => {
     ]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submitted Leave Data:", leaveForms);
-    alert("Leaves Submitted ✅\n" + JSON.stringify(leaveForms, null, 2));
-  };
-
   return (
     <>
-      <Header />
+      {/* <Header /> */}
+      <div className="dashboard-header">
+                   <h4>Employe Self Service</h4> 
+                   <div className="top-right-icons">
+                   <div> <p>FD00000</p></div> 
+                     <div> <img src={Notification} alt="" /></div>  
+                       <div> <img src={Queries} alt="" />  </div>
+                   </div>
+                  
+                </div>
       <div className="Leave-request-container">
         <form onSubmit={handleSubmit} className="Leave-request-form">
           {leaveForms.map((form, index) => (
@@ -69,6 +130,13 @@ const LeaveRequest = () => {
               <div className="Leave-request-row-one-line">
                 <div>
                   <label>From Date</label>
+                  {/* <input
+                   type="date"
+                  //  name="from_date"
+                   name="fromDate"
+                   value={form.fromDate}
+                   onChange={handleChange(index, e)}
+                  /> */}
                   <input
                     type="date"
                     name="fromDate"
@@ -90,17 +158,27 @@ const LeaveRequest = () => {
                   <select
                     name="leaveType"
                     value={form.leaveType}
-                    onChange={(e) => handleChange(index, e)}
+                    onChange={handleChange}
+                    // className="peer w-full px-3 pt-6 pb-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="">Select</option>
-                    <option value="Half On Probation">Half On Probation</option>
-                    <option value="On Probation">On Probation</option>
-                    <option value="Compensatory Off">Compensatory Off</option>
-                    <option value="Half Comp Off">Half Comp Off</option>
-                    <option value="Half Outdoor Duty">Half Outdoor Duty</option>
-                    <option value="Outdoor Duty">Outdoor Duty</option>
-                    <option value="Half Day Work From Home">Half Day Work From Home</option>
+                    <option value="" >
+                      -- Select Leave Type --
+                    </option>
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Casual Leave">Casual Leave</option>
+                    <option value="Earned Leave">Earned Leave</option>
                     <option value="Work From Home">Work From Home</option>
+                    <option value="Maternity Leave">Maternity Leave</option>
+                    <option value="Paternity Leave">Paternity Leave</option>
+                    <option value="Compensatory Off">Compensatory Off</option>
+                    <option value="Half Day Leave">Half Day Leave</option>
+                    <option value="Bereavement Leave">Bereavement Leave</option>
+
+                    {leaveTypes.map((lt) => (
+                      <option key={lt.name} value={lt.name}>
+                        {lt.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -114,16 +192,16 @@ const LeaveRequest = () => {
                     name="noOfDays"
                     value={form.noOfDays}
                     onChange={(e) => handleChange(index, e)}
-                    min="1"
+                    readOnly // prevent manual typing if auto-calculated
                   />
                 </div>
                 <div>
                   <label>Reason</label>
                   <input
-                    type="text"
-                    name="reason"
-                    value={form.reason}
-                    onChange={(e) => handleChange(index, e)}
+                    name="description"
+                    value={form.description}
+                    onChange={handleChange}
+                    rows={3}
                   />
                 </div>
               </div>
@@ -149,7 +227,11 @@ const LeaveRequest = () => {
               >
                 Cancel
               </button>
-              <button type="submit" className="Leave-request-submit">
+              <button
+                type="submit"
+                className="Leave-request-submit"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
             </div>

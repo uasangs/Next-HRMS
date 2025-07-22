@@ -14,17 +14,34 @@
   gap: 20px;
 }
 
-.form-row-from-date {
+.reg-form-row-from-date {
   display: flex;
-  width: 50%;
-  flex-wrap: wrap;
+  width: 100%;
   gap: 20px;
   align-items: center;
 }
-
-.form-row-from-date label {
+.form-row-from-date {
+  width: 50%;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+}
+.regularise-to-from{
+  width: 50%;
+  display: flex;
+}
+.reg-form-row-from-date label {
   flex: 1 1 100px;
   color: #ec4899;
+}
+.reg-form-row-from-date input,
+.reg-form-row-from-date select,
+.remarks-row textarea {
+  flex: 1 1 200px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #f7f7f7;
 }
 .form-row-from-date input,
 .form-row-from-date select,
@@ -39,7 +56,7 @@
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
 }
 
