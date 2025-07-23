@@ -57,7 +57,7 @@ const Sidebar = () => {
             </div>
             {openDropdown === "leave" && (
               <ul className="submenu">
-                <NavLink to="/attendance/request" className={({ isActive }) => isActive ? "active" : ""}>
+                <NavLink to="/myleave" className={({ isActive }) => isActive ? "active" : ""}>
                   <li>My Leave</li>
                 </NavLink>
                 <NavLink to="/leaverequest" className={({ isActive }) => isActive ? "active" : ""}>

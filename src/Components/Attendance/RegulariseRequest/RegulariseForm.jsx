@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./RegulariseForm.css";
 import Header from "../../Header/Header";
+import StatusTabs from "./StatusTab";
 
 const RegulariseForm = () => {
   const [formData, setFormData] = useState({
@@ -39,6 +40,13 @@ const RegulariseForm = () => {
           <input type="date" name="toDate" value={formData.toDate} onChange={handleChange} required /> 
             </div>
         </div>
+
+
+
+        <StatusTabs/>
+
+
+
 
         <div className="form-row">
         <div className="form-row-from-date">

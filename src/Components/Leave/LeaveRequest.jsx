@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./LeaveRequest.css";
-import Header from "../Header/Header";
+import Header from "d:/HRMS/hrms/src/Components/Header/Header";
 import axios from "axios";
 import Notification  from  "../../assets/Notification.png";
 import Queries  from  "../../assets/Queries.png";
+import MyLeave from "./MyLeave";
 
 const LeaveRequest = (employeeId) => {
   // const [form, setLeaveForms] = useState({
@@ -112,7 +113,8 @@ const LeaveRequest = (employeeId) => {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
+      <MyLeave/>
       <div className="dashboard-header">
                    <h4>Employe Self Service</h4> 
                    <div className="top-right-icons">

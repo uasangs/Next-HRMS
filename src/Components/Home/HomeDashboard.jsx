@@ -1,9 +1,9 @@
 import React from "react";
 import "./HomeDashboard.css";
-
 import { FaBirthdayCake, FaCalendarAlt } from "react-icons/fa";
 import Arrow  from  "../../assets/Arrow.png";
 import Header from "../Header/Header";
+import Checkin from "./Checkin";
 
 
 const HomeDashboard = () => {
@@ -12,7 +12,7 @@ const HomeDashboard = () => {
     <Header/>
         <h2>Welcome Back</h2>
         <div className="home-checkIn">
-            <button>Check In</button>
+            <Checkin/>
         </div>
     <div className="widgets-container">
       <div className="widget-column">

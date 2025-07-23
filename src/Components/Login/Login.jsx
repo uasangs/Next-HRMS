@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../../api";
-// import logo from "./assets/flamingo-logo.png";
+import logo from "../../assets/flamingo-logo.png";
 import MainLayout from "../Layout/MainLayout";
 
 const Login = () => {
@@ -48,13 +48,7 @@ const Login = () => {
   return (
     <div className="flex min-h-screen">
       <div className="w-1/2 bg-gradient-to-br from-[#1C2B83] to-[#1C2B83] flex flex-col justify-center items-center text-white p-10">
-        {/* <img src={logo} alt="Flamingo Logo" className="h-20 mb-4" /> */}
-        <h1 className="text-3xl font-bold tracking-wide">
-          FLAMINGO<span className="text-pink-400 ml-1">Infinite</span>
-        </h1>
-        <p className="mt-2 text-sm tracking-widest uppercase text-gray-300">
-          Empowering Growth
-        </p>
+        <img src={logo} alt="Flamingo Logo" className="h-30 mb-9" /> 
       </div>
 
       <div className="w-1/2 bg-white flex items-center justify-center px-8">
