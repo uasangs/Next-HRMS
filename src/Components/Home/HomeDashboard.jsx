@@ -104,21 +104,35 @@ const HomeDashboard = () => {
             </tbody>
           </table>
         </div>
-<div className="widget link-box"> 
-        <div className="widget small-box">
-          Leave Request <span className="badge">0</span> <span><div className="icon-sildebar"> <img src={Arrow} alt="home"  /></div></span>
-        </div>
+      
+<div className="widget-cards-container">
+  <div className="widget-card">
+    <div className="widget-card-header">
+      <span className="widget-card-title">Leave Request</span>
+      <div className="icon-sildebar">
+        <img src={Arrow} alt="arrow" />
+      </div>
+    </div>
+    <div className="widget-card-badge-section">
+      <span className="badge">0</span>
+    </div>
+  </div>
 
-        <div className="widget small-box">
-          <div> 
-       <span> Attendance Regularise</span> 
-          <span><div className="icon-sildebar"> <img src={Arrow} alt="home"  /></div></span> 
-         
-          <span className="small-text">Pending Approval</span>
-          <span className="badge">5</span> 
-          </div>
-        </div>
-        </div>
+  <div className="widget-card">
+    <div className="widget-card-header">
+      <span className="widget-card-title">Attendance Regularise</span>
+      <div className="icon-sildebar">
+        <img src={Arrow} alt="arrow" />
+      </div>
+    </div>
+    <div className="widget-card-content">
+      <div className="widget-card-subtitle">
+        <span className="small-text">Pending Approval</span>
+        <span className="badge">5</span>
+      </div>
+    </div>
+  </div>
+</div>
 
         <div className="widget link-box">
           Company Policy <span><div className="icon-sildebar"> <img src={Arrow} alt="home"  /></div></span>

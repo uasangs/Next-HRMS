@@ -331,6 +331,158 @@ h3 {
   flex-shrink: 0;
 }
 
+
+/* Widget Cards Container */
+.widget-cards-container {
+  display: flex;
+  margin-top:0.7vh;
+  justify-content: space-between;
+  margin-bottom:0.7vh;
+  gap: clamp(8px, 2vw, 12px);
+  width: 100%;
+}
+
+/* Individual Widget Card */
+.widget-card {
+  background-color: #fff0f7;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  padding: clamp(12px, 2.5vw, 16px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(236, 72, 153, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.widget-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Widget Card Header */
+.widget-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(8px, 1.5vw, 10px);
+}
+
+.widget-card-title {
+  color: #374151;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  font-weight: 600;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Icon Sidebar in Cards */
+.widget-card .icon-sildebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(16px, 3vw, 20px);
+  height: clamp(16px, 3vw, 20px);
+}
+
+.widget-card .icon-sildebar img {
+  width: clamp(10px, 2vw, 14px);
+  height: clamp(10px, 2vw, 14px);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.widget-card:hover .icon-sildebar img {
+  opacity: 1;
+}
+
+/* Badge Section */
+.widget-card-badge-section {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Widget Card Content */
+.widget-card-content {
+  margin-top: clamp(6px, 1.2vw, 8px);
+}
+
+/* Widget Card Subtitle */
+.widget-card-subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 10px);
+}
+
+/* Small Text in Cards */
+.widget-card .small-text {
+  color: #6b7280;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Badge in Cards */
+.widget-card .badge {
+  background-color: #ec4899;
+  color: white;
+  padding: clamp(3px, 0.6vw, 4px) clamp(8px, 1.5vw, 10px);
+  border-radius: clamp(8px, 1.5vw, 12px);
+  font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+  font-weight: 700;
+  min-width: clamp(20px, 3.5vw, 24px);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(236, 72, 153, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .widget-cards-container {
+    gap: 10px;
+  }
+  
+  .widget-card {
+    padding: 12px 15px;
+  }
+  
+  .widget-card-title {
+    font-size: 0.85rem;
+  }
+  
+  .widget-card .small-text {
+    font-size: 0.7rem;
+  }
+  
+  .widget-card .badge {
+    font-size: 0.7rem;
+    padding: 2px 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .widget-card {
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+  
+  .widget-card-title {
+    font-size: 0.8rem;
+  }
+  
+  .widget-card .small-text {
+    font-size: 0.65rem;
+  }
+  
+  .widget-card .badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    min-width: 18px;
+  }
+}
+
+
 /* Responsive Breakpoints using Flex */
 
 /* Large Screens (1200px+) */
