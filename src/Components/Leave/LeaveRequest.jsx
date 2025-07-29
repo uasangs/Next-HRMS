@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./LeaveRequest.css";
-import Header from "d:/HRMS/hrms/src/Components/Header/Header";
+import Header from "../Header/Header";
 import axios from "axios";
 import Notification  from  "../../assets/Notification.png";
 import Queries  from  "../../assets/Queries.png";
@@ -115,7 +115,7 @@ const LeaveRequest = (employeeId) => {
     <>
       <Header />
       <MyLeave/>
-      <div className="dashboard-header">
+      {/* <div className="dashboard-header">
                    <h4>Employe Self Service</h4> 
                    <div className="top-right-icons">
                    <div> <p>FD00000</p></div> 
@@ -123,7 +123,7 @@ const LeaveRequest = (employeeId) => {
                        <div> <img src={Queries} alt="" />  </div>
                    </div>
                   
-                </div>
+                </div> */}
       <div className="Leave-request-container">
         <form onSubmit={handleSubmit} className="Leave-request-form">
           {leaveForms.map((form, index) => (

@@ -1,6 +1,7 @@
 import React from 'react'
 import Notification  from  "../../assets/Notification.png";
 import Queries  from  "../../assets/Queries.png";
+import ChatForm from './ChatForm';
 function Header() {
   return (
     <div>
@@ -9,7 +10,7 @@ function Header() {
              <div className="top-right-icons">
              <div> <p>FD00000</p></div> 
                <div> <img src={Notification} alt="" /></div>  
-                 <div> <img src={Queries} alt="" />  </div>
+                 {/* <div> <ChatForm/> </div> */}
              </div>
             
           </div>
