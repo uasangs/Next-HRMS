@@ -1,14 +1,51 @@
+// import api from "./api";
+
+// // ✅ Get Last Check-In Info
+// export const fetchLastCheckIn = async (employeeId) => {
+//   const res = await api.post("/api/method/fbts.api.get_last_checkin_info", {
+//     employee: employeeId,
+//   });
+//   return res.data.message || {};
+// };
+
+// // ✅ Get Last 10 Attendance Records
+// export const fetchAttendanceRecords = async (employeeId) => {
+//   const res = await api.post(
+//     "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
+//     { employee: employeeId }
+//   );
+//   return res.data.message?.records || [];
+// };
+
+// // ✅ Get Employee-Wise Holidays
+// export const fetchHolidayList = async (employeeId) => {
+//   const res = await api.post("/api/method/fbts.api.holiday.get_employee_wise_holidays", {
+//     employee: employeeId,
+//   });
+//   const data = res.data.message || [];
+//   return Array.isArray(data) && data.length > 0 ? data[0].holidays || [] : [];
+// };
+
+// // ✅ Get Today's Birthdays
+// export const fetchTodayBirthdays = async () => {
+//   const res = await api.post("/api/method/fbts.api.birthday.get_today_birthdays");
+//   const data = res.data.message || {};
+//   return {
+//     employees: data.employees || [],
+//     count: data.count || 0,
+//   };
+// };
+
+
+
+
+
+
+
+// Home/dashboardApi.js
 import api from "./api";
 
-// ✅ Get Last Check-In Info
-export const fetchLastCheckIn = async (employeeId) => {
-  const res = await api.post("/api/method/fbts.api.get_last_checkin_info", {
-    employee: employeeId,
-  });
-  return res.data.message || {};
-};
-
-// ✅ Get Last 10 Attendance Records
+// ✅ Get last 10 attendance records
 export const fetchAttendanceRecords = async (employeeId) => {
   const res = await api.post(
     "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
@@ -17,21 +54,26 @@ export const fetchAttendanceRecords = async (employeeId) => {
   return res.data.message?.records || [];
 };
 
-// ✅ Get Employee-Wise Holidays
+// ✅ Get employee‑wise holidays
 export const fetchHolidayList = async (employeeId) => {
-  const res = await api.post("/api/method/fbts.api.holiday.get_employee_wise_holidays", {
-    employee: employeeId,
-  });
+  const res = await api.post(
+    "/api/method/fbts.api.holiday.get_employee_wise_holidays",
+    { employee: employeeId }
+  );
   const data = res.data.message || [];
-  return Array.isArray(data) && data.length > 0 ? data[0].holidays || [] : [];
+  return Array.isArray(data) && data.length
+    ? data[0].holidays || []
+    : [];
 };
 
-// ✅ Get Today's Birthdays
+// ✅ Get today's birthdays
 export const fetchTodayBirthdays = async () => {
-  const res = await api.post("/api/method/fbts.api.birthday.get_today_birthdays");
-  const data = res.data.message || {};
+  const res = await api.post(
+    "/api/method/fbts.api.birthday.get_today_birthdays"
+  );
+  const msg = res.data.message || {};
   return {
-    employees: data.employees || [],
-    count: data.count || 0,
+    employees: msg.employees || [],
+    count: msg.count || 0,
   };
 };
