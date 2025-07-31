@@ -44,7 +44,6 @@
 
 // Home/dashboardApi.js
 import api from "./api";
-
 // ✅ Get last 10 attendance records
 export const fetchAttendanceRecords = async (employeeId) => {
   const res = await api.post(
