@@ -177,10 +177,10 @@ const HomeDashboard = () => {
         <div className="widget-column">
           <h3>Quick Links</h3>
           <div className="widget holiday-list">
-            <div className="Holidays-list-arrowBTN">
+          <Link to="holiday-list">   <div className="Holidays-list-arrowBTN">
               <div>Holidays List</div>
               <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
-            </div>
+            </div> </Link>
             <table>
               <tbody>
                 {holidays.length > 0 ? (

@@ -1,0 +1,65 @@
+.holiday-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+.tab-btn.active {
+  opacity: 1;
+}
+
+.tab-btn.past {
+  background-color: orange;
+}
+
+.tab-btn.upcoming {
+  background-color: green;
+}
+
+.tab-btn.optional {
+  background-color: red;
+}
+
+.holiday-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.holiday-table th,
+.holiday-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.holiday-table th {
+  background-color: #f4f4f4;
+}
+
+.holiday-label {
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}

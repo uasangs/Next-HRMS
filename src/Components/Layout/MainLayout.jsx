@@ -11,6 +11,7 @@ import Profile from "../Profile/Profile";
 import ITComputation from "../ITComputation/ITComputation";
 import Salary from "../Salary/Salary";
 import MyLeave from "../Leave/MyLeave";
+import HolidayPage from "../Leave/Holidays/HolidayPage";
 
 // Dummy pages (replace with real ones)
 // const MyProfile = () => <div>My Profile</div>;
@@ -31,6 +32,7 @@ const MainLayout = () => {
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/leaverequest" element={<LeaveRequest />} />
           <Route path="/myleave" element={<MyLeave />} />
+          <Route path="/holiday-list" element={<HolidayPage/>}/>
           <Route path="/salary" element={<Salary />} />
           <Route path="/it" element={<ITComputation />} />
           <Route path="/expenses" element={<Expanses />} />
