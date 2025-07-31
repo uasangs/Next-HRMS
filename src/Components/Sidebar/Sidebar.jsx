@@ -8,19 +8,27 @@ import Attendance from "../../assets/Attendance.png";
 import Expenses from "../../assets/Expenses.png";
 import MyProfile from "../../assets/MyProfile.png";
 import ITComputation from "../../assets/ITComputation.png";
-import Logout from "../../assets/Logout.png";
-import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa"; // Hamburger Icons
+import LogoutIcon from "../../assets/Logout.png";
+import { NavLink, useNavigate } from "react-router-dom"; // ✅ Added useNavigate
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const Sidebar = () => {
   const [openDropdown, setOpenDropdown] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate(); // ✅ Hook to redirect
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? "" : menu);
   };
 
   const closeSidebar = () => setSidebarOpen(false);
+
+  // ✅ Logout function
+  const handleLogout = () => {
+    localStorage.clear(); // or use localStorage.removeItem("employee_id") if specific
+    sessionStorage.clear();
+    navigate("/login"); // change to your actual login route
+  };
 
   return (
     <>
@@ -94,9 +102,10 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className="logout-slidebar" onClick={closeSidebar}>
+        {/* ✅ Logout Button */}
+        <div className="logout-slidebar" onClick={handleLogout}>
           <div className="icon-sildebar">
-            <img src={Logout} alt="logout" />
+            <img src={LogoutIcon} alt="logout" />
           </div>
           Logout
         </div>

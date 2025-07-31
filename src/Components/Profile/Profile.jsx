@@ -53,7 +53,7 @@ const Profile = () => {
     return (
         <div className="p-4 max-w-3xl mx-auto">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="bg-indigo-600 p-6 text-white">
+                <div className="bg-pink-400 p-6 text-white">
                     <h1 className="text-2xl font-bold">Employee Profile</h1>
                     <p className="opacity-90">{employee.name}</p>
                 </div>
