@@ -40,10 +40,11 @@ const HomeDashboard = () => {
 
         // Filter upcoming holidays: from today to 31 Dec inclusive
         const upcoming = holidayList.filter((h) => {
-          const date = dayjs(h.holiday_date, "YYYY-MM-DD");
+          const date = dayjs(h.holiday_date, "DD-MM-YYYY");
           return (
             date.isValid() &&
-            (date.isSame(today, "day") || (date.isAfter(today, "day") && date.isBefore(endOfYear.add(1, "day"))))
+            (date.isSame(today, "day") ||
+              (date.isAfter(today, "day") && date.isBefore(endOfYear.add(1, "day"))))
           );
         });
 
@@ -64,7 +65,7 @@ const HomeDashboard = () => {
           const parsedDate = dayjs(dateStr, "DD-MM-YYYY");
           if (rec) {
             return {
-              date: parsedDate.format("DD MMM"),
+              date: dateStr, // Show backend format
               in_time: rec.in_time || "--",
               out_time: rec.out_time || "--",
               working_hours: rec.working_hours || "--",
@@ -72,7 +73,7 @@ const HomeDashboard = () => {
             };
           } else {
             return {
-              date: parsedDate.format("DD MMM"),
+              date: dateStr,
               in_time: "--",
               out_time: "--",
               working_hours: "--",
@@ -82,7 +83,7 @@ const HomeDashboard = () => {
         });
 
         setAttendanceRecords(lastThreeAttendance);
-        setHolidays(upcoming);
+        setHolidays(upcoming.slice(0, 5));
         setBirthdayList(birthdayData.employees || []);
         setBirthdayCount(birthdayData.count || 0);
       } catch (err) {
@@ -138,19 +139,25 @@ const HomeDashboard = () => {
               </tbody>
             </table>
 
-           <Link to="/attendance">  <div className="calendar-link">
-              <FaCalendarAlt className="icon" /> My Attendance Calendar
-              <span>
-                <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
-              </span>
-            </div> </Link>
+            <Link to="/attendance">
+              <div className="calendar-link">
+                <FaCalendarAlt className="icon" /> My Attendance Calendar
+                <span>
+                  <div className="icon-sildebar">
+                    <img src={Arrow} alt="arrow" />
+                  </div>
+                </span>
+              </div>
+            </Link>
           </div>
 
           <Link to="/myleave">
             <div className="widget link-box">
               Leave Balance
               <span>
-                <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
+                <div className="icon-sildebar">
+                  <img src={Arrow} alt="arrow" />
+                </div>
               </span>
             </div>
           </Link>
@@ -159,7 +166,9 @@ const HomeDashboard = () => {
             <FaBirthdayCake className="icon" /> Today's Birthday
             <span className="count">{birthdayCount}</span>
             <span>
-              <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
+              <div className="icon-sildebar">
+                <img src={Arrow} alt="arrow" />
+              </div>
             </span>
             {birthdayList.length > 0 && (
               <ul className="birthday-list">
@@ -177,17 +186,21 @@ const HomeDashboard = () => {
         <div className="widget-column">
           <h3>Quick Links</h3>
           <div className="widget holiday-list">
-          <Link to="holiday-list">   <div className="Holidays-list-arrowBTN">
-              <div>Holidays List</div>
-              <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
-            </div> </Link>
+            <Link to="holiday-list">
+              <div className="Holidays-list-arrowBTN">
+                <div>Holidays List</div>
+                <div className="icon-sildebar">
+                  <img src={Arrow} alt="arrow" />
+                </div>
+              </div>
+            </Link>
             <table>
               <tbody>
                 {holidays.length > 0 ? (
                   holidays.map((h, idx) => (
                     <tr key={idx}>
-                      <td>{dayjs(h.holiday_date).format("DD MMM")}</td>
-                      <td>{dayjs(h.holiday_date).format("ddd")}</td>
+                      <td>{h.holiday_date}</td> {/* Use backend format directly */}
+                      <td>{dayjs(h.holiday_date, "DD-MM-YYYY").format("dddd")}</td>
                       <td>{h.description}</td>
                     </tr>
                   ))
@@ -200,20 +213,25 @@ const HomeDashboard = () => {
             </table>
           </div>
 
-
-            <div className="widget-cards-container">
+          <div className="widget-cards-container">
             <div className="widget-card">
               <div className="widget-card-header">
                 <span className="widget-card-title">Leave Request</span>
-                <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
+                <div className="icon-sildebar">
+                  <img src={Arrow} alt="arrow" />
+                </div>
               </div>
-              <div className="widget-card-badge-section"><span className="badge">0</span></div>
+              <div className="widget-card-badge-section">
+                <span className="badge">0</span>
+              </div>
             </div>
 
             <div className="widget-card">
               <div className="widget-card-header">
                 <span className="widget-card-title">Attendance Regularise</span>
-                <div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div>
+                <div className="icon-sildebar">
+                  <img src={Arrow} alt="arrow" />
+                </div>
               </div>
               <div className="widget-card-content">
                 <div className="widget-card-subtitle">
@@ -226,7 +244,11 @@ const HomeDashboard = () => {
 
           <div className="widget link-box">
             Company Policy
-            <span><div className="icon-sildebar"><img src={Arrow} alt="arrow" /></div></span>
+            <span>
+              <div className="icon-sildebar">
+                <img src={Arrow} alt="arrow" />
+              </div>
+            </span>
           </div>
         </div>
       </div>

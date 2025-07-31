@@ -1,123 +1,230 @@
+// import React, { useEffect, useState } from 'react';
+// import { fetchHolidayList } from '../../Home/dashboardApi';
+// import './HolidayPage.css';
+// import Header from '../../Header/Header';
+// import dayjs from 'dayjs';
+
+// const HolidayPage = () => {
+//   const [holidays, setHolidays] = useState({ past: [], upcoming: [], optional: [] });
+//   const [activeTab, setActiveTab] = useState('upcoming');
+//   const employeeId = localStorage.getItem('employee_id');
+
+//   useEffect(() => {
+//     const loadHolidays = async () => {
+//       if (!employeeId) return;
+//       const allHolidays = await fetchHolidayList(employeeId);
+
+//       const today = dayjs();
+//       const past = [];
+//       const upcoming = [];
+//       const optional = [];
+
+//       allHolidays.forEach((holiday, index) => {
+//         const date = dayjs(holiday.holiday_date, 'DD-MM-YYYY');
+//         const entry = {
+//           id: index + 1,
+//           date: date.format('DD-MM-YYYY'),
+//           day: date.format('dddd'),
+//           name: holiday.description,
+//         };
+
+//         if (holiday.optional) {
+//           optional.push(entry);
+//         } else if (date.isBefore(today, 'day')) {
+//           past.push(entry);
+//         } else {
+//           upcoming.push(entry);
+//         }
+//       });
+
+//       setHolidays({ past, upcoming, optional });
+//     };
+
+//     loadHolidays();
+//   }, [employeeId]);
+
+//   return (
+//     <>
+//       <Header />
+//       <div className="holiday-page">
+//         <h2 className="title">Holiday List - 2025</h2>
+
+//         {/* Tab Buttons */}
+//         <div className="button-group">
+//           <button
+//             className={`tab-btn ${activeTab === 'past' ? 'active' : ''}`}
+//             onClick={() => setActiveTab('past')}
+//           >
+//             Past Holidays
+//           </button>
+//           <button
+//             className={`tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
+//             onClick={() => setActiveTab('upcoming')}
+//           >
+//             Upcoming Holidays
+//           </button>
+//           <button
+//             className={`tab-btn ${activeTab === 'optional' ? 'active' : ''}`}
+//             onClick={() => setActiveTab('optional')}
+//           >
+//             Optional Holidays
+//           </button>
+//         </div>
+
+//         {/* Holiday Table */}
+//         <table className="holiday-table">
+//           <thead>
+//             <tr>
+//               <th>Sr. No.</th>
+//               <th>Date</th>
+//               <th>Day</th>
+//               <th>Name</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {holidays[activeTab].length > 0 ? (
+//               holidays[activeTab].map((holiday) => (
+//                 <tr key={holiday.id}>
+//                   <td>{holiday.id}</td>
+//                   <td>{holiday.date}</td>
+//                   <td>{holiday.day}</td>
+//                   <td>{holiday.name}</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="4">No holidays found.</td>
+//               </tr>
+//             )}
+//           </tbody>
+//         </table>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default HolidayPage;
+
+
+
 import React, { useEffect, useState } from 'react';
 import { fetchHolidayList } from '../../Home/dashboardApi';
 import './HolidayPage.css';
 import Header from '../../Header/Header';
+import dayjs from 'dayjs';
 
-const HolidayPage = ({ employeeId }) => {
-  const [activeTab, setActiveTab] = useState('upcoming');
+const HolidayPage = () => {
   const [holidays, setHolidays] = useState({ past: [], upcoming: [], optional: [] });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('upcoming');
+  const employeeId = localStorage.getItem('employee_id');
 
   useEffect(() => {
     const loadHolidays = async () => {
       if (!employeeId) return;
+      const allHolidays = await fetchHolidayList(employeeId);
 
-      setLoading(true);
-      setError('');
+      const today = dayjs();
+      const past = [];
+      const upcoming = [];
+      const optional = [];
 
-      try {
-        const allHolidays = await fetchHolidayList(employeeId);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Reset to midnight for accurate comparison
+      allHolidays.forEach((holiday, index) => {
+        const date = dayjs(holiday.holiday_date, 'DD-MM-YYYY');
+        const entry = {
+          id: index + 1,
+          date: date.format('DD-MM-YYYY'),
+          day: date.format('dddd'),
+          name: holiday.description,
+        };
 
-        const past = [];
-        const upcoming = [];
-        const optional = [];
+        if (holiday.optional) {
+          optional.push(entry);
+        } else if (date.isBefore(today, 'day')) {
+          past.push(entry);
+        } else {
+          upcoming.push(entry);
+        }
+      });
 
-        allHolidays.forEach((holiday, index) => {
-          const holidayDate = new Date(holiday.holiday_date);
-          holidayDate.setHours(0, 0, 0, 0);
-
-          const entry = {
-            id: index + 1,
-            date: holidayDate.toLocaleDateString('en-GB'),
-            day: holidayDate.toLocaleDateString('en-US', { weekday: 'long' }),
-            name: holiday.holiday_name,
-          };
-
-          if (holiday.optional) {
-            optional.push(entry);
-          } else if (holidayDate < today) {
-            past.push(entry);
-          } else {
-            upcoming.push(entry);
-          }
-        });
-
-        setHolidays({ past, upcoming, optional });
-      } catch (err) {
-        console.error('Error fetching holiday list:', err);
-        setError('Failed to load holidays. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
+      setHolidays({ past, upcoming, optional });
     };
 
     loadHolidays();
   }, [employeeId]);
 
+  const renderTable = (data) => (
+    <table className="holiday-table">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.length > 0 ? (
+          data.map((holiday) => (
+            <tr key={holiday.id}>
+              <td>{holiday.id}</td>
+              <td>{holiday.date}</td>
+              <td>{holiday.day}</td>
+              <td>
+                <span className="holiday-badge">{holiday.name}</span>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="4">No holidays found.</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
+
   return (
     <>
       <Header />
       <div className="holiday-page">
-        <h2 className="title">Holiday List - 2025</h2>
+        <div className="holiday-filter-section">
+          <select>
+            <option>Flamingo BPO Technology Solutions Ltd</option>
+          </select>
+          <select>
+            <option>Mumbai</option>
+            <option>Vasai</option>
+          </select>
+          <select>
+            <option>2025</option>
+          </select>
+          <button className="holiday-search-btn">🔍</button>
+        </div>
 
-        <div className="button-group">
+        <div className="holiday-button-group">
           <button
-            className={`tab-btn ${activeTab === 'past' ? 'active past' : 'past'}`}
+            className={`holiday-tab-btn-past ${activeTab === 'past' ? 'active holiday-orange' : ''}`}
             onClick={() => setActiveTab('past')}
           >
             Past Holidays
           </button>
           <button
-            className={`tab-btn ${activeTab === 'upcoming' ? 'active upcoming' : 'upcoming'}`}
+            className={`holiday-tab-btn-upcomming ${activeTab === 'upcoming' ? 'active holiday-green' : ''}`}
             onClick={() => setActiveTab('upcoming')}
           >
-            Future Holidays
+            Upcomming Holidays
           </button>
           <button
-            className={`tab-btn ${activeTab === 'optional' ? 'active optional' : 'optional'}`}
+            className={`holiday-tab-btn-options ${activeTab === 'optional' ? 'active holiday-red' : ''}`}
             onClick={() => setActiveTab('optional')}
           >
             Optional Holidays
           </button>
         </div>
 
-        {loading ? (
-          <p className="loading-text">Loading holidays...</p>
-        ) : error ? (
-          <p className="error-text">{error}</p>
-        ) : (
-          <table className="holiday-table">
-            <thead>
-              <tr>
-                <th>Sr. No.</th>
-                <th>Date</th>
-                <th>Day</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {holidays[activeTab]?.length === 0 ? (
-                <tr>
-                  <td colSpan="4">No holidays to show.</td>
-                </tr>
-              ) : (
-                holidays[activeTab].map((holiday) => (
-                  <tr key={holiday.id}>
-                    <td>{holiday.id}</td>
-                    <td>{holiday.date}</td>
-                    <td>{holiday.day}</td>
-                    <td>
-                      <span className="holiday-label">{holiday.name}</span>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        )}
+        <div className="holiday-table-wrapper">
+          {renderTable(holidays[activeTab])}
+        </div>
       </div>
     </>
   );
