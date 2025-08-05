@@ -140,7 +140,7 @@ h3 {
 
 .attendance-table th {
   color: #777;
-  font-weight: 500;
+  font-weight: 700;
   text-align: left;
   padding: clamp(4px, 1vw, 8px) clamp(2px, 0.5vw, 5px);
   font-size: clamp(0.6rem, 1.5vw, 0.8rem);
