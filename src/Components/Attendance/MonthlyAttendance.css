@@ -1,17 +1,17 @@
-.monthly-container {
+.Atd-monthly-container {
   padding: 1rem 0;
   font-family: 'Segoe UI', sans-serif;
   color: #333;
 }
 
-.table {
+.Atd-table {
   background-color: #fff0f5;
   padding: 1.5rem;
   border-radius: 12px;
   overflow-x: auto;
 }
 
-.table-row {
+.Atd-table-row {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   padding: 10px 0;
@@ -20,52 +20,69 @@
   font-size: 14px;
 }
 
-.header {
+.Atd-header {
   font-weight: bold;
   color: #e91e63;
   border-bottom: 2px solid #e6a9c9;
 }
 
-.status.p {
+/* Attendance status colors */
+.Atd-status.p {
   color: green;
   font-weight: bold;
 }
 
-.status.wo {
+.Atd-status.wo {
   color: #555;
 }
 
-.status.sl {
+.Atd-status.sl {
   color: red;
   font-weight: bold;
 }
 
-.status.hd {
+.Atd-status.hd {
   color: orange;
   font-weight: bold;
 }
 
-.regularise-btn {
+.Atd-regularise-btn {
   padding: 6px 12px;
-  background-color: #fff;
+  background-color: rgb(236, 82, 108);
   border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
 }
 
-.approved {
+.Atd-approved {
   color: green;
   font-weight: bold;
   padding-left: 10px;
 }
-.month-selector {
+
+.Atd-month-selector {
   margin-bottom: 1rem;
-  display: flex;
-  gap: 0.5rem;
+  color: #e91e63;
   align-items: center;
+  display: flex;
+  font-size: 12px;
+  gap: 10px;
 }
-.month-selector select {
-  padding: 5px 10px;
-  font-size: 1rem;
+
+.Atd-month-selector select {
+    padding: 5px 5px;
+    width: 75%; /* or try something like 80%, 50%, etc. */
+    max-width: 100px; /* optional limit */
+    border-radius: 5px;
+    color:#e91e63;
+    border: 1px solid rgb(143, 141, 141);
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.Atd-no-records {
+  text-align: center;
+  padding: 1rem;
+  color: #888;
 }

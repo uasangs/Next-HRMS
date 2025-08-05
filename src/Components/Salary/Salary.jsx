@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api";
 import axios from "axios";
+import Header from "../Header/Header";
 
 const Salary = () => {
   const [salarySlips, setSalarySlips] = useState([]);
@@ -70,9 +71,11 @@ const Salary = () => {
   if (error) return <div className="p-8 text-red-600">Error: {error}</div>;
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Salary Slips</h1>
-
+    <div className="p-0">
+      <Header/>
+      <div className="p-6" > 
+      <h1 className="text-2xl font-bold mb-6 color-pink-400">Salary Slips</h1>
+        
       {salarySlips.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg overflow-hidden">
@@ -112,6 +115,7 @@ const Salary = () => {
           <p className="text-gray-500">No salary slips found for employee {employeeId}</p>
         )
       )}
+      </div>
     </div>
   );
 };

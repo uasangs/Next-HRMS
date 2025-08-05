@@ -9,6 +9,7 @@
   color: #fff;
   font-family: 'Segoe UI', sans-serif;
   transition: transform 0.3s ease;
+  position: relative;
 }
 
 .logo {
@@ -60,14 +61,21 @@
   gap: 10px;
 }
 
-.nav-links li:hover,
-.nav-links li.active {
-  color: #f78ab0;
+/* 👇 Updated: Active link styles */
+.nav-links .active .icon-sildebar {
+  color: #f78ab0; /* Pink color for active heading */
   font-weight: bold;
 }
 
-.nav-links li.active .icon-sildebar img {
+/* 👇 Optional: also style the icon when active */
+.nav-links .active .icon-sildebar img {
   filter: brightness(0) saturate(100%) invert(74%) sepia(21%) saturate(3381%) hue-rotate(308deg) brightness(95%) contrast(87%);
+}
+
+/* Optional legacy rule - may not work as expected */
+.nav-links li:hover {
+  color: #f78ab0;
+  font-weight: bold;
 }
 
 .submenu {
@@ -96,10 +104,14 @@
 .logout-slidebar {
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 0.75rem !important;
   cursor: pointer;
   color: #fff;
   padding-top: 10px;
+  position: absolute;      /* ✅ Added */
+  bottom: 10px;            /* ✅ Added */
+  left: 20px;              /* ✅ Added to match horizontal padding */
+  right: 20px;  
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -151,5 +163,24 @@
 
   .slidebar-all-links {
     padding-bottom: 80px;
+  }
+}
+
+
+/* 👇 New: Hide menu text on small screens */
+@media (max-width: 768px) {
+  .menu-label {
+    display: none;
+  }
+
+  /* 👇 Optional: Center icons since text is hidden */
+  .icon-sildebar {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* 👇 Optional: Make nav items center-aligned */
+  .nav-links li {
+    align-items: center;
   }
 }

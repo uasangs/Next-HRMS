@@ -40,7 +40,7 @@ const Header = () => {
 
   return (
     <div className="dashboard-header">
-      <h4>Employe Self Service</h4>
+      <h4>Employee Self Service</h4>
       
       <div className="top-right-icons">
         <div><p>{employeeName || "FD00000"}</p></div>

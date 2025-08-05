@@ -75,8 +75,8 @@ const RegulariseForm = () => {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="submit-btn">Submit</button>
           <button type="button" className="cancel-btn">Cancel</button>
+          <button type="submit" className="submit-btn">Submit</button>
         </div>
       </form>
     </div>

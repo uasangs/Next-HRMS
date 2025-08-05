@@ -2,7 +2,7 @@
 .HomeDashboard {
   width: 100%;
   max-width: 100%;
-  padding: 1% 2%;
+  padding: 1% 1%;
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -10,6 +10,7 @@
 .HomeDashboard h2 {
   color: #E365A6;
   margin: 0 0 1% 0;
+  text-align: left;
   font-size: clamp(1.2rem, 3.5vw, 2rem);
   font-weight: 600;
 }
@@ -78,7 +79,7 @@
 .widgets-container {
   display: flex;
   width: 100%;
-  gap: 3%;
+  gap: 2%;
   font-family: 'Segoe UI', sans-serif;
   background-color: #fefcfe;
   flex-wrap: wrap;
@@ -426,7 +427,7 @@ h3 {
   background-color: #ec4899;
   color: white;
   padding: clamp(3px, 0.6vw, 4px) clamp(8px, 1.5vw, 10px);
-  border-radius: clamp(8px, 1.5vw, 12px);
+  border-radius: 50%;
   font-size: clamp(0.7rem, 1.4vw, 0.8rem);
   font-weight: 700;
   min-width: clamp(20px, 3.5vw, 24px);
@@ -614,6 +615,7 @@ h3 {
   .calendar-link {
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
     gap: 3%;
   }
   

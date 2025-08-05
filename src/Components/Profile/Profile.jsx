@@ -55,7 +55,7 @@ const Profile = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="bg-pink-400 p-6 text-white">
                     <h1 className="text-2xl font-bold">Employee Profile</h1>
-                    <p className="opacity-90">{employee.name}</p>
+                    <p className="opacity-90 align-text-left">{employee.name}</p>
                 </div>
 
                 <div className="p-6">

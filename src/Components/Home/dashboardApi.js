@@ -53,6 +53,17 @@ export const fetchAttendanceRecords = async (employeeId) => {
   return res.data.message?.records || [];
 };
 
+export const fetchAttendanceRecord = async (employeeId) => {
+  try {
+    const response = await fetch("/attendanceData.json"); // static file from /public
+    const data = await response.json();
+    return data.attendance;
+  } catch (error) {
+    console.error("Failed to fetch local attendance data:", error);
+    return [];
+  }
+};
+
 // ✅ Get employee‑wise holidays
 export const fetchHolidayList = async (employeeId) => {
   const res = await api.post(

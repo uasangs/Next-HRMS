@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../../api";
 import logo from "../../assets/flamingo-logo.png";
 import MainLayout from "../Layout/MainLayout";
+import "./LoginPage.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -30,7 +31,6 @@ const Login = () => {
       localStorage.setItem("employee_name", userData.full_name);
       localStorage.setItem("employee_id", userData.employee_id);
       localStorage.setItem("username", username);
-      
 
       setLoggedIn(true);
     } catch (err) {
@@ -46,82 +46,61 @@ const Login = () => {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-1/2 bg-gradient-to-br from-[#1C2B83] to-[#1C2B83] flex flex-col justify-center items-center text-white p-10">
-        <img src={logo} alt="Flamingo Logo" className="h-30 mb-9" /> 
+    <div className="log-container">
+      <div className="log-left">
+        <div className="log-logo-wrapper">
+          <img src={logo} alt="Flamingo Logo" />
+        </div>
+        
       </div>
 
-      <div className="w-1/2 bg-white flex items-center justify-center px-8">
-        <div className="w-full max-w-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
-            Welcome to Enterprise HRMS
-          </h2>
+      <div className="log-right">
+        <div className="log-form-box">
+          <h2>Login</h2>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
-                {error}
-              </div>
-            )}
+          <form onSubmit={handleLogin}>
+            {error && <div className="log-error-msg">{error}</div>}
 
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Username
-              </label>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="log-input-field"
+              required
+            />
+
+            <div className="log-password-wrapper">
               <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="log-input-field"
                 required
-                autoComplete="username"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
+              <button
+                type="button"
+                className="log-toggle-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
-                >
-                  {showPassword ? "🙈" : "👁️"}
-                </button>
-              </div>
+            <div className="log-btn-flex">
+              <button
+                type="submit"
+                disabled={loading}
+                className="log-login-button"
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-indigo-800 hover:bg-indigo-900"
-              } focus:outline-none focus:ring-2 focus:ring-indigo-600`}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-
-            <div className="flex justify-between text-sm text-gray-600">
-              <a href="/reset-password" className="hover:text-indigo-600 hover:underline">
-                Reset Password
-              </a>
-              <a href="/forgot-password" className="hover:text-indigo-600 hover:underline">
-                Forget Password
-              </a>
+            <div className="log-links">
+              <a href="/reset-password">Reset Password</a>
+              <a href="/forgot-password">Forget Password</a>
             </div>
           </form>
         </div>

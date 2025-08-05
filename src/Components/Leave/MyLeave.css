@@ -1,7 +1,7 @@
 /* Leave Balance Container */
 .leave-balance-container {
   font-family: system-ui, -apple-system, sans-serif;
-  padding: clamp(15px, 3vw, 25px);
+  margin-top: 1%;
   background-color: #fafafa;
   border-radius: 12px;
   max-width: 100%;
