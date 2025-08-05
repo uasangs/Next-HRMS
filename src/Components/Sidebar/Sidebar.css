@@ -119,6 +119,10 @@
   margin-right: 10px;
   font-size: 18px;
 }
+.logout-slidebar .menu-label {
+  font-size: 0.8rem !important;
+}
+
 
 /* ===== Responsive Styling ===== */
 .mobile-header {
