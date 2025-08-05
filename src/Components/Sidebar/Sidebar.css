@@ -75,7 +75,7 @@
 /* Optional legacy rule - may not work as expected */
 .nav-links li:hover {
   color: #f78ab0;
-  font-weight: bold;
+ 
 }
 
 .submenu {
