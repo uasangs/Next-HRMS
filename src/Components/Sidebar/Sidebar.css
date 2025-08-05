@@ -1,0 +1,186 @@
+/* Sidebar Styling */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #24145b;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logo img {
+  width: 180px;
+  margin-bottom: 5px;
+}
+
+.slidebar-all-links {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slidebar-all-links::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-links {
+  padding: 0;
+  margin-top: 1vh;
+}
+
+.icon-sildebar img {
+  width: 15px;
+  height: 15px;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.icon-sildebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 👇 Updated: Active link styles */
+.nav-links .active .icon-sildebar {
+  color: #f78ab0; /* Pink color for active heading */
+  font-weight: bold;
+}
+
+/* 👇 Optional: also style the icon when active */
+.nav-links .active .icon-sildebar img {
+  filter: brightness(0) saturate(100%) invert(74%) sepia(21%) saturate(3381%) hue-rotate(308deg) brightness(95%) contrast(87%);
+}
+
+/* Optional legacy rule - may not work as expected */
+.nav-links li:hover {
+  color: #f78ab0;
+  font-weight: bold;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 25px;
+  width: 100%;
+}
+
+.submenu li {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.submenu li:hover,
+.submenu .active {
+  color: #f78ab0;
+  font-weight: 500;
+}
+
+.dropdown-open > .icon-sildebar {
+  color: #f78ab0;
+}
+
+.logout-slidebar {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem !important;
+  cursor: pointer;
+  color: #fff;
+  padding-top: 10px;
+  position: absolute;      /* ✅ Added */
+  bottom: 10px;            /* ✅ Added */
+  left: 20px;              /* ✅ Added to match horizontal padding */
+  right: 20px;  
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logout-slidebar .icon-sildebar {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* ===== Responsive Styling ===== */
+.mobile-header {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #001766;
+  padding: 10px 20px;
+  color: #fff;
+}
+
+.mobile-logo {
+  width: 140px;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+    height: 100%;
+    background: linear-gradient(180deg, #001766, #1a2c94);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  .slidebar-all-links {
+    padding-bottom: 80px;
+  }
+}
+
+
+/* 👇 New: Hide menu text on small screens */
+@media (max-width: 768px) {
+  .menu-label {
+    display: none;
+  }
+
+  /* 👇 Optional: Center icons since text is hidden */
+  .icon-sildebar {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* 👇 Optional: Make nav items center-aligned */
+  .nav-links li {
+    align-items: center;
+  }
+}
