@@ -61,7 +61,7 @@
 .home-checkIn button {
   padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
   color: #ffffff;
-  background: #000;
+  background: #24145b;
   border: none;
   border-radius: 6px;
   font-size: clamp(0.8rem, 2vw, 1rem);
@@ -72,7 +72,7 @@
 
 .home-checkIn button:hover {
   background: #333;
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
 }
 
 /* Main Widgets Container - Flex Grid */
@@ -127,7 +127,7 @@ h3 {
 
 .widget:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
 }
 
 /* Attendance Table - Flexible */
@@ -207,7 +207,7 @@ h3 {
 }
 
 .widget:hover .icon-sildebar img {
-  transform: translateX(2px);
+  /* transform: translateX(2px); */
 }
 
 /* Birthday Box - Flex Layout */
@@ -356,7 +356,7 @@ h3 {
 
 .widget-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
 }
 
 /* Widget Card Header */

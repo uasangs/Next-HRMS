@@ -338,7 +338,7 @@ const HomeDashboard = () => {
      <Header /> 
     <div className="HomeDashboard">
      
-      <h2>Welcome Back</h2>
+      <h2>Welcome </h2>
 
       <div className="home-checkIn">
         <Checkin employeeId={employeeId} />

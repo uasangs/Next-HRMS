@@ -100,7 +100,7 @@ const Login = () => {
 
             <div className="log-links">
               <a href="/reset-password">Reset Password</a>
-              <a href="/forgot-password">Forget Password</a>
+              <a href="/forgot-password">Forget Password?</a>
             </div>
           </form>
         </div>
