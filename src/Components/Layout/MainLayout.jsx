@@ -13,12 +13,7 @@ import Salary from "../Salary/Salary";
 import MyLeave from "../Leave/MyLeave";
 import HolidayPage from "../Leave/Holidays/HolidayPage";
 
-// Dummy pages (replace with real ones)
-// const MyProfile = () => <div>My Profile</div>;
-// const Leave = () => <div>Leave</div>;
-// const Salary = () => <div>Salary</div>;
-// const ITComputation = () => <div>IT Computation</div>;
-// const Expenses = () => <div>Expenses</div>;
+
 
 const MainLayout = () => {
   return (

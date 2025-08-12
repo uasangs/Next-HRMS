@@ -51,7 +51,7 @@ const Sidebar = () => {
         <div className="slidebar-all-links">
           <ul className="nav-links">
             <NavLink
-              to="/"
+              to="/dashboard"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
             >
