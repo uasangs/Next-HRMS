@@ -11,7 +11,8 @@
   color: #E365A6;
   margin: 0 0 1% 0;
   text-align: left;
-  font-size: clamp(1.2rem, 3.5vw, 2rem);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.875rem !important;
   font-weight: 600;
 }
 
@@ -62,6 +63,7 @@
   padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
   color: #ffffff;
   background: #24145b;
+  font-family: 'DM Sans', sans-serif;
   border: none;
   border-radius: 6px;
   font-size: clamp(0.8rem, 2vw, 1rem);
@@ -71,7 +73,7 @@
 }
 
 .home-checkIn button:hover {
-  background: #333;
+  background:#ec4899;
   /* transform: translateY(-1px); */
 }
 
@@ -80,7 +82,7 @@
   display: flex;
   width: 100%;
   gap: 2%;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background-color: #fefcfe;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -117,7 +119,7 @@ h3 {
   padding: clamp(8px, 2vw, 15px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   font-size: clamp(0.7rem, 1.8vw, 0.9rem);
-  color: #333;
+  color: #4C4C4C;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
@@ -125,10 +127,10 @@ h3 {
   position: relative;
 }
 
-.widget:hover {
+/* .widget:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  /* transform: translateY(-2px); */
-}
+  transform: translateY(-2px); 
+} */
 
 /* Attendance Table - Flexible */
 .attendance-table {
@@ -139,18 +141,18 @@ h3 {
 }
 
 .attendance-table th {
-  color: #777;
-  font-weight: 700;
+  color: #E365A6;
+  font-weight: 400;
   text-align: left;
   padding: clamp(4px, 1vw, 8px) clamp(2px, 0.5vw, 5px);
-  font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+  font-size: 0.879rem;
   border-bottom: 1px solid #eee;
 }
 
 .attendance-table td {
   padding: clamp(4px, 1vw, 8px) clamp(2px, 0.5vw, 5px);
-  color: #333;
-  font-size: clamp(0.6rem, 1.4vw, 0.75rem);
+  color: #4C4C4C;
+  font-size: 0.875rem;
   border-bottom: 1px solid #f5f5f5;
 }
 
@@ -249,7 +251,7 @@ h3 {
   align-items: center;
   margin-bottom: clamp(8px, 1.5vw, 12px);
   font-weight: 600;
-  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+  font-size: 0.879rem;
 }
 
 .holiday-list table {
@@ -261,7 +263,7 @@ h3 {
 
 .holiday-list td {
   padding: clamp(3px, 0.8vw, 6px) clamp(4px, 1vw, 8px);
-  color: #333;
+  color: #4C4C4C;
   white-space: nowrap;
 }
 
@@ -349,13 +351,13 @@ h3 {
   border-radius: clamp(8px, 1.5vw, 12px);
   padding: clamp(12px, 2.5vw, 16px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(236, 72, 153, 0.1);
+  /* border: 1px solid rgba(236, 72, 153, 0.1); */
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .widget-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
   /* transform: translateY(-1px); */
 }
 
@@ -429,7 +431,7 @@ h3 {
   padding: clamp(3px, 0.6vw, 4px) clamp(8px, 1.5vw, 10px);
   border-radius: 50%;
   font-size: clamp(0.7rem, 1.4vw, 0.8rem);
-  font-weight: 700;
+  font-weight: 400;
   min-width: clamp(20px, 3.5vw, 24px);
   text-align: center;
   display: inline-flex;
@@ -609,6 +611,7 @@ h3 {
   
   .home-checkIn button {
     width: 100%;
+    font-family: 'DM Sans', sans-serif;
     padding: 3% 6%;
   }
   
@@ -767,3 +770,12 @@ h3 {
     transform: none;
   }
 }
+
+
+
+/* Updated Attendance Status Colors */
+.status.ab { color: #FF3D47; } /* Absent - Red */
+.status.present { color: #5EB92D; } /* Present - Green */
+.status.hd { color: #FF7017; } /* Half Day - Orange */
+.status.cl { color: #179EFF;  } /* Casual Leave - Blue */
+

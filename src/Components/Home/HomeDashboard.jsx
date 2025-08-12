@@ -336,7 +336,7 @@ const HomeDashboard = () => {
   return (
     <> 
      <Header /> 
-    <div className="HomeDashboard">
+      <div className="HomeDashboard">
      
       <h2>Welcome </h2>
 
