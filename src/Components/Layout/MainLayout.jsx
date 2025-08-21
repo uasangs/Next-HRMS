@@ -12,8 +12,7 @@ import ITComputation from "../ITComputation/ITComputation";
 import Salary from "../Salary/Salary";
 import MyLeave from "../Leave/MyLeave";
 import HolidayPage from "../Leave/Holidays/HolidayPage";
-
-
+import StatusTabs from "../Attendance/RegulariseRequest/StatusTab";
 
 const MainLayout = () => {
   return (
@@ -21,16 +20,17 @@ const MainLayout = () => {
       <Sidebar />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<HomeDashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/regularise" element={<RegulariseForm />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/leaverequest" element={<LeaveRequest />} />
-          <Route path="/myleave" element={<MyLeave />} />
-          <Route path="/holiday-list" element={<HolidayPage/>}/>
-          <Route path="/salary" element={<Salary />} />
-          <Route path="/it" element={<ITComputation />} />
-          <Route path="/expenses" element={<Expanses />} />
+          <Route index element={<HomeDashboard />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="regularise" element={<RegulariseForm />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="leaverequest" element={<LeaveRequest />} />
+          <Route path="myleave" element={<MyLeave />} />
+          <Route path="holiday-list" element={<HolidayPage />} />
+          <Route path="salary" element={<Salary />} />
+          <Route path="it" element={<ITComputation />} />
+          <Route path="expenses" element={<Expanses />} />
+          <Route path="regulrise-status" element={<StatusTabs />} />
         </Routes>
       </div>
     </div>

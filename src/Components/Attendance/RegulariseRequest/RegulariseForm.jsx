@@ -43,7 +43,7 @@ const RegulariseForm = () => {
 
 
 
-        <StatusTabs/>
+        {/* <StatusTabs/> */}
 
 
 

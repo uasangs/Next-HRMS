@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './StatusTabs.css';
+import AttendanceRequest from './AttendanceRequest'
+import Header from '../../Header/Header';
 
 const StatusTabs = ({ statusData, onStatusClick }) => {
   const defaultStatusData = [
@@ -20,6 +22,9 @@ const StatusTabs = ({ statusData, onStatusClick }) => {
   };
 
   return (
+    <>
+    
+   <Header/>
     <div className="status-tabs-container">
       {statuses.map((item, index) => (
         <div
@@ -37,6 +42,8 @@ const StatusTabs = ({ statusData, onStatusClick }) => {
         </div>
       ))}
     </div>
+      <AttendanceRequest/>
+     </>
   );
 };
 

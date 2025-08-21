@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import api from "../../api";
 import logo from "../../assets/flamingo-logo.png";
-import MainLayout from "../Layout/MainLayout";
 import "./LoginPage.css";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -41,8 +41,9 @@ const Login = () => {
     }
   };
 
+  // Redirect to dashboard if logged in
   if (loggedIn) {
-    return <MainLayout />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (
@@ -51,7 +52,6 @@ const Login = () => {
         <div className="log-logo-wrapper">
           <img src={logo} alt="Flamingo Logo" />
         </div>
-        
       </div>
 
       <div className="log-right">

@@ -54,7 +54,7 @@
 
 /* Leave Count Badge */
 .leave-count {
-  background-color: #ec4899;
+  background-color: #ec4899 !important;
   color: white;
   padding: clamp(2px, 0.5vw, 4px) clamp(6px, 1.5vw, 10px);
   border-radius: 12px;
@@ -239,7 +239,7 @@
 }
 
 /* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .leave-balance-container {
     background-color: #374151;
   }
@@ -260,7 +260,7 @@
   .leave-count {
     background-color: #f472b6;
   }
-}
+} */
 
 /* Print Styles */
 @media print {

@@ -370,7 +370,7 @@
 }
 
 /* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .status-card {
     background-color: #374151;
     border-color: #4b5563;
@@ -392,7 +392,7 @@
   .status-count {
     background-color: #f472b6;
   }
-}
+} */
 
 /* Print Styles */
 @media print {

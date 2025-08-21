@@ -64,7 +64,7 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink
-              to="/profile"
+              to="/dashboard/profile"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
             >
@@ -87,14 +87,14 @@ const Sidebar = () => {
               {openDropdown === "attendance" && (
                 <ul className="submenu">
                   <NavLink
-                    to="/attendance"
+                    to="/dashboard/attendance"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeSidebar}
                   >
                     <li>My Attendance</li>
                   </NavLink>
                   <NavLink
-                    to="/regularise"
+                    to="/dashboard/regulrise-status"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeSidebar}
                   >
@@ -115,14 +115,14 @@ const Sidebar = () => {
               {openDropdown === "leave" && (
                 <ul className="submenu">
                   <NavLink
-                    to="/myleave"
+                    to="/dashboard/myleave"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeSidebar}
                   >
                     <li>My Leave</li>
                   </NavLink>
                   <NavLink
-                    to="/leaverequest"
+                    to="/dashboard/leaverequest"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeSidebar}
                   >
@@ -133,7 +133,7 @@ const Sidebar = () => {
             </li>
 
             <NavLink
-              to="/salary"
+              to="/dashboard/salary"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
             >
@@ -146,7 +146,7 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink
-              to="/it"
+              to="/dashboard/it"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
             >
@@ -159,7 +159,7 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink
-              to="/expenses"
+              to="/dashboard/expenses"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
             >
