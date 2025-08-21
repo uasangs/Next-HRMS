@@ -1,7 +1,5 @@
-
-
 import React, { useState, useMemo } from 'react';
-
+import { Link } from 'react-router-dom';
 import { 
   Search, Filter, Clock, X, 
   ChevronDown, ChevronUp, Plus, Eye, Check, XCircle, Calendar, 
@@ -321,8 +319,6 @@ const HRAttendanceRequest = () => {
   ].filter(Boolean).length;
 
   return (
-    <>
-   
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -355,10 +351,13 @@ const HRAttendanceRequest = () => {
                 )}
               </div>
               
-              <button className="bg-gray-900 hover:bg-gray-800 text-white px-2 py-1 rounded-md text-xs font-medium transition-colors flex items-center gap-1">
+              <Link 
+                to="/dashboard/regularise"
+                className="bg-gray-900 hover:bg-gray-800 text-white px-2 py-1 rounded-md text-xs font-medium transition-colors flex items-center gap-1 no-underline"
+              >
                 <Plus className="w-3 h-3" />
                 Add Request
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -378,7 +377,7 @@ const HRAttendanceRequest = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowFilter(!showFilter)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 text-xs border rounded-md transition-all duration-200 ${
+                  className={`flex items-center gap-1 px-2 py-0.5 text-xs border rounded transition-all duration-200 ${
                     showFilter 
                       ? 'border-pink-500 text-pink-600 bg-pink-50 shadow-sm' 
                       : 'border-gray-300 text-gray-600 hover:bg-white hover:border-gray-400'
@@ -389,14 +388,14 @@ const HRAttendanceRequest = () => {
                     backgroundColor: showFilter ? '#fdf2f8' : undefined
                   }}
                 >
-                  <Filter className="w-3 h-3" />
+                  <Filter className="w-2.5 h-2.5" />
                   <span className="font-medium">Filters</span>
                   {activeFiltersCount > 0 && (
-                    <span className="px-1.5 py-0.5 bg-pink-600 text-white text-xs rounded-full font-medium" style={{ backgroundColor: '#ec4899' }}>
+                    <span className="px-1 py-0.5 bg-pink-600 text-white text-xs rounded-full font-medium" style={{ backgroundColor: '#ec4899' }}>
                       {activeFiltersCount}
                     </span>
                   )}
-                  {showFilter ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                  {showFilter ? <ChevronUp className="w-2.5 h-2.5" /> : <ChevronDown className="w-2.5 h-2.5" />}
                 </button>
 
                 <div className="h-4 w-px bg-gray-300"></div>
@@ -409,7 +408,7 @@ const HRAttendanceRequest = () => {
               
               <div className="flex items-center gap-1.5">
                 <span className="text-xs text-gray-600">
-                  {selectedRows.size > 0 ? `${selectedRows.size} selected` : `${filteredData.length} items`}
+                  {selectedRows.size > 0 ? `${selectedRows.size} selected` : `${mockData.length} total requests`}
                 </span>
                 <Calendar className="w-3 h-3 text-gray-400" />
               </div>
@@ -824,7 +823,6 @@ const HRAttendanceRequest = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
 
