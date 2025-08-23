@@ -132,6 +132,33 @@ const Sidebar = () => {
               )}
             </li>
 
+             <li
+              onClick={() => toggleDropdown("leave")}
+              className={openDropdown === "leave" ? "dropdown-open" : ""}
+            >
+              <div className="icon-sildebar">
+                <img src={Leave} alt="leave" />
+                <span className="menu-label">Team's requests</span>
+              </div>
+              {openDropdown === "leave" && (
+                <ul className="submenu">
+                  <NavLink
+                    to="/dashboard/reg-req"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={closeSidebar}
+                  >
+                    <li>Regularise</li>
+                  </NavLink>
+                  <NavLink
+                    to="/dashboard/team's-leave-request"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={closeSidebar}
+                  >
+                    <li>Leave</li>
+                  </NavLink>
+                </ul>
+              )}
+            </li>
             <NavLink
               to="/dashboard/salary"
               className={({ isActive }) => (isActive ? "active" : "")}
