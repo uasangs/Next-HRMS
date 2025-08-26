@@ -1,319 +1,91 @@
-// import React, { useState, useEffect } from "react";
-// import "./LeaveRequest.css";
-// import Header from "../Header/Header";
-// import axios from "axios";
-// import Notification  from  "../../assets/Notification.png";
-// import Queries  from  "../../assets/Queries.png";
-// import MyLeave from "./MyLeave";
-
-// const LeaveRequest = (employeeId) => {
-//   // const [form, setLeaveForms] = useState({
-//   //   employee: employeeId || "",
-//   //   leave_type: "",
-//   //   from_date: "",
-//   //   to_date: "",
-//   //   description: "",
-//   // });
-//   const [ setLeaveTypes] = useState([]);
-//   const leaveBalances = {
-//     casual: 5,
-//     sick: 5,
-//     marriage: 10,
-//     privilege: 18,
-//   };
-//   useEffect(() => {
-//     axios
-//       .get(
-//         'https://fbts.flamingohrms.com/api/resource/Leave Type?fields=["name"]'
-//       )
-//       .then((res) => setLeaveTypes(res.data.data))
-//       .catch((err) => {
-//         console.error("Error loading leave types:", err);
-//         setLeaveTypes([]);
-//       });
-//   }, []);
-
-//   const [leaveForms, setLeaveForms] = useState([
-//     {
-//       fromDate: "",
-//       toDate: "",
-//       noOfDays: "",
-//       reason: "",
-//     },
-//   ]);
-//   const leaveTypes = [ ""
-//    ];
-//   const handleChange = (index, e) => {
-//     const { name, value } = e.target;
-//     const updatedForms = [...leaveForms];
-//     updatedForms[index][name] = value;
-
-//     // Auto-calculate number of days
-//     if (updatedForms[index].fromDate && updatedForms[index].toDate) {
-//       const from = new Date(updatedForms[index].fromDate);
-//       const to = new Date(updatedForms[index].toDate);
-//       const diffTime = to.getTime() - from.getTime();
-//       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-//       updatedForms[index].noOfDays = diffDays > 0 ? diffDays : "";
-//     }
-
-//     setLeaveForms(updatedForms);
-//   };
-
-//   const handleSubmit = async () => {
-//     try {
-//       const res = await axios.post(
-//         "https://fbts.flamingohrms.com/api/method/fbts.api.flamingoApi.create_leave_application",
-//         {
-//           data: JSON.stringify(form),
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-
-//       if (res.data.message?.name) {
-//         alert(`✅ Leave Application submitted!\nDoc: ${res.data.message.name}`);
-//       } else {
-//         alert(`⚠️ Error: ${res.data.message || "Unknown error"}`);
-//       }
-//     } catch (err) {
-//       console.error("Submission error:", err);
-//       alert("❌ Failed to submit application.");
-//     }
-//   };
-
-//   const handleAddLeaveForm = () => {
-//     setLeaveForms([
-//       ...leaveForms,
-//       {
-//         fromDate: "",
-//         toDate: "",
-//         leaveType: "",
-//         noOfDays: "",
-//         reason: "",
-//       },
-//     ]);
-//   };
-
-//   const handleCancel = () => {
-//     setLeaveForms([
-//       {
-//         fromDate: "",
-//         toDate: "",
-//         leaveType: "",
-//         noOfDays: "",
-//         reason: "",
-//       },
-//     ]);
-//   };
-
-//   return (
-//     <>
-//       <Header />
-//       <MyLeave/>
-  
-//       <div className="Leave-request-container">
-//         <form onSubmit={handleSubmit} className="Leave-request-form">
-//           {leaveForms.map((form, index) => (
-//             <div key={index}>
-//               {/* Row 1 */}
-//               <div className="Leave-request-row-one-line">
-//                 <div>
-//                   <label>From Date</label>
-               
-//                   <input
-//                     type="date"
-//                     name="fromDate"
-//                     value={form.fromDate}
-//                     onChange={(e) => handleChange(index, e)}
-//                   />
-//                 </div>
-//                 <div>
-//                   <label>To Date</label>
-//                   <input
-//                     type="date"
-//                     name="toDate"
-//                     value={form.toDate}
-//                     onChange={(e) => handleChange(index, e)}
-//                   />
-//                 </div>
-//                 <div>
-//                   <label>Leave Type</label>
-//                   <select
-//                     name="leaveType"
-//                     value={form.leaveType}
-//                     onChange={handleChange}
-//                     // className="peer w-full px-3 pt-6 pb-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   >
-//                     <option value="" >
-//                       -- Select Leave Type --
-//                     </option>
-//                     <option value="Sick Leave">Sick Leave</option>
-//                     <option value="Casual Leave">Casual Leave</option>
-//                     <option value="Earned Leave">Earned Leave</option>
-//                     <option value="Work From Home">Work From Home</option>
-//                     <option value="Maternity Leave">Maternity Leave</option>
-//                     <option value="Paternity Leave">Paternity Leave</option>
-//                     <option value="Compensatory Off">Compensatory Off</option>
-//                     <option value="Half Day Leave">Half Day Leave</option>
-//                     <option value="Bereavement Leave">Bereavement Leave</option>
-
-//                     {leaveTypes.map((lt) => (
-//                       <option key={lt.name} value={lt.name}>
-//                         {lt.name}
-//                       </option>
-//                     ))}
-//                   </select>
-//                 </div>
-//               </div>
-
-//               {/* Row 2 */}
-//               <div className="Leave-request-row">
-//                 <div>
-//                   <label>No of Days</label>
-//                   <input
-//                     type="number"
-//                     name="noOfDays"
-//                     value={form.noOfDays}
-//                     onChange={(e) => handleChange(index, e)}
-//                     readOnly // prevent manual typing if auto-calculated
-//                   />
-//                 </div>
-//                 <div>
-//                   <label>Reason</label>
-//                   <input
-//                     name="description"
-//                     value={form.description}
-//                     onChange={handleChange}
-//                     rows={3}
-//                   />
-//                 </div>
-//               </div>
-
-//               {index !== leaveForms.length - 1 && <hr />}
-//             </div>
-//           ))}
-
-//           <div className="Leave-request-actions">
-//             <button
-//               type="button"
-//               onClick={handleAddLeaveForm}
-//               className="Leave-request-add-btn"
-//             >
-//               Add Leaves <span className="Leave-request-plus">+</span>
-//             </button>
-
-//             <div className="Leave-request-btns">
-//               <button
-//                 type="button"
-//                 onClick={handleCancel}
-//                 className="Leave-request-cancel"
-//               >
-//                 Cancel
-//               </button>
-//               <button
-//                 type="submit"
-//                 className="Leave-request-submit"
-//                 onClick={handleSubmit}
-//               >
-//                 Submit
-//               </button>
-//             </div>
-//           </div>
-//         </form>
-
-//         {/* <div className="Leave-request-balance-boxes">
-//           <table className="Leave-request-box">
-//             <thead>
-//               <tr>
-//                 <th>Leave</th>
-//                 <th>Balance</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               <tr>
-//                 <td>Casual Leave</td>
-//                 <td>{leaveBalances.casual}</td>
-//               </tr>
-//               <tr>
-//                 <td>Sick Leave</td>
-//                 <td>{leaveBalances.sick}</td>
-//               </tr>
-//               <tr>
-//                 <td>Marriage Leaves</td>
-//                 <td>{leaveBalances.marriage}</td>
-//               </tr>
-//               <tr>
-//                 <td>Privilege Leaves</td>
-//                 <td>{leaveBalances.privilege}</td>
-//               </tr>
-//             </tbody>
-//           </table>
-//         </div> */}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default LeaveRequest;
-
-
-
 import React, { useState, useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import "./LeaveRequest.css";
 import Header from "../Header/Header";
-import axios from "axios";
-import MyLeave from "./MyLeave";
+import { createLeaveApplication } from "../Home/dashboardApi"; // Import your API function
+import api from "../Home/api"; // Import your axios instance
 
 const LeaveRequest = () => {
-  const [leaveForms, setLeaveForms] = useState([
-    {
-      fromDate: "",
-      toDate: "",
-      leaveType: "",
-      noOfDays: "",
-      reason: "",
-    },
-  ]);
-
   const [leaveTypes, setLeaveTypes] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // React Hook Form setup
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      leaves: [
+        {
+          fromDate: "",
+          toDate: "",
+          leaveType: "",
+          noOfDays: "",
+          reason: "",
+        },
+      ],
+    },
+  });
+
+  // Field array for dynamic forms
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "leaves",
+  });
+
+  // Watch for date changes to auto-calculate days
+  const watchedLeaves = watch("leaves");
+
+  // Load leave types on component mount
   useEffect(() => {
-    axios
-      .get(
-        'https://fbts.flamingohrms.com/api/resource/Leave Type?fields=["name"]'
-      )
-      .then((res) => setLeaveTypes(res.data.data))
-      .catch((err) => {
+    const fetchLeaveTypes = async () => {
+      try {
+        const res = await api.get('/api/resource/Leave Type?fields=["name"]');
+        console.log("Leave types response:", res.data); // Debug log
+        setLeaveTypes(res.data.data || []);
+      } catch (err) {
         console.error("Error loading leave types:", err);
-        setLeaveTypes([]);
-      });
+        // Fallback data for testing
+        setLeaveTypes([
+          { name: "Annual Leave" },
+          { name: "Sick Leave" },
+          { name: "Personal Leave" },
+          { name: "Emergency Leave" }
+        ]);
+      }
+    };
+
+    fetchLeaveTypes();
   }, []);
 
-  const handleChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedForms = [...leaveForms];
-    updatedForms[index][name] = value;
+  // Auto-calculate number of days when dates change
+  useEffect(() => {
+    watchedLeaves.forEach((leave, index) => {
+      if (leave?.fromDate && leave?.toDate) {
+        const from = new Date(leave.fromDate);
+        const to = new Date(leave.toDate);
+        
+        if (to >= from && !isNaN(from.getTime()) && !isNaN(to.getTime())) {
+          const diffTime = to.getTime() - from.getTime();
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+          console.log(`Setting days for index ${index}:`, diffDays); // Debug log
+          setValue(`leaves.${index}.noOfDays`, diffDays);
+        } else {
+          setValue(`leaves.${index}.noOfDays`, "");
+        }
+      } else {
+        setValue(`leaves.${index}.noOfDays`, "");
+      }
+    });
+  }, [watchedLeaves, setValue]);
 
-    // Auto-calculate number of days
-    if (updatedForms[index].fromDate && updatedForms[index].toDate) {
-      const from = new Date(updatedForms[index].fromDate);
-      const to = new Date(updatedForms[index].toDate);
-      const diffTime = to.getTime() - from.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-      updatedForms[index].noOfDays = diffDays > 0 ? diffDays : "";
-    }
-
-    setLeaveForms(updatedForms);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Form submission handler
+  const onSubmit = async (data) => {
     const employeeId = localStorage.getItem("employee_id");
 
     if (!employeeId) {
@@ -321,105 +93,147 @@ const LeaveRequest = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
-      for (const form of leaveForms) {
+      const submissionPromises = data.leaves.map(async (leave) => {
+        if (!leave.fromDate || !leave.toDate || !leave.leaveType || !leave.reason) {
+          throw new Error("All fields are required for each leave request");
+        }
+
         const payload = {
           employee: employeeId,
-          leave_type: form.leaveType,
-          from_date: form.fromDate,
-          to_date: form.toDate,
-          description: form.reason,
+          leave_type: leave.leaveType,
+          from_date: leave.fromDate,
+          to_date: leave.toDate,
+          description: leave.reason,
         };
 
-        const res = await axios.post(
-          "https://fbts.flamingohrms.com/api/method/fbts.api.flamingoApi.create_leave_application",
-          { data: JSON.stringify(payload) }, // ✅ Frappe expects JSON string under "data"
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        return await createLeaveApplication(payload);
+      });
 
-        if (res.data.message?.name) {
-          alert(`✅ Leave submitted: ${res.data.message.name}`);
-        } else {
-          alert(`⚠️ Unexpected response: ${JSON.stringify(res.data)}`);
-        }
+      const results = await Promise.all(submissionPromises);
+      
+      // Check if all submissions were successful
+      const successfulSubmissions = results.filter(result => result?.name);
+      
+      if (successfulSubmissions.length === data.leaves.length) {
+        alert(`✅ All ${successfulSubmissions.length} leave request(s) submitted successfully!`);
+        handleCancel(); // Reset form after successful submission
+      } else {
+        alert(`⚠️ Some leave requests may not have been submitted properly. Please check your requests.`);
       }
+
     } catch (err) {
       console.error("❌ Leave submission failed:", err);
-      alert("❌ Failed to submit leave request.");
+      alert(`❌ Failed to submit leave request: ${err.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  // Add new leave form
   const handleAddLeaveForm = () => {
-    setLeaveForms([
-      ...leaveForms,
-      {
-        fromDate: "",
-        toDate: "",
-        leaveType: "",
-        noOfDays: "",
-        reason: "",
-      },
-    ]);
+    append({
+      fromDate: "",
+      toDate: "",
+      leaveType: "",
+      noOfDays: "",
+      reason: "",
+    });
   };
 
+  // Reset form
   const handleCancel = () => {
-    setLeaveForms([
-      {
-        fromDate: "",
-        toDate: "",
-        leaveType: "",
-        noOfDays: "",
-        reason: "",
-      },
-    ]);
+    reset({
+      leaves: [
+        {
+          fromDate: "",
+          toDate: "",
+          leaveType: "",
+          noOfDays: "",
+          reason: "",
+        },
+      ],
+    });
+  };
+
+  // Remove specific leave form (if more than one)
+  const handleRemoveLeave = (index) => {
+    if (fields.length > 1) {
+      remove(index);
+    }
   };
 
   return (
     <>
-      
-      <MyLeave />
+      <Header />
       <div className="Leave-request-container">
-        <form onSubmit={handleSubmit} className="Leave-request-form">
-          {leaveForms.map((form, index) => (
-            <div key={index}>
+        <form onSubmit={handleSubmit(onSubmit)} className="Leave-request-form">
+          {fields.map((field, index) => (
+            <div key={field.id}>
               {/* Row 1 */}
               <div className="Leave-request-row-one-line">
                 <div>
                   <label>From Date</label>
                   <input
                     type="date"
-                    name="fromDate"
-                    value={form.fromDate}
-                    onChange={(e) => handleChange(index, e)}
+                    {...register(`leaves.${index}.fromDate`, {
+                      required: "From date is required",
+                    })}
                   />
+                  {errors.leaves?.[index]?.fromDate && (
+                    <span className="error-message">
+                      {errors.leaves[index].fromDate.message}
+                    </span>
+                  )}
                 </div>
+
                 <div>
                   <label>To Date</label>
                   <input
                     type="date"
-                    name="toDate"
-                    value={form.toDate}
-                    onChange={(e) => handleChange(index, e)}
+                    {...register(`leaves.${index}.toDate`, {
+                      required: "To date is required",
+                      validate: (value) => {
+                        const fromDate = watchedLeaves[index]?.fromDate;
+                        if (fromDate && value && new Date(value) < new Date(fromDate)) {
+                          return "To date cannot be before from date";
+                        }
+                        return true;
+                      },
+                    })}
                   />
+                  {errors.leaves?.[index]?.toDate && (
+                    <span className="error-message">
+                      {errors.leaves[index].toDate.message}
+                    </span>
+                  )}
                 </div>
+
                 <div>
                   <label>Leave Type</label>
                   <select
-                    name="leaveType"
-                    value={form.leaveType}
-                    onChange={(e) => handleChange(index, e)}
+                    {...register(`leaves.${index}.leaveType`, {
+                      required: "Leave type is required",
+                    })}
                   >
                     <option value="">-- Select Leave Type --</option>
-                    {leaveTypes.map((lt) => (
-                      <option key={lt.name} value={lt.name}>
-                        {lt.name}
-                      </option>
-                    ))}
+                    {leaveTypes && leaveTypes.length > 0 ? (
+                      leaveTypes.map((lt) => (
+                        <option key={lt.name} value={lt.name}>
+                          {lt.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading leave types...</option>
+                    )}
                   </select>
+                  {errors.leaves?.[index]?.leaveType && (
+                    <span className="error-message">
+                      {errors.leaves[index].leaveType.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -428,24 +242,47 @@ const LeaveRequest = () => {
                 <div>
                   <label>No of Days</label>
                   <input
-                    type="number"
-                    name="noOfDays"
-                    value={form.noOfDays}
+                    type="text"
+                    value={watchedLeaves[index]?.noOfDays || ""}
                     readOnly
+                    placeholder="Auto-calculated"
                   />
                 </div>
                 <div>
                   <label>Reason</label>
                   <input
                     type="text"
-                    name="reason"
-                    value={form.reason}
-                    onChange={(e) => handleChange(index, e)}
+                    placeholder="Enter reason for leave"
+                    {...register(`leaves.${index}.reason`, {
+                      required: "Reason is required",
+                      minLength: {
+                        value: 10,
+                        message: "Reason must be at least 10 characters",
+                      },
+                    })}
                   />
+                  {errors.leaves?.[index]?.reason && (
+                    <span className="error-message">
+                      {errors.leaves[index].reason.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {index !== leaveForms.length - 1 && <hr />}
+              {/* Remove button for individual leave forms (if more than one) */}
+              {fields.length > 1 && (
+                <div className="remove-leave-container">
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveLeave(index)}
+                    className="remove-leave-btn"
+                  >
+                    Remove This Leave
+                  </button>
+                </div>
+              )}
+
+              {index !== fields.length - 1 && <hr />}
             </div>
           ))}
 
@@ -454,6 +291,7 @@ const LeaveRequest = () => {
               type="button"
               onClick={handleAddLeaveForm}
               className="Leave-request-add-btn"
+              disabled={isSubmitting}
             >
               Add Leaves <span className="Leave-request-plus">+</span>
             </button>
@@ -463,11 +301,16 @@ const LeaveRequest = () => {
                 type="button"
                 onClick={handleCancel}
                 className="Leave-request-cancel"
+                disabled={isSubmitting}
               >
                 Cancel
               </button>
-              <button type="submit" className="Leave-request-submit">
-                Submit
+              <button 
+                type="submit" 
+                className="Leave-request-submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </div>
           </div>

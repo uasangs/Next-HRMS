@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-// import './MyLeave.css';
 import { fetchLeaveBalance } from '../../Home/dashboardApi';
-import Header from '../../Header/Header'
+import api from '../../Home/api';
+import Header from '../../Header/Header';
 import { 
   Search, Filter, Clock, X, 
   ChevronDown, ChevronUp, Plus, Check, XCircle, Calendar, 
@@ -12,7 +11,9 @@ import {
 
 const TeamLeavereq = () => {
   const [leaveData, setLeaveData] = useState([]);
+  const [teamLeaveRequests, setTeamLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   // Table state management
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -31,144 +32,123 @@ const TeamLeavereq = () => {
   const [sortBy, setSortBy] = useState('fromDate');
   const [sortOrder, setSortOrder] = useState('desc');
 
-  // Mock data for attendance requests
-  const mockData = [
-    {
-      id: 'HR-ARQ-25-07-001',
-      employeeName: 'Developer Daiyan',
-      status: 'Submitted',
-      employeeId: 'FI-00001',
-      department: 'Engineering',
-      reason: 'Sick Leave',
-      requestType: 'Sick Leave',
-      fromDate: '2025-08-21',
-      toDate: '2025-08-22',
-      duration: '2 days'
-    },
-    {
-      id: 'HR-ARQ-25-07-002',
-      employeeName: 'Sarah Wilson',
-      status: 'Approved',
-      employeeId: 'FI-00002',
-      department: 'Marketing',
-      reason: 'Medical Appointment',
-      requestType: 'Casual Leave',
-      fromDate: '2025-08-20',
-      toDate: '2025-08-20',
-      duration: '4 hours'
-    },
-    {
-      id: 'HR-ARQ-25-07-003',
-      employeeName: 'John Smith',
-      status: 'Pending',
-      employeeId: 'FI-00003',
-      department: 'Sales',
-      reason: 'Personal Emergency',
-      requestType: 'Earned Leave',
-      fromDate: '2025-08-21',
-      toDate: '2025-08-21',
-      duration: '1 day'
-    },
-    {
-      id: 'HR-ARQ-25-07-004',
-      employeeName: 'Emma Johnson',
-      status: 'Rejected',
-      employeeId: 'FI-00004',
-      department: 'HR',
-      reason: 'Vacation Request',
-      requestType: 'Privilege Leave',
-      fromDate: '2025-08-19',
-      toDate: '2025-08-25',
-      duration: '7 days'
-    },
-    {
-      id: 'HR-ARQ-25-07-005',
-      employeeName: 'Michael Brown',
-      status: 'Submitted',
-      employeeId: 'FI-00005',
-      department: 'Finance',
-      reason: 'Family Event',
-      requestType: 'Compensatory Off',
-      fromDate: '2025-08-21',
-      toDate: '2025-08-23',
-      duration: '3 days'
-    },
-    {
-      id: 'HR-ARQ-25-07-006',
-      employeeName: 'Lisa Davis',
-      status: 'Approved',
-      employeeId: 'FI-00006',
-      department: 'Engineering',
-      reason: 'Maternity Leave',
-      requestType: 'Maternity Leave',
-      fromDate: '2025-08-18',
-      toDate: '2025-11-15',
-      duration: '90 days'
-    },
-    {
-      id: 'HR-ARQ-25-07-007',
-      employeeName: 'Robert Garcia',
-      status: 'Pending',
-      employeeId: 'FI-00007',
-      department: 'Operations',
-      reason: 'Extended Leave',
-      requestType: 'Leave Without Pay',
-      fromDate: '2025-08-20',
-      toDate: '2025-08-24',
-      duration: '5 days'
-    },
-    {
-      id: 'HR-ARQ-25-07-008',
-      employeeName: 'Jennifer Lee',
-      status: 'Submitted',
-      employeeId: 'FI-00008',
-      department: 'Marketing',
-      reason: 'Personal Work',
-      requestType: 'Casual Leave',
-      fromDate: '2025-08-21',
-      toDate: '2025-08-22',
-      duration: '2 days'
-    }
-  ];
+  // Current user ID and approver email
+  const currentUserId = localStorage.getItem('employee_id') || 'FI-00001';
+  const leaveApprover = localStorage.getItem('user_email') || 
+                      localStorage.getItem('email') || 
+                      "abdul@gmail.com";
 
-  // Get unique values for filters
-  const uniqueDepartments = [...new Set(mockData.map(item => item.department))].sort();
-  const uniqueRequestTypes = [...new Set(mockData.map(item => item.requestType))].sort();
+  // Transform API data to match component structure
+  const transformApiData = (apiData) => {
+    console.log('Transforming team API data:', apiData);
+    
+    if (!apiData || !Array.isArray(apiData)) {
+      console.warn('Invalid team API data structure:', typeof apiData);
+      return [];
+    }
+    
+    return apiData.map((item, index) => {
+      // Log first item structure for debugging
+      if (index === 0) {
+        console.log('Sample team API item structure:', Object.keys(item));
+      }
+      
+      return {
+        id: item.name || item.id || `REQ-${index}`,
+        employeeName: item.employee_name || item.employeeName || 'Unknown',
+        status: item.status || 'Unknown',
+        employeeId: item.employee || item.employeeId || 'Unknown',
+        department: item.department || 'Unknown',
+        reason: item.description || item.reason || item.leave_reason || 'No reason provided',
+        requestType: item.leave_type || item.leaveType || item.type || 'Unknown',
+        fromDate: item.from_date || item.fromDate || item.start_date || new Date().toISOString().split('T')[0],
+        toDate: item.to_date || item.toDate || item.end_date || new Date().toISOString().split('T')[0],
+        duration: item.total_leave_days ? `${item.total_leave_days} days` : 
+                  item.duration || 
+                  (item.days ? `${item.days} days` : '1 day')
+      };
+    });
+  };
+
+  // Get unique values for filters from API data
+  const uniqueDepartments = useMemo(() => {
+    return [...new Set(teamLeaveRequests.map(item => item.department))].sort();
+  }, [teamLeaveRequests]);
+
+  const uniqueRequestTypes = useMemo(() => {
+    return [...new Set(teamLeaveRequests.map(item => item.requestType))].sort();
+  }, [teamLeaveRequests]);
+
+  // Dashboard statistics
+  const dashboardStats = useMemo(() => {
+    return {
+      submitted: teamLeaveRequests.filter(r => r.status === 'Submitted').length,
+      pending: teamLeaveRequests.filter(r => r.status === 'Pending').length,
+      approved: teamLeaveRequests.filter(r => r.status === 'Approved').length,
+      rejected: teamLeaveRequests.filter(r => r.status === 'Rejected').length,
+      total: teamLeaveRequests.length
+    };
+  }, [teamLeaveRequests]);
 
   useEffect(() => {
-    const employeeId = localStorage.getItem('employee_id');
-    if (!employeeId) {
-      console.error("❌ Employee ID not found in localStorage.");
-      setLoading(false);
-      return;
-    }
-
-    const loadLeaves = async () => {
+    const loadTeamLeaveData = async () => {
       try {
         setLoading(true);
-        const data = await fetchLeaveBalance(employeeId);
-        console.log("✅ Leave Balance Response:", data);
-
-        // Convert object to array
-        const converted = Object.entries(data).map(([type, total]) => ({
+        setError(null);
+        
+        console.log('Fetching team leave data for approver:', leaveApprover);
+        
+        // Fetch both team leave requests and leave balance in parallel
+        const [teamRequestsResponse, leaveBalanceResponse] = await Promise.all([
+          // Direct API call with leave_approver parameter
+          api.post("/api/method/fbts.api.leave_request.get_leave_applications", {
+            leave_approver: leaveApprover
+          }),
+          fetchLeaveBalance(currentUserId)
+        ]);
+        
+        console.log('Team Requests Response:', teamRequestsResponse.data);
+        console.log('Leave Balance Response:', leaveBalanceResponse);
+        
+        // Extract data from API response
+        const teamRequestsData = teamRequestsResponse.data.message || [];
+        const transformedRequests = transformApiData(teamRequestsData);
+        
+        console.log('Transformed Team Requests:', transformedRequests);
+        
+        setTeamLeaveRequests(transformedRequests);
+        
+        // Convert leave balance object to array
+        const converted = Object.entries(leaveBalanceResponse || {}).map(([type, total]) => ({
           leave_type: type,
           total: total,
         }));
-
         setLeaveData(converted);
+        
       } catch (error) {
-        console.error("❌ Error fetching leave data:", error);
+        console.error("Error fetching team leave data:", {
+          message: error.message,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          url: error.config?.url,
+          approver: leaveApprover
+        });
+        
+        setError(error.message || 'Failed to fetch team leave data');
+        setTeamLeaveRequests([]);
+        setLeaveData([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadLeaves();
-  }, []);
+    loadTeamLeaveData();
+  }, [currentUserId, leaveApprover]);
 
   // Filter and sort data
   const filteredData = useMemo(() => {
-    let result = [...mockData];
+    let result = [...teamLeaveRequests];
 
     // Search filter
     if (searchTerm) {
@@ -257,7 +237,7 @@ const TeamLeavereq = () => {
     });
 
     return result;
-  }, [searchTerm, statusFilter, departmentFilter, requestTypeFilter, dateFilter, sortBy, sortOrder]);
+  }, [teamLeaveRequests, searchTerm, statusFilter, departmentFilter, requestTypeFilter, dateFilter, sortBy, sortOrder]);
 
   // Pagination
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -336,6 +316,33 @@ const TeamLeavereq = () => {
     searchTerm.length > 0
   ].filter(Boolean).length;
 
+  // Error handling
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-4">
+        <Header />
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-xl shadow-lg border border-red-200 p-6">
+            <div className="text-center">
+              <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">Error Loading Team Leave Data</h2>
+              <p className="text-gray-600 mb-4">{error}</p>
+              <div className="space-y-2">
+                <p className="text-sm text-gray-500">Approver: {leaveApprover}</p>
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Header/>
@@ -359,77 +366,73 @@ const TeamLeavereq = () => {
                 <div className="bg-gradient-to-r from-slate-800 to-slate-600 text-white p-5">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-xl font-bold mb-1">Leave Analytics Dashboard</h2>
+                      <h2 className="text-xl font-bold mb-1">Team Leave Analytics Dashboard</h2>
                       <p className="text-sm opacity-90">Visual insights for team leave management</p>
                     </div>
-                    
+                    <div className="flex items-center space-x-6">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-yellow-400">
+                          {dashboardStats.submitted + dashboardStats.pending}
+                        </div>
+                        <div className="text-xs opacity-90">Requires Action</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-400">
+                          {dashboardStats.approved}
+                        </div>
+                        <div className="text-xs opacity-90">Approved</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-400">
+                          {dashboardStats.total > 0 ? Math.round((dashboardStats.approved / dashboardStats.total) * 100) : 0}%
+                        </div>
+                        <div className="text-xs opacity-90">Approval Rate</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Main Dashboard Content */}
                 <div className="flex-1 p-4 grid grid-cols-12 gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                   
-                  {/* Status Distribution Chart - FIXED DONUT CHART */}
+                  {/* Status Distribution Chart */}
                   <div className="col-span-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-3 border border-blue-100">
                     <h3 className="text-sm font-semibold text-gray-800 mb-3">Request Status Distribution</h3>
                     <div className="relative h-32">
-                      {/* Donut Chart */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="relative">
                           <svg width="120" height="120" viewBox="0 0 120 120" className="transform -rotate-90">
-                            {/* Background circle */}
                             <circle cx="60" cy="60" r="45" fill="none" stroke="#e5e7eb" strokeWidth="12"/>
                             
-                            {/* Calculate percentages and cumulative offsets */}
+                            {/* Status distribution arcs */}
                             {(() => {
-                              const submitted = mockData.filter(r => r.status === 'Submitted').length;
-                              const pending = mockData.filter(r => r.status === 'Pending').length;
-                              const approved = mockData.filter(r => r.status === 'Approved').length;
-                              const rejected = mockData.filter(r => r.status === 'Rejected').length;
-                              const total = mockData.length;
+                              const { submitted, pending, approved, rejected, total } = dashboardStats;
+                              if (total === 0) return null;
                               
-                              const submittedPercent = submitted / total;
-                              const pendingPercent = pending / total;
-                              const approvedPercent = approved / total;
-                              const rejectedPercent = rejected / total;
-                              
-                              const circumference = 283; // 2 * π * 45
-                              
-                              const submittedLength = submittedPercent * circumference;
-                              const pendingLength = pendingPercent * circumference;
-                              const approvedLength = approvedPercent * circumference;
-                              const rejectedLength = rejectedPercent * circumference;
-                              
+                              const circumference = 283;
                               let offset = 0;
                               
                               return (
                                 <>
-                                  {/* Submitted (Blue) */}
                                   {submitted > 0 && (
                                     <circle cx="60" cy="60" r="45" fill="none" stroke="#3b82f6" strokeWidth="12"
-                                      strokeDasharray={`${submittedLength} ${circumference}`}
+                                      strokeDasharray={`${(submitted / total) * circumference} ${circumference}`}
                                       strokeDashoffset={-offset}/>
                                   )}
-                                  
-                                  {/* Pending (Orange) */}
                                   {pending > 0 && (
                                     <circle cx="60" cy="60" r="45" fill="none" stroke="#f59e0b" strokeWidth="12"
-                                      strokeDasharray={`${pendingLength} ${circumference}`}
-                                      strokeDashoffset={-(offset += submittedLength)}/>
+                                      strokeDasharray={`${(pending / total) * circumference} ${circumference}`}
+                                      strokeDashoffset={-(offset += (submitted / total) * circumference)}/>
                                   )}
-                                  
-                                  {/* Approved (Green) */}
                                   {approved > 0 && (
                                     <circle cx="60" cy="60" r="45" fill="none" stroke="#10b981" strokeWidth="12"
-                                      strokeDasharray={`${approvedLength} ${circumference}`}
-                                      strokeDashoffset={-(offset += pendingLength)}/>
+                                      strokeDasharray={`${(approved / total) * circumference} ${circumference}`}
+                                      strokeDashoffset={-(offset += (pending / total) * circumference)}/>
                                   )}
-                                  
-                                  {/* Rejected (Red) - This was missing! */}
                                   {rejected > 0 && (
                                     <circle cx="60" cy="60" r="45" fill="none" stroke="#ef4444" strokeWidth="12"
-                                      strokeDasharray={`${rejectedLength} ${circumference}`}
-                                      strokeDashoffset={-(offset += approvedLength)}/>
+                                      strokeDasharray={`${(rejected / total) * circumference} ${circumference}`}
+                                      strokeDashoffset={-(offset += (approved / total) * circumference)}/>
                                   )}
                                 </>
                               );
@@ -437,7 +440,7 @@ const TeamLeavereq = () => {
                           </svg>
                           
                           <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-base font-bold text-gray-800">{mockData.length}</span>
+                            <span className="text-base font-bold text-gray-800">{dashboardStats.total}</span>
                             <span className="text-xs text-gray-600">Total</span>
                           </div>
                         </div>
@@ -447,10 +450,10 @@ const TeamLeavereq = () => {
                     {/* Legend */}
                     <div className="grid grid-cols-2 gap-2 mt-4">
                       {[
-                        { label: 'Submitted', count: mockData.filter(r => r.status === 'Submitted').length, color: 'bg-blue-500' },
-                        { label: 'Pending', count: mockData.filter(r => r.status === 'Pending').length, color: 'bg-orange-500' },
-                        { label: 'Approved', count: mockData.filter(r => r.status === 'Approved').length, color: 'bg-green-500' },
-                        { label: 'Rejected', count: mockData.filter(r => r.status === 'Rejected').length, color: 'bg-red-500' }
+                        { label: 'Submitted', count: dashboardStats.submitted, color: 'bg-blue-500' },
+                        { label: 'Pending', count: dashboardStats.pending, color: 'bg-orange-500' },
+                        { label: 'Approved', count: dashboardStats.approved, color: 'bg-green-500' },
+                        { label: 'Rejected', count: dashboardStats.rejected, color: 'bg-red-500' }
                       ].map((item, index) => (
                         <div key={index} className="flex items-center space-x-2">
                           <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
@@ -464,10 +467,10 @@ const TeamLeavereq = () => {
                   <div className="col-span-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-3 border border-green-100">
                     <h3 className="text-sm font-semibold text-gray-800 mb-3">Department Workload</h3>
                     <div className="space-y-3">
-                      {['Engineering', 'Marketing', 'Sales', 'HR', 'Finance', 'Operations'].map((dept, index) => {
-                        const deptRequests = mockData.filter(r => r.department === dept).length;
-                        const maxRequests = Math.max(...['Engineering', 'Marketing', 'Sales', 'HR', 'Finance', 'Operations'].map(d => 
-                          mockData.filter(r => r.department === d).length));
+                      {uniqueDepartments.length > 0 ? uniqueDepartments.map((dept, index) => {
+                        const deptRequests = teamLeaveRequests.filter(r => r.department === dept).length;
+                        const maxRequests = Math.max(...uniqueDepartments.map(d => 
+                          teamLeaveRequests.filter(r => r.department === d).length));
                         const percentage = maxRequests > 0 ? (deptRequests / maxRequests) * 100 : 0;
                         const colors = ['bg-blue-500', 'bg-purple-500', 'bg-pink-500', 'bg-orange-500', 'bg-teal-500', 'bg-indigo-500'];
                         
@@ -485,7 +488,11 @@ const TeamLeavereq = () => {
                             </div>
                           </div>
                         );
-                      })}
+                      }) : (
+                        <div className="text-center py-4">
+                          <p className="text-xs text-gray-500">No department data available</p>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -493,9 +500,9 @@ const TeamLeavereq = () => {
                   <div className="col-span-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-100">
                     <h3 className="text-sm font-semibold text-gray-800 mb-3">Leave Type Distribution</h3>
                     <div className="space-y-3">
-                      {uniqueRequestTypes.map((type, index) => {
-                        const typeCount = mockData.filter(r => r.requestType === type).length;
-                        const percentage = (typeCount / mockData.length) * 100;
+                      {uniqueRequestTypes.length > 0 ? uniqueRequestTypes.map((type, index) => {
+                        const typeCount = teamLeaveRequests.filter(r => r.requestType === type).length;
+                        const percentage = teamLeaveRequests.length > 0 ? (typeCount / teamLeaveRequests.length) * 100 : 0;
                         const colors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-pink-500'];
                         
                         return (
@@ -513,26 +520,29 @@ const TeamLeavereq = () => {
                             <div className="text-xs text-gray-600 mt-1">{Math.round(percentage)}%</div>
                           </div>
                         );
-                      })}
+                      }) : (
+                        <div className="text-center py-4">
+                          <p className="text-xs text-gray-500">No leave type data available</p>
+                        </div>
+                      )}
                     </div>
                   </div>
-
-
-
                 </div>
-
               </div>
             )}
           </div>
         </div>
 
-      {/* Leave Requests Table Section */}
+      {/* Team Leave Requests Table Section */}
       <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-4">
             {/* Top Header */}
             <div className="flex items-center justify-between p-3 border-b border-gray-200">
               <div className="flex items-center gap-4">
-                <h1 className="text-lg font-semibold text-gray-900">My Leave Requests</h1>
+                <h1 className="text-lg font-semibold text-gray-900">Team Leave Requests</h1>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                  Approver: {leaveApprover}
+                </span>
               </div>
               
               {/* Always Visible Search Bar */}
@@ -544,8 +554,7 @@ const TeamLeavereq = () => {
                     placeholder="Search by employee name, ID, department, leave type..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-                    style={{ focusRingColor: '#ec4899' }}
+                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   />
                   {searchTerm && (
                     <button
@@ -588,16 +597,11 @@ const TeamLeavereq = () => {
                         ? 'border-pink-500 text-pink-600 bg-pink-50 shadow-sm' 
                         : 'border-gray-300 text-gray-600 hover:bg-white hover:border-gray-400'
                     }`}
-                    style={{ 
-                      borderColor: showFilter ? '#ec4899' : undefined,
-                      color: showFilter ? '#ec4899' : undefined,
-                      backgroundColor: showFilter ? '#fdf2f8' : undefined
-                    }}
                   >
                     <Filter className="w-2.5 h-2.5" />
                     <span className="font-medium">Filters</span>
                     {activeFiltersCount > 0 && (
-                      <span className="px-1 py-0.5 bg-pink-600 text-white text-xs rounded-full font-medium" style={{ backgroundColor: '#ec4899' }}>
+                      <span className="px-1 py-0.5 bg-pink-600 text-white text-xs rounded-full font-medium">
                         {activeFiltersCount}
                       </span>
                     )}
@@ -608,13 +612,13 @@ const TeamLeavereq = () => {
 
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-3 h-3 text-gray-400" />
-                    <span className="text-xs text-gray-600">Leave Requests</span>
+                    <span className="text-xs text-gray-600">Team Requests</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs text-gray-600">
-                    {selectedRows.size > 0 ? `${selectedRows.size} selected` : `${mockData.length} total requests`}
+                    {selectedRows.size > 0 ? `${selectedRows.size} selected` : `${dashboardStats.total} total requests`}
                   </span>
                   <Calendar className="w-3 h-3 text-gray-400" />
                 </div>
@@ -724,8 +728,7 @@ const TeamLeavereq = () => {
                         </button>
                         <button
                           onClick={() => setShowFilter(false)}
-                          className="px-2 py-1 text-xs text-white rounded transition-colors"
-                          style={{ backgroundColor: '#ec4899' }}
+                          className="px-2 py-1 text-xs text-white bg-pink-600 hover:bg-pink-700 rounded transition-colors"
                         >
                           Apply
                         </button>
@@ -864,18 +867,15 @@ const TeamLeavereq = () => {
                       <td className="p-2">
                         <span 
                           className={`inline-flex px-1.5 py-0.5 text-xs font-medium rounded-full border ${getStatusColor(item.status)}`}
-                          style={{ 
-                            borderColor: item.status === 'Submitted' ? '#ec4899' : undefined,
-                            color: item.status === 'Submitted' ? '#ec4899' : undefined,
-                            backgroundColor: item.status === 'Submitted' ? '#fdf2f8' : undefined
-                          }}
                         >
                           {item.status}
                         </span>
                       </td>
                       <td className="p-2">
                         <div className="text-xs text-gray-700 font-medium">{item.requestType}</div>
-                        <div className="text-xs text-gray-500">{item.duration}</div>
+                        <div className="text-xs text-gray-500 max-w-xs truncate" title={item.reason}>
+                          {item.reason}
+                        </div>
                       </td>
                       <td className="p-2 text-center">
                         <div className="text-xs text-gray-600 font-medium">
@@ -930,8 +930,11 @@ const TeamLeavereq = () => {
                   <p className="mt-1 text-xs text-gray-500">
                     {activeFiltersCount > 0 || searchTerm 
                       ? 'Try adjusting your search or filter criteria'
-                      : 'No leave requests available'
+                      : 'No team leave requests available for this approver'
                     }
+                  </p>
+                  <p className="mt-1 text-xs text-gray-400">
+                    Checking requests for approver: {leaveApprover}
                   </p>
                 </div>
               )}

@@ -20,7 +20,9 @@ const guestEndpoints = [
   "api/method/fbts.api.flamingoApi.get_employee_salary_slips",
   "/api/method/fbts.api.flamingoApi.download_salary_slip",
   "/api/method/fbts.api.flamingoApi.chat",
-  "api/method/fbts.api.flamingoApi.get_employees"
+  "api/method/fbts.api.leave_request.get_emp_leave_list",
+  "api/method/fbts.api.flamingoApi.get_employees",
+  "api/method/fbts.api.leave_request.get_leave_applications"
 ];
 
 api.interceptors.request.use((config) => {

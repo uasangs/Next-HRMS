@@ -365,3 +365,78 @@ hr {
   outline: none;
   box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
 }
+
+
+
+
+/* Error message styling */
+.error-message {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
+
+/* Remove leave button container */
+.remove-leave-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+/* Remove leave button styling */
+.remove-leave-btn {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.remove-leave-btn:hover {
+  background-color: #cc3333;
+}
+
+.remove-leave-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Disabled button styles */
+.Leave-request-submit:disabled,
+.Leave-request-cancel:disabled,
+.Leave-request-add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading state for submit button */
+.Leave-request-submit:disabled {
+  background-color: #cccccc;
+}
+
+/* Form field styling improvements */
+.Leave-request-row-one-line > div,
+.Leave-request-row > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.Leave-request-row-one-line input,
+.Leave-request-row-one-line select,
+.Leave-request-row input,
+.Leave-request-row select {
+  margin-top: 4px;
+}
+
+/* Responsive error messages */
+@media (max-width: 768px) {
+  .error-message {
+    font-size: 11px;
+  }
+}
