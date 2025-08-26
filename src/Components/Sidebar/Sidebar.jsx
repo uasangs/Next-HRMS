@@ -225,7 +225,7 @@
 
 
 
-
+ 
 import React, { useState } from "react";
 import "./Sidebar.css";
 import logo from "../../assets/flamingo-logo.png";
@@ -239,41 +239,41 @@ import ITComputation from "../../assets/ITComputation.png";
 import LogoutIcon from "../../assets/Logout.png";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-
+ 
 const Sidebar = () => {
   const [openDropdown, setOpenDropdown] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
+ 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? "" : menu);
   };
-
+ 
   const closeSidebar = () => setSidebarOpen(false);
-
+ 
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/login");
   };
-
+ 
   // Helper function to check if any submenu route is active
   const isTeamsRouteActive = () => {
-    return location.pathname === "/dashboard/reg-req" || 
+    return location.pathname === "/dashboard/reg-req" ||
            location.pathname === "/dashboard/team's-leave-request";
   };
-
+ 
   const isAttendanceRouteActive = () => {
-    return location.pathname === "/dashboard/attendance" || 
+    return location.pathname === "/dashboard/attendance" ||
            location.pathname === "/dashboard/regulrise-status";
   };
-
+ 
   const isLeaveRouteActive = () => {
-    return location.pathname === "/dashboard/myleave" || 
+    return location.pathname === "/dashboard/myleave" ||
            location.pathname === "/dashboard/leaverequest";
   };
-
+ 
 // Add this helper function with your other helper functions:
 const isProfileRouteActive = () => {
   const profileRoutes = [
@@ -290,7 +290,7 @@ const isProfileRouteActive = () => {
   ];
   return profileRoutes.includes(location.pathname);
 };
-
+ 
   return (
     <>
       {/* Mobile Header */}
@@ -303,13 +303,13 @@ const isProfileRouteActive = () => {
           {isSidebarOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
-
+ 
       {/* Sidebar */}
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="logo">
           <img src={logo} alt="Flamingo Infinite Logo" />
         </div>
-
+ 
         <div className="slidebar-all-links">
           <ul className="nav-links">
             <NavLink
@@ -325,9 +325,9 @@ const isProfileRouteActive = () => {
                 </div>
               </li>
             </NavLink>
-
+ 
             {/* Updated Profile dropdown */}
-        
+       
 <li
   onClick={() => toggleDropdown("profile")}
   className={`${openDropdown === "profile" ? "dropdown-open" : ""} ${isProfileRouteActive() ? "dropdown-active" : ""}`}
@@ -368,7 +368,7 @@ const isProfileRouteActive = () => {
     </ul>
   )}
 </li>
-
+ 
             {/* Attendance dropdown with active state check */}
             <li
               onClick={() => toggleDropdown("attendance")}
@@ -397,7 +397,7 @@ const isProfileRouteActive = () => {
                 </ul>
               )}
             </li>
-
+ 
             {/* Leave dropdown with active state check */}
             <li
               onClick={() => toggleDropdown("leave")}
@@ -426,7 +426,7 @@ const isProfileRouteActive = () => {
                 </ul>
               )}
             </li>
-
+ 
             {/* Teams dropdown with active state check */}
             <li
               onClick={() => toggleDropdown("teams")}
@@ -455,7 +455,7 @@ const isProfileRouteActive = () => {
                 </ul>
               )}
             </li>
-
+ 
             <NavLink
               to="/dashboard/salary"
               className={({ isActive }) => (isActive ? "active" : "")}
@@ -468,7 +468,7 @@ const isProfileRouteActive = () => {
                 </div>
               </li>
             </NavLink>
-
+ 
             <NavLink
               to="/dashboard/it"
               className={({ isActive }) => (isActive ? "active" : "")}
@@ -483,7 +483,7 @@ const isProfileRouteActive = () => {
             </NavLink>
           </ul>
         </div>
-
+ 
         {/* Logout Button */}
         <div className="logout-slidebar" onClick={handleLogout}>
           <div className="icon-sildebar">
@@ -495,5 +495,5 @@ const isProfileRouteActive = () => {
     </>
   );
 };
-
+ 
 export default Sidebar;
