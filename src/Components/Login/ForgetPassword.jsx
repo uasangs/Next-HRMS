@@ -69,6 +69,89 @@ const OTPGeneratorPage = () => {
     setError(null);
     setStep(1);
   };
+  const handleGenerateOTP = async () => {
+    if (!email) {
+        setError('Please enter an email address');
+        return;
+    }
+
+    if (!email.includes('@') || !email.includes('.')) {
+        setError('Please enter a valid email address');
+        return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setGenerateResponse(null);
+
+    try {
+        const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.generate_otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email_id: email
+        })
+        });
+
+        const data = await apiResponse.json();
+
+        if (apiResponse.ok) {
+        setGenerateResponse(data);
+        setStep(2); // Move to validation step
+        } else {
+        setError(data.message || 'Failed to generate OTP');
+        }
+    } catch (err) {
+        setError('Network error. Please check your connection and try again.');
+        console.error('API Error:', err);
+    } finally {
+        setLoading(false);
+    }
+    };
+
+    const handleValidateOTP = async () => {
+    if (!otp) {
+        setError('Please enter the OTP');
+        return;
+    }
+
+    if (otp.length < 4) {
+        setError('Please enter a valid OTP');
+        return;
+    }
+
+    setValidatingOtp(true);
+    setError(null);
+    setValidateResponse(null);
+
+    try {
+        const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.validate_otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email_id: email,
+            otp: otp
+        })
+        });
+
+        const data = await apiResponse.json();
+
+        if (apiResponse.ok) {
+        setValidateResponse(data);
+        } else {
+        setError(data.message || 'Failed to validate OTP');
+        }
+    } catch (err) {
+        setError('Network error. Please check your connection and try again.');
+        console.error('API Error:', err);
+    } finally {
+        setValidatingOtp(false);
+    }
+    };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
