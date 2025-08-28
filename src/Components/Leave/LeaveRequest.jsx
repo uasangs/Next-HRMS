@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import "./LeaveRequest.css";
 import Header from "../Header/Header";
-import { createLeaveApplication } from "../Home/dashboardApi"; // Import your API function
-import api from "../Home/api"; // Import your axios instance
-
+import { createLeaveApplication } from "../Home/dashboardApi";
+import api from "../Home/api";
+ 
 const LeaveRequest = () => {
   const [leaveTypes, setLeaveTypes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // React Hook Form setup
+ 
   const {
     control,
     handleSubmit,
@@ -17,7 +16,7 @@ const LeaveRequest = () => {
     setValue,
     reset,
     register,
-    formState: { errors }
+    formState: { errors, isValid },
   } = useForm({
     defaultValues: {
       leaves: [
@@ -30,51 +29,48 @@ const LeaveRequest = () => {
         },
       ],
     },
+    mode: "onChange",
   });
-
-  // Field array for dynamic forms
+ 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "leaves",
   });
-
-  // Watch for date changes to auto-calculate days
+ 
   const watchedLeaves = watch("leaves");
-
-  // Load leave types on component mount
+ 
   useEffect(() => {
     const fetchLeaveTypes = async () => {
       try {
         const res = await api.get('/api/resource/Leave Type?fields=["name"]');
-        console.log("Leave types response:", res.data); // Debug log
         setLeaveTypes(res.data.data || []);
       } catch (err) {
         console.error("Error loading leave types:", err);
-        // Fallback data for testing
         setLeaveTypes([
           { name: "Annual Leave" },
           { name: "Sick Leave" },
           { name: "Personal Leave" },
-          { name: "Emergency Leave" }
+          { name: "Emergency Leave" },
+          { name: "Maternity Leave" },
+          { name: "Paternity Leave" },
         ]);
       }
     };
-
+ 
     fetchLeaveTypes();
   }, []);
-
-  // Auto-calculate number of days when dates change
+ 
+  // FIXED: Auto-calculate leave days
   useEffect(() => {
     watchedLeaves.forEach((leave, index) => {
       if (leave?.fromDate && leave?.toDate) {
-        const from = new Date(leave.fromDate);
-        const to = new Date(leave.toDate);
-        
-        if (to >= from && !isNaN(from.getTime()) && !isNaN(to.getTime())) {
-          const diffTime = to.getTime() - from.getTime();
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-          console.log(`Setting days for index ${index}:`, diffDays); // Debug log
-          setValue(`leaves.${index}.noOfDays`, diffDays);
+        const fromDate = new Date(leave.fromDate);
+        const toDate = new Date(leave.toDate);
+       
+        if (!isNaN(fromDate.getTime()) && !isNaN(toDate.getTime()) && toDate >= fromDate) {
+          const timeDiff = toDate.getTime() - fromDate.getTime();
+          const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+          setValue(`leaves.${index}.noOfDays`, daysDiff.toString());
         } else {
           setValue(`leaves.${index}.noOfDays`, "");
         }
@@ -83,56 +79,99 @@ const LeaveRequest = () => {
       }
     });
   }, [watchedLeaves, setValue]);
-
-  // Form submission handler
+ 
+  // Helper to check for overlapping dates
+  const hasOverlappingLeaves = (leaves) => {
+    const validLeaves = leaves.filter(l => l.fromDate && l.toDate);
+    if (validLeaves.length < 2) return false;
+   
+    const ranges = validLeaves.map(l => ({
+      start: new Date(l.fromDate),
+      end: new Date(l.toDate),
+    }));
+ 
+    for (let i = 0; i < ranges.length; i++) {
+      for (let j = i + 1; j < ranges.length; j++) {
+        if (
+          ranges[i].start <= ranges[j].end &&
+          ranges[j].start <= ranges[i].end
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+ 
   const onSubmit = async (data) => {
+    console.log("=== FORM SUBMISSION DEBUG START ===");
+    console.log("Form data:", data);
+   
     const employeeId = localStorage.getItem("employee_id");
-
+    console.log("Employee ID:", employeeId);
+ 
     if (!employeeId) {
-      alert("❌ Employee ID not found in localStorage.");
+      alert("Employee ID not found. Please login again.");
       return;
     }
-
+ 
+    const validLeaves = data.leaves.filter(leave =>
+      leave.fromDate && leave.toDate && leave.leaveType && leave.reason
+    );
+   
+    if (validLeaves.length === 0) {
+      alert("Please fill out at least one complete leave request.");
+      return;
+    }
+ 
+    if (hasOverlappingLeaves(validLeaves)) {
+      alert("Some leave dates are overlapping. Please fix them.");
+      return;
+    }
+ 
+    const payloads = validLeaves.map((leave) => ({
+      employee: employeeId,
+      leave_type: leave.leaveType,
+      from_date: leave.fromDate,
+      to_date: leave.toDate,
+      description: leave.reason,
+      no_of_days: parseInt(leave.noOfDays) || 1,
+    }));
+ 
     setIsSubmitting(true);
-
+   
     try {
-      const submissionPromises = data.leaves.map(async (leave) => {
-        if (!leave.fromDate || !leave.toDate || !leave.leaveType || !leave.reason) {
-          throw new Error("All fields are required for each leave request");
+      const results = [];
+      for (let i = 0; i < payloads.length; i++) {
+        try {
+          const result = await createLeaveApplication(payloads[i]);
+          results.push({ success: true, data: result });
+        } catch (error) {
+          console.error(`API Call ${i + 1} failed:`, error);
+          results.push({ success: false, error });
         }
-
-        const payload = {
-          employee: employeeId,
-          leave_type: leave.leaveType,
-          from_date: leave.fromDate,
-          to_date: leave.toDate,
-          description: leave.reason,
-        };
-
-        return await createLeaveApplication(payload);
-      });
-
-      const results = await Promise.all(submissionPromises);
-      
-      // Check if all submissions were successful
-      const successfulSubmissions = results.filter(result => result?.name);
-      
-      if (successfulSubmissions.length === data.leaves.length) {
-        alert(`✅ All ${successfulSubmissions.length} leave request(s) submitted successfully!`);
-        handleCancel(); // Reset form after successful submission
-      } else {
-        alert(`⚠️ Some leave requests may not have been submitted properly. Please check your requests.`);
       }
-
+     
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+     
+      if (successful.length === payloads.length) {
+        alert(`All ${successful.length} leave request(s) submitted successfully!`);
+        handleCancel();
+      } else if (successful.length > 0) {
+        alert(`${successful.length} out of ${payloads.length} requests succeeded. ${failed.length} failed.`);
+      } else {
+        alert("All leave requests failed. Check console for details.");
+      }
+     
     } catch (err) {
-      console.error("❌ Leave submission failed:", err);
-      alert(`❌ Failed to submit leave request: ${err.message}`);
+      console.error("Submission error:", err);
+      alert(`Submission failed: ${err.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Add new leave form
+ 
   const handleAddLeaveForm = () => {
     append({
       fromDate: "",
@@ -142,8 +181,7 @@ const LeaveRequest = () => {
       reason: "",
     });
   };
-
-  // Reset form
+ 
   const handleCancel = () => {
     reset({
       leaves: [
@@ -157,14 +195,13 @@ const LeaveRequest = () => {
       ],
     });
   };
-
-  // Remove specific leave form (if more than one)
+ 
   const handleRemoveLeave = (index) => {
     if (fields.length > 1) {
       remove(index);
     }
   };
-
+ 
   return (
     <>
       <Header />
@@ -175,7 +212,7 @@ const LeaveRequest = () => {
               {/* Row 1 */}
               <div className="Leave-request-row-one-line">
                 <div>
-                  <label>From Date</label>
+                  <label>From Date *</label>
                   <input
                     type="date"
                     {...register(`leaves.${index}.fromDate`, {
@@ -188,16 +225,16 @@ const LeaveRequest = () => {
                     </span>
                   )}
                 </div>
-
+ 
                 <div>
-                  <label>To Date</label>
+                  <label>To Date *</label>
                   <input
                     type="date"
                     {...register(`leaves.${index}.toDate`, {
                       required: "To date is required",
                       validate: (value) => {
-                        const fromDate = watchedLeaves[index]?.fromDate;
-                        if (fromDate && value && new Date(value) < new Date(fromDate)) {
+                        const from = watchedLeaves[index]?.fromDate;
+                        if (from && value && new Date(value) < new Date(from)) {
                           return "To date cannot be before from date";
                         }
                         return true;
@@ -210,24 +247,20 @@ const LeaveRequest = () => {
                     </span>
                   )}
                 </div>
-
+ 
                 <div>
-                  <label>Leave Type</label>
+                  <label>Leave Type *</label>
                   <select
                     {...register(`leaves.${index}.leaveType`, {
                       required: "Leave type is required",
                     })}
                   >
                     <option value="">-- Select Leave Type --</option>
-                    {leaveTypes && leaveTypes.length > 0 ? (
-                      leaveTypes.map((lt) => (
-                        <option key={lt.name} value={lt.name}>
-                          {lt.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option disabled>Loading leave types...</option>
-                    )}
+                    {leaveTypes.map((lt, idx) => (
+                      <option key={`${lt.name}-${idx}`} value={lt.name}>
+                        {lt.name}
+                      </option>
+                    ))}
                   </select>
                   {errors.leaves?.[index]?.leaveType && (
                     <span className="error-message">
@@ -236,7 +269,7 @@ const LeaveRequest = () => {
                   )}
                 </div>
               </div>
-
+ 
               {/* Row 2 */}
               <div className="Leave-request-row">
                 <div>
@@ -246,19 +279,38 @@ const LeaveRequest = () => {
                     value={watchedLeaves[index]?.noOfDays || ""}
                     readOnly
                     placeholder="Auto-calculated"
+                    style={{
+                      backgroundColor: '#f8f9fa',
+                      border: '1px solid #ced4da',
+                      padding: '8px 12px',
+                      borderRadius: '4px',
+                      color: '#495057',
+                      fontWeight: 'bold',
+                      width: '100%'
+                    }}
+                  />
+                  {/* Hidden field for form submission */}
+                  <input
+                    type="hidden"
+                    {...register(`leaves.${index}.noOfDays`)}
                   />
                 </div>
+ 
                 <div>
-                  <label>Reason</label>
+                  <label>Reason *</label>
                   <input
                     type="text"
-                    placeholder="Enter reason for leave"
+                    placeholder="Enter reason for leave (minimum 10 characters)"
                     {...register(`leaves.${index}.reason`, {
                       required: "Reason is required",
                       minLength: {
                         value: 10,
                         message: "Reason must be at least 10 characters",
                       },
+                      maxLength: {
+                        value: 200,
+                        message: "Reason cannot exceed 200 characters"
+                      }
                     })}
                   />
                   {errors.leaves?.[index]?.reason && (
@@ -268,8 +320,8 @@ const LeaveRequest = () => {
                   )}
                 </div>
               </div>
-
-              {/* Remove button for individual leave forms (if more than one) */}
+ 
+              {/* Remove Button */}
               {fields.length > 1 && (
                 <div className="remove-leave-container">
                   <button
@@ -281,11 +333,12 @@ const LeaveRequest = () => {
                   </button>
                 </div>
               )}
-
+ 
               {index !== fields.length - 1 && <hr />}
             </div>
           ))}
-
+ 
+          {/* Actions */}
           <div className="Leave-request-actions">
             <button
               type="button"
@@ -293,9 +346,9 @@ const LeaveRequest = () => {
               className="Leave-request-add-btn"
               disabled={isSubmitting}
             >
-              Add Leaves <span className="Leave-request-plus">+</span>
+              Add Another Leave <span className="Leave-request-plus">+</span>
             </button>
-
+ 
             <div className="Leave-request-btns">
               <button
                 type="button"
@@ -305,10 +358,12 @@ const LeaveRequest = () => {
               >
                 Cancel
               </button>
-              <button 
-                type="submit" 
+             
+              <button
+                type="submit"
                 className="Leave-request-submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isValid}
+                title={!isValid ? "Please fill all required fields correctly" : ""}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
               </button>
@@ -319,5 +374,5 @@ const LeaveRequest = () => {
     </>
   );
 };
-
+ 
 export default LeaveRequest;

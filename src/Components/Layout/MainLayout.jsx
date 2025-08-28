@@ -24,6 +24,7 @@ import ProfilePersonal from '../Profile/ProfilePersonal';
 import ProfileInfo from '../Profile/ProfileInfo';
 import ProfileExit from '../Profile/ProfileExit';
 import ProfileConnections from '../Profile/ProfileConnections';
+import ForgetPassword from '../Login/ForgetPassword';
  
 const MainLayout = () => {
   return (
@@ -46,7 +47,7 @@ const MainLayout = () => {
           {/* Team requests */}
           <Route path="reg-req" element={<RegularisseRequest />} />
           <Route path="team's-leave-request" element={<TeamLeavereq />} />
-         
+          <Route path="/login/forgetpassword" element={<ForgetPassword />} />
           {/* Profile routes - all relative paths */}
           <Route path="profile" element={<Profile />} />
           <Route path="profile/overview" element={<ProfileOverview />} />
@@ -65,3 +66,6 @@ const MainLayout = () => {
 };
  
 export default MainLayout;
+
+
+

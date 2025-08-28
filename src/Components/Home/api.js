@@ -78,6 +78,7 @@ const guestEndpoints = [
   "api/method/fbts.api.monthly.get_employee_holiday_names",
   "api/method/fbts.api.leave_request.get_emp_leave_list",
   "api/method/fbts.api.leave_request.get_leave_applications"
+  
 ];
 
 api.interceptors.request.use(
