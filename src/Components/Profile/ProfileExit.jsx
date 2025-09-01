@@ -1,67 +1,106 @@
-// ProfileExit.js
-import React from 'react';
-import Header from '../Header/Header';
+import { useState } from 'react';
 
-const ProfileExit = () => {
+export default function EmployeeExitForm() {
+  const [activeTab, setActiveTab] = useState('Exit');
+  const [leaveEncashed, setLeaveEncashed] = useState('');
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <div className="employee-profile-container">
-        <div className="profile-header">
-          <h1 className="profile-title">Employee Profile - Exit Information</h1>
-          <p className="profile-subtitle">Manage resignation and exit process details</p>
+    <div className="max-w-7xl mx-auto bg-white min-h-screen">
+      {/* Navigation Tabs */}
+    
+
+      {/* Form Content */}
+      <div className="p-8">
+        {/* Top Row - 3 columns */}
+        <div className="grid grid-cols-3 gap-8 mb-8">
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">
+              Resignation Letter Date
+            </label>
+            <input
+              type="text"
+              className="w-full h-10 px-3 border border-gray-300 rounded bg-gray-100"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">
+              Exit Interview Held On
+            </label>
+            <input
+              type="text"
+              className="w-full h-10 px-3 border border-gray-300 rounded bg-gray-100"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">
+              Leave Encashed?
+            </label>
+            <select
+              value={leaveEncashed}
+              onChange={(e) => setLeaveEncashed(e.target.value)}
+              className="w-full h-10 px-3 border border-gray-300 rounded bg-white appearance-none"
+            >
+              <option value=""></option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
         </div>
-        <div className="tab-content-container">
-          <div className="placeholder-content">
-            <h3>Exit Information</h3>
-            <p>This section will contain resignation details, exit interview information, and separation process status.</p>
+
+        {/* Bottom Row - 2 columns + empty */}
+        <div className="grid grid-cols-3 gap-8 mb-12">
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">
+              Relieving Date
+            </label>
+            <input
+              type="text"
+              className="w-full h-10 px-3 border border-gray-300 rounded bg-gray-100"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">
+              New Workplace
+            </label>
+            <input
+              type="text"
+              className="w-full h-10 px-3 border border-gray-300 rounded bg-gray-100"
+            />
+          </div>
+
+          <div></div>
+        </div>
+
+        {/* Feedback Section */}
+        <div>
+          <h2 className="text-lg text-gray-900 font-normal mb-8">Feedback</h2>
+          
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <label className="block text-sm text-gray-700 mb-2">
+                Reason for Leaving
+              </label>
+              <textarea
+                rows={8}
+                className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 resize-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-700 mb-2">
+                Feedback
+              </label>
+              <textarea
+                rows={8}
+                className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 resize-none"
+              />
+            </div>
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .employee-profile-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        .profile-header {
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #e1e5e9;
-        }
-        .profile-title {
-          font-size: 24px;
-          font-weight: 600;
-          color: #333;
-          margin: 0 0 5px 0;
-        }
-        .profile-subtitle {
-          font-size: 14px;
-          color: #666;
-          margin: 0;
-        }
-        .tab-content-container {
-          min-height: 400px;
-          background: white;
-          border-radius: 8px;
-          padding: 30px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          border: 1px solid #e1e5e9;
-        }
-        .placeholder-content {
-          text-align: center;
-          padding: 60px 20px;
-          color: #666;
-        }
-        .placeholder-content h3 {
-          font-size: 18px;
-          margin-bottom: 15px;
-          color: #333;
-        }
-      `}</style>
     </div>
   );
-};
-
-export default ProfileExit;
+}

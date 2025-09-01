@@ -1,65 +1,89 @@
-// ProfileInfo.js
 import React from 'react';
-import Header from '../Header/Header';
 
 const ProfileAttendance = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <div className="employee-profile-container">
-        <div className="profile-header">
-          <h1 className="profile-title">Employee Profile - Profile Settings</h1>
-          <p className="profile-subtitle">Manage profile picture and display preferences</p>
+    <div className="w-full max-w-5xl mx-auto bg-white p-6">
+      <div className="grid grid-cols-2 gap-16">
+        {/* Left Column */}
+        <div className="space-y-6">
+          {/* Attendance Device ID */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Attendance Device ID (Biometric/RF tag ID)
+            </div>
+            <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-400"></div>
+          </div>
+
+          {/* Approvers Section */}
+          <div className="mt-8">
+            <h3 className="text-base font-medium text-gray-900 mb-4">Approvers</h3>
+            
+            {/* Expense Approver */}
+            <div className="mb-4">
+              <div className="text-sm text-gray-700 mb-2">
+                Expense Approver
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 flex items-center">
+                akash@gmail.com
+              </div>
+            </div>
+
+            {/* Leave Approver */}
+            <div>
+              <div className="text-sm text-gray-700 mb-2">
+                Leave Approver
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 flex items-center">
+                abdul@gmail.com
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="tab-content-container">
-          <div className="placeholder-content">
-            <h3>Profile Settings</h3>
-            <p>This section will contain profile picture upload, display name settings, and other profile-related configurations.</p>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          {/* Holiday List */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Holiday List
+            </div>
+            <div className="w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded text-gray-800 flex items-center">
+              Vinco Sales And Services Pvt Ltd
+            </div>
+            <div className="text-xs text-gray-500 mt-1">
+              Applicable Holiday List
+            </div>
+          </div>
+
+          {/* Default Shift */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Default Shift
+            </div>
+            <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded"></div>
+          </div>
+
+          {/* Shift Request Approver */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Shift Request Approver
+            </div>
+            <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 flex items-center">
+              ajay@gmail.com
+            </div>
+          </div>
+
+          {/* Regularise Approver */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Regularise Approver
+            </div>
+            <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 flex items-center">
+              ajit@gmail.com
+            </div>
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .employee-profile-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        .profile-header {
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #e1e5e9;
-        }
-        .profile-title {
-          font-size: 24px;
-          font-weight: 600;
-          color: #333;
-          margin: 0 0 5px 0;
-        }
-        .profile-subtitle {
-          font-size: 14px;
-          color: #666;
-          margin: 0;
-        }
-        .tab-content-container {
-          min-height: 400px;
-          background: white;
-          border-radius: 8px;
-          padding: 30px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          border: 1px solid #e1e5e9;
-        }
-        .placeholder-content {
-          text-align: center;
-          padding: 60px 20px;
-          color: #666;
-        }
-        .placeholder-content h3 {
-          font-size: 18px;
-          margin-bottom: 15px;
-          color: #333;
-        }
-      `}</style>
     </div>
   );
 };

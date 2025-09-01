@@ -1,67 +1,142 @@
-// ProfilePersonal.js
-import React from 'react';
-import Header from '../Header/Header';
+import React, { useState } from 'react';
 
 const ProfilePersonal = () => {
+  const [healthInsuranceOpen, setHealthInsuranceOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <div className="employee-profile-container">
-        <div className="profile-header">
-          <h1 className="profile-title">Employee Profile - Personal Information</h1>
-          <p className="profile-subtitle">Manage personal details and family information</p>
+    <div className="w-full max-w-5xl mx-auto bg-white p-6">
+      <div className="grid grid-cols-2 gap-16">
+        {/* Left Column */}
+        <div className="space-y-6">
+          {/* Marital Status */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Marital Status
+            </div>
+            <div className="relative">
+              <select className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 appearance-none cursor-pointer">
+                <option value=""></option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Family Background */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Family Background
+            </div>
+            <textarea 
+              className="w-full h-32 px-3 py-2 bg-gray-100 border border-gray-300 rounded resize-none"
+              placeholder=""
+            />
+            <div className="text-xs text-gray-500 mt-1">
+              Here you can maintain family details like name and occupation of parent, spouse and children
+            </div>
+          </div>
         </div>
-        <div className="tab-content-container">
-          <div className="placeholder-content">
-            <h3>Personal Information</h3>
-            <p>This section will contain personal details like family information, educational background, skills, and certifications.</p>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          {/* Blood Group */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Blood Group
+            </div>
+            <div className="relative">
+              <select className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded text-gray-800 appearance-none cursor-pointer">
+                <option value=""></option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Health Details */}
+          <div>
+            <div className="text-sm text-gray-700 mb-2">
+              Health Details
+            </div>
+            <textarea 
+              className="w-full h-32 px-3 py-2 bg-gray-100 border border-gray-300 rounded resize-none"
+              placeholder=""
+            />
+            <div className="text-xs text-gray-500 mt-1">
+              Here you can maintain height, weight, allergies, medical concerns etc
+            </div>
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .employee-profile-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        .profile-header {
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #e1e5e9;
-        }
-        .profile-title {
-          font-size: 24px;
-          font-weight: 600;
-          color: #333;
-          margin: 0 0 5px 0;
-        }
-        .profile-subtitle {
-          font-size: 14px;
-          color: #666;
-          margin: 0;
-        }
-        .tab-content-container {
-          min-height: 400px;
-          background: white;
-          border-radius: 8px;
-          padding: 30px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          border: 1px solid #e1e5e9;
-        }
-        .placeholder-content {
-          text-align: center;
-          padding: 60px 20px;
-          color: #666;
-        }
-        .placeholder-content h3 {
-          font-size: 18px;
-          margin-bottom: 15px;
-          color: #333;
-        }
-      `}</style>
+
+      {/* Health Insurance Section */}
+      <div className="mt-8">
+        <div 
+          className="flex items-center cursor-pointer"
+          onClick={() => setHealthInsuranceOpen(!healthInsuranceOpen)}
+        >
+          <h3 className="text-base font-medium text-gray-900">Health Insurance</h3>
+          <svg 
+            className={`w-4 h-4 ml-2 transform transition-transform ${healthInsuranceOpen ? 'rotate-180' : ''}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Passport Details Section */}
+      <div className="mt-8">
+        <h3 className="text-base font-medium text-gray-900 mb-6">Passport Details</h3>
+        
+        <div className="grid grid-cols-2 gap-16">
+          <div className="space-y-6">
+            {/* Passport Number */}
+            <div>
+              <div className="text-sm text-gray-700 mb-2">
+                Passport Number
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded"></div>
+            </div>
+
+            {/* Valid Upto */}
+            <div>
+              <div className="text-sm text-gray-700 mb-2">
+                Valid Upto
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded"></div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {/* Date of Issue */}
+            <div>
+              <div className="text-sm text-gray-700 mb-2">
+                Date of Issue
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded"></div>
+            </div>
+
+            {/* Place of Issue */}
+            <div>
+              <div className="text-sm text-gray-700 mb-2">
+                Place of Issue
+              </div>
+              <div className="w-full h-10 px-3 py-2 bg-gray-100 border border-gray-300 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ProfilePersonal;
+export default ProfilePersonal
