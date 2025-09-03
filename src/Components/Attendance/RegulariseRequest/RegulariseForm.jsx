@@ -57,10 +57,10 @@ const RegulariseForm = () => {
         </div>
 
         <div className="form-row">
- <div className="form-row-from-date"> 
+        <div className="form-row-from-date"> 
           <label>Working Hrs</label>
           <input type="numbers" name="workingHrs" value={formData.workingHrs} onChange={handleChange} placeholder="e.g., 9:00" />
-</div>
+        </div>
           <label>Regularise Type</label>
           <select name="regulariseType" value={formData.regulariseType} onChange={handleChange} required>
             <option value="">Select</option>

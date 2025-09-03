@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from "../Header/Header";
 
 const ProfileAttendance = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white p-6">
+    <> 
+    <Header/>
+    <div className="w-full mt-4 max-w-5xl mx-auto bg-white p-6">
       <div className="grid grid-cols-2 gap-16">
         {/* Left Column */}
         <div className="space-y-6">
@@ -85,6 +88,7 @@ const ProfileAttendance = () => {
         </div>
       </div>
     </div>
+     </>
   );
 };
 

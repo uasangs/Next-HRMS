@@ -10,7 +10,7 @@ const months2025 = [
 ];
 
 const MonthlyAttendance = () => {
-  const [selectedMonth, setSelectedMonth] = useState("August"); // default for testing
+  const [selectedMonth, setSelectedMonth] = useState("September"); // default for testing
   const [attendanceData, setAttendanceData] = useState([]);
 
   useEffect(() => {

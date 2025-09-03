@@ -1,232 +1,3 @@
-// // // Home/dashboardApi.js
-// // import api from "./api";
-// // // ✅ Get last 10 attendance records
-// // export const fetchAttendanceRecords = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
-// //     { employee: employeeId }
-// //   );
-// //   return res.data.message?.records || [];
-// // };
-
-// // // ✅ Get employee‑wise holidays
-// // export const fetchHolidayList = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.holiday.get_employee_wise_holidays",
-// //     { employee: employeeId }
-// //   );
-// //   const data = res.data.message || [];
-// //   return Array.isArray(data) && data.length
-// //     ? data[0].holidays || []
-// //     : [];
-// // };
-
-// // // ✅ Get today's birthdays
-// // export const fetchTodayBirthdays = async () => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.birthday.get_today_birthdays"
-// //   );
-// //   const msg = res.data.message || {};
-// //   return {
-// //     employees: msg.employees || [],
-// //     count: msg.count || 0,
-// //   };
-// // };
-
-// // export const fetchLeaveBalance = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.leave_balance.get_employee_leave_balance",
-// //     { employee: employeeId }
-// //   );
-// //   return res.data.message || [];
-// // };
-
-// // // Home/dashboardApi.js
-// // export const createLeaveApplication = async (payload) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.flamingoApi.create_leave_application",
-// //     { data: JSON.stringify(payload) }
-// //   );
-// //   return res.data.message || {};
-// // };
-
-
-
-// // // export const fetchAttendanceRecord = async (employeeId) => {
-// // //   try {
-// // //     const response = await fetch("/attendanceData.json"); // static file from /public
-// // //     const data = await response.json();
-// // //     return data.attendance;
-// // //   } catch (error) {
-// // //     console.error("Failed to fetch local attendance data:", error);
-// // //     return [];
-// // //   }
-// // // };
-
-
-
-
-
-// // // Get monthly attendance/holidays
-// // export const fetchMonthlyAttendance = async (employeeId, month) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.monthly.get_employee_holiday_names",
-// //     {
-// //       employee: employeeId,
-// //       month: month.toLowerCase()  // Ensure lowercase
-// //     }
-// //   );
-// //   return res.data.message || {};
-// // };
-
-
-
-// // // Home/dashboardApi.js
-// // import api from "./api";
-
-// // // ✅ Get last 10 attendance records
-// // export const fetchAttendanceRecords = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
-// //     { employee: employeeId }
-// //   );
-// //   return res.data.message?.records || [];
-// // };
-
-// // // ✅ Get employee‑wise holidays
-// // export const fetchHolidayList = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.holiday.get_employee_wise_holidays",
-// //     { employee: employeeId }
-// //   );
-// //   const data = res.data.message || [];
-// //   return Array.isArray(data) && data.length
-// //     ? data[0].holidays || []
-// //     : [];
-// // };
-
-// // // ✅ Get today's birthdays
-// // export const fetchTodayBirthdays = async () => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.birthday.get_today_birthdays"
-// //   );
-// //   const msg = res.data.message || {};
-// //   return {
-// //     employees: msg.employees || [],
-// //     count: msg.count || 0,
-// //   };
-// // };
-
-// // export const fetchLeaveBalance = async (employeeId) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.leave_balance.get_employee_leave_balance",
-// //     { employee: employeeId }
-// //   );
-// //   return res.data.message || [];
-// // };
-
-// // // Home/dashboardApi.js
-// // export const createLeaveApplication = async (payload) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.flamingoApi.create_leave_application",
-// //     { data: JSON.stringify(payload) }
-// //   );
-// //   return res.data.message || {};
-// // };
-
-// // // Get monthly attendance/holidays
-// // export const fetchMonthlyAttendance = async (employeeId, month) => {
-// //   const res = await api.post(
-// //     "/api/method/fbts.api.monthly.get_employee_holiday_names",
-// //     {
-// //       employee: employeeId,
-// //       month: month.toLowerCase()  // Ensure lowercase
-// //     }
-// //   );
-// //   return res.data.message || {};
-// // };
-
-// // // ✅ Get employee leave list with GET/POST fallback
-// // export const fetchEmployeeLeaveList = async (employeeId) => {
-// //   try {
-// //     console.log('🚀 Trying GET request for employee leave list:', employeeId);
-    
-// //     // Try GET request first
-// //     const res = await api.get(
-// //       `/api/method/fbts.api.leave_request.get_emp_leave_list?employee=${employeeId}`
-// //     );
-    
-// //     console.log('✅ GET request successful:', res.data);
-// //     return res.data.message || [];
-    
-// //   } catch (getError) {
-// //     console.log('⚠️ GET request failed, trying POST:', getError.message);
-    
-// //     try {
-// //       // Fallback to POST if GET fails
-// //       const res = await api.post(
-// //         "/api/method/fbts.api.leave_request.get_emp_leave_list",
-// //         { employee: employeeId }
-// //       );
-      
-// //       console.log('✅ POST request successful:', res.data);
-// //       return res.data.message || [];
-      
-// //     } catch (postError) {
-// //       console.error('❌ Both GET and POST requests failed:', {
-// //         getError: getError.message,
-// //         postError: postError.message,
-// //         getStatus: getError.response?.status,
-// //         postStatus: postError.response?.status
-// //       });
-      
-// //       // Throw the POST error since it's the expected method
-// //       throw postError;
-// //     }
-// //   }
-// // };
-
-
-
-// // // Add this function to your existing dashboardApi.js file
-// // export const fetchTeamLeaveRequests = async () => {
-// //   try {
-// //     console.log('🚀 Trying GET request for team leave requests');
-    
-// //     // Try GET request first
-// //     const res = await api.get(
-// //       '/api/method/fbts.api.leave_request.get_leave_applications'
-// //     );
-    
-// //     console.log('✅ GET request successful for team requests:', res.data);
-// //     return res.data.message || [];
-    
-// //   } catch (getError) {
-// //     console.log('⚠️ GET request failed, trying POST:', getError.message);
-    
-// //     try {
-// //       // Fallback to POST if GET fails
-// //       const res = await api.post(
-// //         "/api/method/fbts.api.leave_request.get_leave_applications"
-// //       );
-      
-// //       console.log('✅ POST request successful for team requests:', res.data);
-// //       return res.data.message || [];
-      
-// //     } catch (postError) {
-// //       console.error('❌ Both GET and POST requests failed for team requests:', {
-// //         getError: getError.message,
-// //         postError: postError.message,
-// //         getStatus: getError.response?.status,
-// //         postStatus: postError.response?.status
-// //       });
-      
-// //       throw postError;
-// //     }
-// //   }
-// // };
-
-
 // import api from "./api";
 
 // // Get last 10 attendance records
@@ -644,6 +415,28 @@ export const fetchMonthlyAttendance = async (employeeId, month) => {
   }
 };
  
+// Get daily attendance for a specific date
+export const fetchDailyAttendance = async (employeeId, date) => {
+  try {
+    console.log('Fetching daily attendance for employee:', employeeId, 'Date:', date);
+    const res = await api.get(
+     "/api/method/fbts.api.monthly.get_employee_holiday_names",
+      {
+        params: {
+          employee_id: employeeId,
+          date: date
+        }
+      }
+    );
+    console.log('Daily attendance response:', res.data);
+    return res.data.message || res.data.data || {};
+  } catch (error) {
+    console.error('Error fetching daily attendance:', error);
+    throw error;
+  }
+};
+
+
 // Get employee leave list (for individual employee)
 export const fetchEmployeeLeaveList = async (employeeId) => {
   try {
@@ -825,4 +618,36 @@ export const validateLeavePayload = (payload) => {
     isValid: errors.length === 0,
     errors: errors
   };
+};
+
+
+
+// Add these functions to your dashboardApi.jsx file
+export const generateOTP = async (emailId) => {
+  try {
+    const res = await api.post(
+      "/api/method/fbts.api.auth.generate_otp",
+      { email_id: emailId }
+    );
+    return res.data;
+  } catch (error) {
+    console.error('Error generating OTP:', error);
+    throw error;
+  }
+};
+
+export const validateOTP = async (emailId, otp) => {
+  try {
+    const res = await api.post(
+      "/api/method/fbts.api.auth.validate_otp",
+      { 
+        email_id: emailId,
+        otp: otp 
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error('Error validating OTP:', error);
+    throw error;
+  }
 };

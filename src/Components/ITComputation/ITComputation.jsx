@@ -1,99 +1,3 @@
-
-
-
-// import React, { useState } from "react";
-// import "./ITComputation.css";
-// import Header from "../Header/Header";
-
-// const financialYears = ["2023-2024", "2024-2025", "2025-2026"];
-// const deductionsList = [
-//   { label: "80C (Investments)", max: 150000 },
-//   { label: "80D (Medical Insurance)", max: 50000 },
-//   { label: "HRA Exemption", max: 200000 },
-// ];
-
-// const ITComputation = () => {
-//   const [financialYear, setFinancialYear] = useState(financialYears[1]);
-//   const [salary, setSalary] = useState(0);
-//   const [deductions, setDeductions] = useState({});
-//   const [taxableIncome, setTaxableIncome] = useState(0);
-//   const [taxPayable, setTaxPayable] = useState(0);
-
-//   const handleDeductionChange = (key, value) => {
-//     const valid = Math.min(parseInt(value) || 0, deductionsList.find(d => d.label === key).max);
-//     setDeductions(prev => ({ ...prev, [key]: valid }));
-//   };
-
-//   const computeTax = () => {
-//     const totalDeductions = Object.values(deductions).reduce((a, b) => a + b, 0);
-//     const taxable = Math.max(0, salary - totalDeductions);
-//     setTaxableIncome(taxable);
-
-//     let tax = 0;
-//     if (taxable <= 250000) tax = 0;
-//     else if (taxable <= 500000) tax = (taxable - 250000) * 0.05;
-//     else if (taxable <= 1000000) tax = 12500 + (taxable - 500000) * 0.2;
-//     else tax = 112500 + (taxable - 1000000) * 0.3;
-
-//     setTaxPayable(tax);
-//   };
-
-//   return (
-//   <>
-//     <Header />
-//     <div className="itcomputation-wrapper">
-//       <div className="itcomputation-card">
-//         <h2>Income Tax Computation</h2>
-
-//         <div className="form-group">
-//           <label>Financial Year:</label>
-//           <select value={financialYear} onChange={e => setFinancialYear(e.target.value)}>
-//             {financialYears.map(yr => <option key={yr} value={yr}>{yr}</option>)}
-//           </select>
-//         </div>
-
-//         <div className="form-group">
-//           <label>Annual Salary (INR):</label>
-//           <input
-//             type="number"
-//             value={salary}
-//             onChange={e => setSalary(parseInt(e.target.value) || 0)}
-//             placeholder="Enter total salary"
-//           />
-//         </div>
-
-//         <div className="form-group">
-//           <label>Deductions:</label>
-//           {deductionsList.map((deduction, idx) => (
-//             <div key={idx} className="deduction-row">
-//               <span>{deduction.label} (max ₹{deduction.max}):</span>
-//               <input
-//                 type="number"
-//                 placeholder="0"
-//                 onChange={e => handleDeductionChange(deduction.label, e.target.value)}
-//               />
-//             </div>
-//           ))}
-//         </div>
-
-//         <div className="action-group">
-//           <button onClick={computeTax}>Compute Tax</button>
-//         </div>
-
-//         <div className="result-section">
-//           <h3>Computation Summary</h3>
-//           <p><strong>Taxable Income:</strong> ₹{taxableIncome.toLocaleString()}</p>
-//           <p><strong>Tax Payable:</strong> ₹{taxPayable.toLocaleString()}</p>
-//         </div>
-//       </div>
-//     </div>
-//   </>
-// );
-
-// };
-
-// export default ITComputation;
-
 import React, { useState } from 'react';
 import { Mail, Send, Loader2, CheckCircle, AlertCircle, ArrowLeft, Key } from 'lucide-react';
 
@@ -106,49 +10,6 @@ const ITCompensation = () => {
   const [validateResponse, setValidateResponse] = useState(null);
   const [error, setError] = useState(null);
   const [step, setStep] = useState(1); // 1 for generate, 2 for validate
-
-  const handleSubmit = async () => {
-    
-        
-    if (!email) {
-      setError('Please enter an email address');
-      return;
-    }
-
-    if (!email.includes('@') || !email.includes('.')) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-
-    try {
-      const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.generate_otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email_id: email
-        })
-      });
-
-      const data = await apiResponse.json();
-
-      if (apiResponse.ok) {
-        setResponse(data);
-      } else {
-        setError(data.message || 'Failed to generate OTP');
-      }
-    } catch (err) {
-      setError('Network error. Please check your connection and try again.');
-      console.error('API Error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleReset = () => {
     setEmail('');
@@ -179,7 +40,7 @@ const ITCompensation = () => {
 
     setLoading(true);
     setError(null);
-    setGenerateResponse(null);
+    setGenerateResponse(null); // Fixed: was setResponse(null)
 
     try {
         const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.generate_otp', {
@@ -209,46 +70,46 @@ const ITCompensation = () => {
   };
 
   const handleValidateOTP = async () => {
-  if (!otp) {
-      setError('Please enter the OTP');
-      return;
-  }
+    if (!otp) {
+        setError('Please enter the OTP');
+        return;
+    }
 
-  if (otp.length < 4) {
-      setError('Please enter a valid OTP');
-      return;
-  }
+    if (otp.length < 4) {
+        setError('Please enter a valid OTP');
+        return;
+    }
 
-  setValidatingOtp(true);
-  setError(null);
-  setValidateResponse(null);
+    setValidatingOtp(true);
+    setError(null);
+    setValidateResponse(null);
 
-  try {
-      const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.validate_otp', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          email_id: email,
-          otp: otp
-      })
-      });
+    try {
+        const apiResponse = await fetch('https://fbts.flamingohrms.com/api/method/fbts.api.auth.validate_otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email_id: email,
+            otp: otp
+        })
+        });
 
-      const data = await apiResponse.json();
+        const data = await apiResponse.json();
 
-      if (apiResponse.ok) {
-      setValidateResponse(data);
-      } else {
-      setError(data.message || 'Failed to validate OTP');
-      }
-  } catch (err) {
-      setError('Network error. Please check your connection and try again.');
-      console.error('API Error:', err);
-  } finally {
-      setValidatingOtp(false);
-  }
-};
+        if (apiResponse.ok) {
+        setValidateResponse(data);
+        } else {
+        setError(data.message || 'Failed to validate OTP');
+        }
+    } catch (err) {
+        setError('Network error. Please check your connection and try again.');
+        console.error('API Error:', err);
+    } finally {
+        setValidatingOtp(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -385,7 +246,7 @@ const ITCompensation = () => {
             <div className="text-sm text-green-700">
               <p className="mb-1">OTP has been sent to your email. Please check your inbox and enter the code above.</p>
               <details className="mt-2">
-                <summary className="font-medium cursor-pointer hover:text-green-800">View API Response</summary>
+                <summary className="font-medium cursor-pointer hover:text-green-800">▶ View API Response</summary>
                 <pre className="bg-green-100 p-2 rounded text-xs overflow-x-auto mt-2">
                   {JSON.stringify(generateResponse, null, 2)}
                 </pre>

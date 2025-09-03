@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Edit
 } from 'lucide-react';
+import Header from '../Header/Header';
 
 export default function BioCoverLetterEditor() {
   const [bioText, setBioText] = useState('');
@@ -90,7 +91,9 @@ export default function BioCoverLetterEditor() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto bg-white p-6">
+    <>
+    <Header/>
+    <div className="max-w-6xl mx-auto mt-4 bg-white p-6">
       {/* Header */}
       <h2 className="text-lg font-medium text-gray-900 mb-4">Bio / Cover Letter</h2>
 
@@ -624,5 +627,6 @@ export default function BioCoverLetterEditor() {
         </button>
       </div>
     </div>
+     </>
   );
 }

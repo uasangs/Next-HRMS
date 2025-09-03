@@ -1,253 +1,100 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import "./Attendance.css";
-// import MonthlyAttendance from "./MonthlyAttendance";
-// import Header from "../Header/Header";
-
-// const Attendance = () => {
-//   const today = new Date().toISOString().split("T")[0];
-//   const [view, setView] = useState("daily");
-//   const [selectedDate, setSelectedDate] = useState(today);
-//   const [records, setRecords] = useState([]);
-
-//   useEffect(() => {
-//     const fetchAttendance = async () => {
-//       const employeeId = localStorage.getItem("employeeId");
-//       if (!employeeId) return;
-//       const res = await axios.get(`http://localhost:5000/api/attendance/${employeeId}`);
-//       setRecords(res.data);
-//     };
-
-//     fetchAttendance();
-//   }, []);
-
-//   const handleDateChange = (e) => {
-//     setSelectedDate(e.target.value);
-//   };
-
-//   const formatDate = (dateStr) => {
-//     const options = { day: "2-digit", month: "short" };
-//     const date = new Date(dateStr);
-//     return date.toLocaleDateString("en-GB", options);
-//   };
-
-//   const recordForSelectedDate = records.find((r) => r.date === selectedDate);
-
-//   return (
-//     <>
-//       <Header />
-//       <div className="attendance-container">
-//         <div className="toggle-buttons">
-//           <button className={`btn ${view === "daily" ? "active" : ""}`} onClick={() => setView("daily")}>Daily</button>
-//           <button className={`btn ${view === "monthly" ? "active" : ""}`} onClick={() => setView("monthly")}>Monthly</button>
-//         </div>
-
-//         {view === "daily" ? (
-//           <>
-//             <h2 className="heading">My Attendance</h2>
-//             <div className="date-picker">
-//               <label>Select Date:</label>
-//               <input type="date" value={selectedDate} onChange={handleDateChange} className="calendar-input" max={today} />
-//             </div>
-//             <div className="attendance-card">
-//               <div className="table-row-daily table-header">
-//                 <span>Date</span>
-//                 <span>Check In</span>
-//                 <span>Check Out</span>
-//                 <span>Location</span>
-//               </div>
-//               {recordForSelectedDate ? (
-//                 <div className="table-row-daily">
-//                   <span>{formatDate(recordForSelectedDate.date)}</span>
-//                   <span>{recordForSelectedDate.checkIn}</span>
-//                   <span>{recordForSelectedDate.checkOut}</span>
-//                   <span>{recordForSelectedDate.location}</span>
-//                 </div>
-//               ) : (
-//                 <div className="table-row-daily">
-//                   <span colSpan={4}>No Record Found</span>
-//                 </div>
-//               )}
-//             </div>
-//           </>
-//         ) : (
-//           <MonthlyAttendance />
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Attendance;
-
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import "./Attendance.css";
-// import MonthlyAttendance from "./MonthlyAttendance";
-// import Header from "../Header/Header";
-
-// const Attendance = () => {
-//   const today = new Date().toISOString().split("T")[0];
-//   const [view, setView] = useState("daily");
-//   const [selectedDate, setSelectedDate] = useState(today);
-//   const [records, setRecords] = useState([]);
-
-//   useEffect(() => {
-//     const fetchAttendance = async () => {
-//       try {
-//         const res = await axios.get("/attendanceData.json");
-//         const updated = res.data.attendance.map(r => ({
-//           ...r,
-//           checkIn: r.in_time || "--",
-//           checkOut: r.out_time || "--",
-//           location: r.location || "Andheri"
-//         }));
-//         setRecords(updated);
-//       } catch (err) {
-//         console.error("Error loading attendanceData.json:", err);
-//       }
-//     };
-
-//     fetchAttendance();
-//   }, []);
-
-//   const handleDateChange = (e) => {
-//     setSelectedDate(e.target.value);
-//   };
-
-//   const formatDate = (dateStr) => {
-//     const options = { day: "2-digit", month: "short" };
-//     const date = new Date(dateStr);
-//     return date.toLocaleDateString("en-GB", options);
-//   };
-
-//   const recordForSelectedDate = records.find((r) => r.date === selectedDate);
-
-//   return (
-//     <>
-//       <Header />
-//       <div className="HomeDashboard">
-     
-//       <h2 className="Atd-heading">My Attendance</h2>
-//       <div className="Atd-attendance-container">
-//         <div className="Atd-toggle-buttons">
-//           <button className={`Atd-btn ${view === "daily" ? "Atd-active" : ""}`} onClick={() => setView("daily")}>Daily</button>
-//           <button className={`Atd-btn ${view === "monthly" ? "Atd-active" : ""}`} onClick={() => setView("monthly")}>Monthly</button>
-//         </div>
-
-//         {view === "daily" ? (
-//           <>
-//             <div className="Atd-date-picker">
-//               <label>Select Date:</label>
-//               <input type="date" value={selectedDate} onChange={handleDateChange} className="Atd-calendar-input" max={today} />
-//             </div>
-//             <div className="Atd-attendance-card">
-//               <div className="Atd-table-row-daily Atd-table-header">
-//                 <span>Date</span>
-//                 <span>Check In</span>
-//                 <span>Check Out</span>
-//                 <span>Location</span>
-//               </div>
-//               {recordForSelectedDate ? (
-//                 <div className="Atd-table-row-daily">
-//                   <span>{formatDate(recordForSelectedDate.date)}</span>
-//                   <span>{recordForSelectedDate.checkIn}</span>
-//                   <span>{recordForSelectedDate.checkOut}</span>
-//                   <span>{recordForSelectedDate.location}</span>
-//                 </div>
-//               ) : (
-//                 <div className="Atd-table-row-daily">
-//                   <span colSpan={4}>No Record Found</span>
-//                 </div>
-//               )}
-//             </div>
-//           </>
-//         ) : (
-//           <MonthlyAttendance />
-//         )}
-//       </div>
-//        </div>
-//     </>
-//   );
-// };
-
-// export default Attendance;
-
-
-
-
-
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./Attendance.css";
 import MonthlyAttendance from "./MonthlyAttendance";
 import Header from "../Header/Header";
+// Use the same API as MonthlyAttendance
+import { fetchMonthlyAttendance } from "../Home/dashboardApi";
+import dayjs from "dayjs";
 
 const Attendance = () => {
   const today = new Date().toISOString().split("T")[0];
   const [view, setView] = useState("daily");
   const [selectedDate, setSelectedDate] = useState(today);
-  const [recordForSelectedDate, setRecordForSelectedDate] = useState(null);
+  const [attendanceData, setAttendanceData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch daily attendance whenever selectedDate changes
+  // Helper function to get day with suffix (1st, 2nd, 3rd, etc.)
+  const getDayWithSuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return "th";
+    }
+    switch (day % 10) {
+      case 1: return "st";
+      case 2: return "nd"; 
+      case 3: return "rd";
+      default: return "th";
+    }
+  };
+
   useEffect(() => {
-    const fetchDailyAttendance = async () => {
+    const fetchData = async () => {
+      if (view !== "daily") return;
+      
       setLoading(true);
       setError(null);
+      
       try {
-        const employeeId = localStorage.getItem("employee_id") || "FI00077"; // fallback employee ID
-        // Example API call, replace URL and params as per your backend API docs
-        const res = await axios.get(
-          "https://fbts.flamingohrms.com/api/method/fbts.api.daily.get_employee_attendance",
-          {
-            params: {
-              employee_id: employeeId,
-              date: selectedDate,
-            },
-          }
-        );
+        const employeeId = localStorage.getItem("employee_id") || "FI00077";
+        const selectedDateObj = dayjs(selectedDate);
+        const monthName = selectedDateObj.format("MMMM").toLowerCase();
+        
+        console.log("Daily API Request - Employee:", employeeId, "Month:", monthName, "Selected Date:", selectedDate);
+        
+        // Use the same API as MonthlyAttendance
+        const response = await fetchMonthlyAttendance(employeeId, monthName);
+        console.log("Monthly API Response:", response);
 
-        // Adjust this according to your actual API response structure
-        const data = res.data.data || null;
-
-        if (data) {
-          setRecordForSelectedDate({
-            date: selectedDate,
-            checkIn: data.check_in || "--",
-            checkOut: data.check_out || "--",
-            location: data.location || "Not Available",
+        // Filter the monthly data to find the specific date
+        if (response && response.days && Array.isArray(response.days)) {
+          console.log("Searching for date:", selectedDate, "in", response.days.length, "records");
+          
+          const selectedDay = dayjs(selectedDate).date(); // Get day number (1, 2, 3, etc.)
+          const selectedDayWithSuffix = selectedDay + getDayWithSuffix(selectedDay); // "1st", "2nd", "3rd", etc.
+          
+          console.log("Looking for day:", selectedDayWithSuffix, "September");
+          
+          const dayRecord = response.days.find((day) => {
+            console.log("Checking day record:", day.date);
+            // API returns dates like "2nd September", "1st September"
+            return day.date === `${selectedDayWithSuffix} September`;
           });
+
+          console.log("Found day record:", dayRecord);
+
+          if (dayRecord) {
+            const formatted = {
+              dateFormatted: dayRecord.date, // Use the API date as is
+              day: dayjs(selectedDate).format("ddd"), // Get day name from selected date
+              check_in: dayRecord.check_in || "--",
+              check_out: dayRecord.check_out || "--"
+            };
+            
+            console.log("Formatted data:", formatted);
+            setAttendanceData(formatted);
+          } else {
+            console.log("No matching record found for:", selectedDayWithSuffix, "September");
+            setAttendanceData(null);
+          }
         } else {
-          setRecordForSelectedDate(null);
+          console.log("No days array found in response");
+          setAttendanceData(null);
         }
+        
       } catch (err) {
         console.error("Error fetching daily attendance:", err);
         setError("Failed to load attendance data.");
-        setRecordForSelectedDate(null);
+        setAttendanceData(null);
       } finally {
         setLoading(false);
       }
     };
 
-    if (view === "daily") {
-      fetchDailyAttendance();
-    }
+    fetchData();
   }, [selectedDate, view]);
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
-  };
-
-  const formatDate = (dateStr) => {
-    const options = { day: "2-digit", month: "short", year: "numeric" };
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", options);
   };
 
   return (
@@ -274,8 +121,9 @@ const Attendance = () => {
           {view === "daily" ? (
             <>
               <div className="Atd-date-picker">
-                <label>Select Date:</label>
+                <label htmlFor="date">Select Date:</label>
                 <input
+                  id="date"
                   type="date"
                   value={selectedDate}
                   onChange={handleDateChange}
@@ -284,29 +132,37 @@ const Attendance = () => {
                 />
               </div>
 
-              <div className="Atd-attendance-card">
-                <div className="Atd-table-row-daily Atd-table-header">
+              <div className="Atd-table">
+                <div className="Atd-table-row Atd-header">
                   <span>Date</span>
+                  <span>Day</span>
                   <span>Check In</span>
                   <span>Check Out</span>
-                  <span>Location</span>
                 </div>
 
                 {loading ? (
-                  <div className="Atd-table-row-daily">Loading...</div>
+                  <div className="Atd-loading-state">
+                    <span>Loading attendance data...</span>
+                  </div>
                 ) : error ? (
-                  <div className="Atd-table-row-daily">{error}</div>
-                ) : recordForSelectedDate ? (
-                  <div className="Atd-table-row-daily">
-                    <span>{formatDate(recordForSelectedDate.date)}</span>
-                    <span>{recordForSelectedDate.checkIn}</span>
-                    <span>{recordForSelectedDate.checkOut}</span>
-                    <span>{recordForSelectedDate.location}</span>
+                  <div className="Atd-error-state">
+                    <span>{error}</span>
+                    <button 
+                      onClick={() => setSelectedDate(selectedDate)}
+                      className="Atd-retry-btn"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                ) : attendanceData ? (
+                  <div className="Atd-table-row">
+                    <span>{attendanceData.dateFormatted}</span>
+                    <span>{attendanceData.day}</span>
+                    <span>{attendanceData.check_in}</span>
+                    <span>{attendanceData.check_out}</span>
                   </div>
                 ) : (
-                  <div className="Atd-table-row-daily">
-                    <span colSpan={4}>No Record Found</span>
-                  </div>
+                  <div className="Atd-no-records">No Records Found</div>
                 )}
               </div>
             </>

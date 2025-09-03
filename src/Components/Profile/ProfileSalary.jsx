@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from "../Header/Header";
 
 const ProfileSalary = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white p-6 border border-gray-200 rounded">
+<>
+<Header/>
+    <div className="w-full max-w-5xl mt-4 mx-auto bg-white p-6 border border-gray-200 rounded">
       <div className="grid grid-cols-2 gap-16">
         {/* Left Column */}
         <div className="space-y-6">
@@ -135,6 +138,7 @@ const ProfileSalary = () => {
         </div>
       </div>
     </div>
+     </>
   );
 };
 

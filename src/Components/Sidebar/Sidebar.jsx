@@ -469,7 +469,7 @@ const isProfileRouteActive = () => {
               </li>
             </NavLink>
  
-            <NavLink
+            {/* <NavLink
               to="/dashboard/it"
               className={({ isActive }) => (isActive ? "active" : "")}
               onClick={closeSidebar}
@@ -480,7 +480,7 @@ const isProfileRouteActive = () => {
                   <span className="menu-label">IT Computation</span>
                 </div>
               </li>
-            </NavLink>
+            </NavLink> */}
           </ul>
         </div>
  

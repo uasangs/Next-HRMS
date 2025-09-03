@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import Header from '../Header/Header';
 
 export default function EmployeeExitForm() {
   const [activeTab, setActiveTab] = useState('Exit');
   const [leaveEncashed, setLeaveEncashed] = useState('');
 
   return (
-    <div className="max-w-7xl mx-auto bg-white min-h-screen">
+    <>
+    <Header/>
+    <div className="max-w-7xl mt-4 mx-auto bg-white min-h-screen">
       {/* Navigation Tabs */}
     
 
@@ -102,5 +105,6 @@ export default function EmployeeExitForm() {
         </div>
       </div>
     </div>
+    </>
   );
 }
