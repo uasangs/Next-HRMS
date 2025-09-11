@@ -468,6 +468,20 @@ const isProfileRouteActive = () => {
                 </div>
               </li>
             </NavLink>
+
+
+            <NavLink
+              to="/dashboard/joboffer"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={closeSidebar}
+            >
+              <li>
+                <div className="icon-sildebar">
+                  <img src={Salary} alt="Salary" />
+                  <span className="menu-label">Offer letter</span>
+                </div>
+              </li>
+            </NavLink>
  
             {/* <NavLink
               to="/dashboard/it"

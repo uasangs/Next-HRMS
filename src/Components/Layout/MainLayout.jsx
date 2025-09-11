@@ -24,7 +24,7 @@ import ProfilePersonal from '../Profile/ProfilePersonal';
 import ProfileInfo from '../Profile/ProfileInfo';
 import ProfileExit from '../Profile/ProfileExit';
 import ProfileConnections from '../Profile/ProfileConnections';
-import ForgetPassword from '../Login/ForgetPassword';
+import EmploymentOfferLetter from "../JobOffer/EmploymentOfferLetter";
  
 const MainLayout = () => {
   return (
@@ -43,11 +43,11 @@ const MainLayout = () => {
           <Route path="expenses" element={<Expanses />} />
           <Route path="regularise" element={<RegulariseForm />} />
           <Route path="regulrise-status" element={<StatusTabs />} />
+          <Route path="joboffer" element={<EmploymentOfferLetter/>}/>
          
           {/* Team requests */}
           <Route path="reg-req" element={<RegularisseRequest />} />
           <Route path="team's-leave-request" element={<TeamLeavereq />} />
-          <Route path="/login/forgetpassword" element={<ForgetPassword />} />
           {/* Profile routes - all relative paths */}
           <Route path="profile" element={<Profile />} />
           <Route path="profile/overview" element={<ProfileOverview />} />
@@ -59,6 +59,7 @@ const MainLayout = () => {
           <Route path="profile/profile-info" element={<ProfileInfo />} />
           <Route path="profile/exit" element={<ProfileExit />} />
           <Route path="profile/connections" element={<ProfileConnections />} />
+          
         </Routes>
       </div>
     </div>

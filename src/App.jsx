@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./Components/Login/Login";
 import "./index.css";
 import MainLayout from "./Components/Layout/MainLayout";
+import ForgetPassword from "./Components/Login/ForgetPassword";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
 
         {/* Login page */}
         <Route path="/login" element={<Login />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
 
         {/* All dashboard routes */}
         <Route path="/dashboard/*" element={<MainLayout />} />
@@ -22,6 +24,4 @@ function App() {
 }
 
 export default App;
-
-// App.js (or your main routing component)
 

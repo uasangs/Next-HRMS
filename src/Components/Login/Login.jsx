@@ -112,6 +112,11 @@
 
 // export default Login;
 // Login.js (Updated - fix navigation paths)
+
+
+
+
+
 import React, { useState } from "react";
 import api from "../../api";
 import logo from "../../assets/flamingo-logo.png";
@@ -213,8 +218,8 @@ const Login = () => {
             </div>
 
             <div className="log-links">
-              <Link to="/login/forgetpassword">Reset Password</Link>
-              <Link to="/login/forgetpassword">Forget Password</Link>
+              {/* <Link to="forgetpassword">Reset Password</Link> */}
+              <Link to="/forgetpassword">Forget Password</Link>
             </div>
           </form>
         </div>

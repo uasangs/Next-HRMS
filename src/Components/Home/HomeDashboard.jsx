@@ -58,7 +58,7 @@ const HomeDashboard = () => {
         // setAttendanceRecords(attendance);
         setAttendanceRecords(attendance.slice(0, 3));
 
-        setHolidays(upcoming.slice(0, 5));
+        setHolidays(upcoming.slice(0, 3));
         setBirthdayList(birthdayData.employees || []);
         setBirthdayCount(birthdayData.count || 0);
       } catch (err) {
@@ -105,7 +105,7 @@ const HomeDashboard = () => {
                       <td>{rec.working_hours || "--"}</td>
                       {/* <td className={status ${rec.status?.toLowerCase()}}> */}
                         <td className={`status ${rec.status?.toLowerCase()}`}>
-                        {rec.status}
+                        {rec.status.charAt(0)}
                       </td>
                     </tr>
                   ))

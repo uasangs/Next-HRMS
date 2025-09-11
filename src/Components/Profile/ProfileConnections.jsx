@@ -268,4 +268,5 @@ export default function ActivityConnectionsPage() {
       </div>
     </div>
   );
+  
 }

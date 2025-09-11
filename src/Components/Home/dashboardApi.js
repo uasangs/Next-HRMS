@@ -651,3 +651,26 @@ export const validateOTP = async (emailId, otp) => {
     throw error;
   }
 };
+
+
+
+// Add this function to your existing dashboardApi.jsx file
+export const resetPassword = async (emailId, newPassword) => {
+  try {
+    console.log('Resetting password for email:', emailId);
+    
+    const res = await api.post(
+      "/api/method/fbts.api.auth.reset_password",
+      { 
+        email_id: emailId,
+        new_password: newPassword 
+      }
+    );
+    
+    console.log('Password reset response:', res.data);
+    return res.data;
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    throw error;
+  }
+};
