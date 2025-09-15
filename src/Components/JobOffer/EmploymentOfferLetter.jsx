@@ -1535,7 +1535,7 @@ const EmploymentOfferLetter = () => {
 
   useEffect(() => {
     // You can get this email from URL params, props, or user input
-    const jobApplicantEmail = 'daiyanalamnit@gmail.com'; // Replace with dynamic value
+    const jobApplicantEmail = 'sakshimahadik04@gmail.com'; // Replace with dynamic value
     fetchOfferData(jobApplicantEmail);
   }, []);
 
