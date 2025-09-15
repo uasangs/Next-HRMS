@@ -1947,7 +1947,7 @@ const EmploymentOfferLetter = () => {
               </div>
 
               {/* Status Display */}
-              <div style={{ 
+              {/* <div style={{ 
                 marginTop: '15px',
                 padding: '10px',
                 background: offerData.status === 'Awaiting Response' ? '#fff3cd' : '#d4edda',
@@ -1961,9 +1961,9 @@ const EmploymentOfferLetter = () => {
                 <div style={{ fontSize: '11px', color: '#666' }}>
                   Offer ID: {offerData.name}
                 </div>
-              </div>
+              </div> */}
 
-              {/* CTC Calculation Debug Info */}
+              {/* CTC Calculation Debug Info
               <div style={{ 
                 marginTop: '15px',
                 padding: '10px',
@@ -1984,7 +1984,7 @@ const EmploymentOfferLetter = () => {
                      totals.customOfferedCtc > totals.base ? ' (Custom CTC * 12)' : ' (Earnings Total)'}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
