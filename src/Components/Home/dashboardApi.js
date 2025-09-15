@@ -194,8 +194,21 @@
 // };
 
 
-import api from "./api";
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import api from "./api"; 
 // Get last 10 attendance records
 export const fetchAttendanceRecords = async (employeeId) => {
   try {
