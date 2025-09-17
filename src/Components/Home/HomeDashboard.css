@@ -81,6 +81,7 @@
 .widgets-container {
   display: flex;
   width: 100%;
+  /* border: 1px solid red; */
   gap: 2%;
   font-family: 'DM Sans', sans-serif;
   background-color: #fefcfe;
@@ -498,7 +499,7 @@ h3 {
 /* Large Screens (1200px+) */
 @media (min-width: 1200px) {
   .HomeDashboard {
-    max-width: 1200px;
+    max-width: auto;
     margin: 0 auto;
     padding: 1% 3%;
   }

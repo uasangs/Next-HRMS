@@ -1502,6 +1502,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import logo from "../../assets/flamingo-logo.png";
 
 const EmploymentOfferLetter = () => {
   const [offerData, setOfferData] = useState(null);
@@ -1679,7 +1680,8 @@ const EmploymentOfferLetter = () => {
 
   return (
     <>
-      <div style={{ paddingBottom: '100px' }}>
+    <div> 
+      <div style={{ paddingBottom: '100px', width:'100%', display:'grid', overflow:'hidden' }}>
         <div style={{
           margin: '0 auto',
           padding: '20px',
@@ -1694,29 +1696,10 @@ const EmploymentOfferLetter = () => {
             {/* Left Column */}
             <div style={{ flex: '1', minWidth: '0', border: '1px solid #000000ff', padding:'20px' }}>
               {/* Header */}
-              <div style={{ marginBottom: '30px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-                  <div style={{ display: 'flex', marginRight: '15px' }}>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 1fr',
-                      gap: '2px',
-                      width: '40px',
-                      height: '40px'
-                    }}>
-                      <div style={{ backgroundColor: '#ff6b35', borderRadius: '3px' }}></div>
-                      <div style={{ backgroundColor: '#f7931e', borderRadius: '3px' }}></div>
-                      <div style={{ backgroundColor: '#4caf50', borderRadius: '3px' }}></div>
-                      <div style={{ backgroundColor: '#2196f3', borderRadius: '3px' }}></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>NEST</div>
-                    <div style={{ fontSize: '12px', color: '#666' }}>HRMS</div>
-                    <div style={{ fontSize: '10px', color: '#888' }}>BY {offerData.company?.toUpperCase() || 'FLAMINGO INFINITE'}</div>
-                  </div>
-                </div>
-              </div>
+              <div className="logo">
+                        <img src={logo} alt="Flamingo Infinite Logo" />
+                      </div>
+            
 
               {/* Date and Address */}
               <div style={{ marginBottom: '20px' }}>
@@ -1995,9 +1978,10 @@ const EmploymentOfferLetter = () => {
         <div style={{
           position: 'fixed',
           bottom: '0',
-          left: '0',
+          left: 'auto',
           right: '0',
-          width:'100%',
+          width: '84%',
+          overflow:'hidden',
           background:"#c7bfbfff",
           backdropFilter: 'blur(1px)',
           padding: '10px 0',
@@ -2061,7 +2045,9 @@ const EmploymentOfferLetter = () => {
             </button>
           </div>
         </div>
+        
       )}
+       </div>
     </>
   );
 };
@@ -2080,6 +2066,7 @@ export default EmploymentOfferLetter;
 
 
 // import React, { useState, useEffect } from 'react';
+// import logo from "../../assets/flamingo-logo.png";
 
 // const EmploymentOfferLetter = () => {
 //   const [offerData, setOfferData] = useState(null);
@@ -2278,29 +2265,9 @@ export default EmploymentOfferLetter;
 //             {/* Left Column */}
 //             <div style={{ flex: '1', minWidth: '0', border: '1px solid #000000ff', padding:'20px' }}>
 //               {/* Header */}
-//               <div style={{ marginBottom: '30px' }}>
-//                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-//                   <div style={{ display: 'flex', marginRight: '15px' }}>
-//                     <div style={{
-//                       display: 'grid',
-//                       gridTemplateColumns: '1fr 1fr',
-//                       gap: '2px',
-//                       width: '40px',
-//                       height: '40px'
-//                     }}>
-//                       <div style={{ backgroundColor: '#ff6b35', borderRadius: '3px' }}></div>
-//                       <div style={{ backgroundColor: '#f7931e', borderRadius: '3px' }}></div>
-//                       <div style={{ backgroundColor: '#4caf50', borderRadius: '3px' }}></div>
-//                       <div style={{ backgroundColor: '#2196f3', borderRadius: '3px' }}></div>
-//                     </div>
-//                   </div>
-//                   <div>
-//                     <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>NEST</div>
-//                     <div style={{ fontSize: '12px', color: '#666' }}>HRMS</div>
-//                     <div style={{ fontSize: '10px', color: '#888' }}>BY {offerData.company?.toUpperCase() || 'FLAMINGO INFINITE'}</div>
-//                   </div>
-//                 </div>
-//               </div>
+//               <div className="logo">
+                     //   <img src={logo} alt="Flamingo Infinite Logo" />
+                     // </div>
 
 //               {/* Date and Address */}
 //               <div style={{ marginBottom: '20px' }}>
