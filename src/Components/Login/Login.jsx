@@ -118,7 +118,7 @@
 
 
 import React, { useState } from "react";
-import api from "../../api";
+import api from "../Home/api";
 import logo from "../../assets/flamingo-logo.png";
 import "./LoginPage.css";
 import { Link, Navigate } from "react-router-dom";

@@ -633,8 +633,6 @@ export const validateLeavePayload = (payload) => {
   };
 };
 
-
-
 // Add these functions to your dashboardApi.jsx file
 export const generateOTP = async (emailId) => {
   try {
@@ -664,8 +662,6 @@ export const validateOTP = async (emailId, otp) => {
     throw error;
   }
 };
-
-
 
 // Add this function to your existing dashboardApi.jsx file
 export const resetPassword = async (emailId, newPassword) => {

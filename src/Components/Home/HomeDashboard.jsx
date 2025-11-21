@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HomeDashboard.css";
-import axios from "axios";
+// import axios from "axios";
 import { FaBirthdayCake, FaCalendarAlt } from "react-icons/fa";
 import Arrow from "../../assets/Arrow.png";
 import Header from "../Header/Header";
@@ -11,6 +11,7 @@ import {
 } from "./dashboardApi";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import api from "./api";
 
 const HomeDashboard = () => {
   const [employeeId, setEmployeeId] = useState("");
@@ -30,10 +31,14 @@ const HomeDashboard = () => {
     const fetchData = async () => {
       try {
         // ✅ Direct API call to get last 10 attendance records
-        const attendanceRes = await axios.post(
-          "https://fbts.flamingohrms.com/api/method/fbts.api.work_duration.get_last_10_attendance_records",
-          { employee: employeeId }
-        );
+        // const attendanceRes = await axios.post(
+        //   "https://fbts.flamingohrms.com/api/method/fbts.api.work_duration.get_last_10_attendance_records",
+        //   { employee: employeeId }
+        // );
+        const attendanceRes = await api.post(
+  "/api/method/fbts.api.work_duration.get_last_10_attendance_records",
+  { employee: employeeId }
+);
         const attendance = attendanceRes.data.message?.records || [];
 
         // Other API calls (holidays, birthdays)
