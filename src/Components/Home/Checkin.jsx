@@ -1,4 +1,4 @@
-import api from "../../api"; // axios instance with baseURL already set
+import api from "../Home/api"; // axios instance with baseURL already set
 
 const Checkin = ({ employeeId }) => {
   const handleCheckin = async () => {
