@@ -1,0 +1,330 @@
+/* Probation Tracking - Clean Professional Design */
+.probation-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8f9fa;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.probation-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 1% 1%;
+  box-sizing: border-box;
+}
+
+/* Page Header */
+.probation-page-header {
+  margin-bottom: 2%;
+}
+
+.probation-page-header h1 {
+  color: #E365A6;
+  font-size: clamp(1.2rem, 2.8vw, 1.875rem);
+  font-weight: 600;
+  margin: 0 0 0.5% 0;
+}
+
+.probation-page-header p {
+  color: #6b7280;
+  font-size: clamp(0.7rem, 1.8vw, 0.875rem);
+  margin: 0;
+}
+
+/* Stats Grid */
+.probation-stats {
+  display: flex;
+  gap: clamp(10px, 2vw, 16px);
+  margin-bottom: 2%;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  padding: 4px 8px;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.stat-icon {
+  font-size: 1rem;
+}
+
+.stat-number {
+  font-size: 1.2rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+}
+
+
+.stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  border-color: #E365A6;
+}
+
+.stat-icon {
+  font-size: clamp(1.3rem, 2.7vw, 1.6rem);
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  color: #6b7280;
+  margin-top: clamp(2px, 0.4vw, 4px);
+}
+
+/* Probation Grid */
+.probation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(320px, 45vw, 420px), 1fr));
+  gap: clamp(14px, 2.2vw, 20px);
+}
+
+.probation-card {
+  background: white;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  padding: clamp(14px, 2.2vw, 18px);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.probation-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  border-color: #E365A6;
+}
+
+.probation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: clamp(12px, 2vw, 16px);
+  padding-bottom: clamp(10px, 1.8vw, 14px);
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.employee-info h3 {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: #1f2937;
+  margin: 0 0 clamp(4px, 0.8vw, 6px) 0;
+  font-weight: 600;
+}
+
+.employee-info p {
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  color: #6b7280;
+  margin: 0;
+}
+
+.joining-date {
+  color: #9ca3af !important;
+  font-size: clamp(0.65rem, 1.3vw, 0.75rem) !important;
+}
+
+.probation-status {
+  padding: clamp(5px, 0.9vw, 7px) clamp(11px, 2.1vw, 14px);
+  border-radius: 4px;
+  font-size: clamp(0.65rem, 1.4vw, 0.72rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.probation-status.due-for-review {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.probation-status.on-track {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Probation Progress */
+.probation-progress {
+  margin-bottom: clamp(12px, 2vw, 16px);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(6px, 1.2vw, 8px);
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: clamp(6px, 1.2vw, 8px);
+  background: #f3f4f6;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #10b981;
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+/* Reviews List */
+.reviews-list {
+  margin-bottom: clamp(12px, 2vw, 16px);
+}
+
+.reviews-list h4 {
+  font-size: clamp(0.8rem, 1.7vw, 0.9rem);
+  color: #1f2937;
+  margin: 0 0 clamp(8px, 1.5vw, 10px) 0;
+  font-weight: 600;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(8px, 1.5vw, 10px);
+  background: #f9fafb;
+  border-radius: 4px;
+  border: 1px solid #f3f4f6;
+  margin-bottom: clamp(6px, 1.2vw, 8px);
+}
+
+.review-item:last-child {
+  margin-bottom: 0;
+}
+
+.review-info {
+  flex: 1;
+}
+
+.review-type {
+  display: block;
+  font-size: clamp(0.75rem, 1.6vw, 0.85rem);
+  color: #1f2937;
+  font-weight: 500;
+  margin-bottom: clamp(2px, 0.4vw, 3px);
+}
+
+.review-date {
+  display: block;
+  font-size: clamp(0.65rem, 1.3vw, 0.72rem);
+  color: #9ca3af;
+}
+
+.review-status-rating {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 8px);
+}
+
+.review-status {
+  padding: clamp(3px, 0.6vw, 5px) clamp(8px, 1.5vw, 10px);
+  border-radius: 3px;
+  font-size: clamp(0.6rem, 1.2vw, 0.68rem);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.review-status.completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.review-status.scheduled {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.review-status.pending {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.review-status.not-started {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.review-rating {
+  padding: clamp(3px, 0.6vw, 5px) clamp(8px, 1.5vw, 10px);
+  background: #10b981;
+  color: white;
+  border-radius: 3px;
+  font-size: clamp(0.6rem, 1.2vw, 0.68rem);
+  font-weight: 600;
+}
+
+.schedule-review-btn {
+  width: 100%;
+  padding: clamp(8px, 1.5vw, 11px);
+  background: #E365A6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: clamp(0.75rem, 1.6vw, 0.85rem);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.schedule-review-btn:hover {
+  background: #d946a0;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .probation-content {
+    padding: 1% 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .probation-content {
+    padding: 2% 3%;
+  }
+
+  .probation-stats {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    min-width: 100%;
+  }
+
+  .probation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  .probation-content {
+    padding: 3% 4%;
+  }
+
+  .review-status-rating {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
